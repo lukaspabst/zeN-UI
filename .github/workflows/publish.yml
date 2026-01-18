@@ -1,9 +1,10 @@
 name: Publish Package to npmjs
 
 on:
-  release:
-    types: [published]
-
+  push:
+    branches:
+      - master
+  workflow_dispatch: # Keep manual trigger just in case
 jobs:
   build:
     runs-on: ubuntu-latest
