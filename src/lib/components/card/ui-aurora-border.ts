@@ -1,15 +1,15 @@
 import { LitElement, css, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 
 @customElement('zen-aurora-border')
 export class ZenAuroraBorder extends LitElement {
-    @property({ type: Number }) borderWidth = 2;
-    @property({ type: Number }) blur = 10;
-    @property({ type: String }) variant: 'rainbow' | 'neon' | 'fire' | 'ocean' = 'rainbow';
+  @property({ type: Number }) borderWidth = 2;
+  @property({ type: Number }) blurAmount = 10;
+  @property({ type: String }) variant: 'rainbow' | 'neon' | 'fire' | 'ocean' = 'rainbow';
 
-    @state() private _isHovered = false;
 
-    static styles = css`
+
+  static styles = css`
     :host {
       display: block;
     }
@@ -176,13 +176,11 @@ export class ZenAuroraBorder extends LitElement {
     }
   `;
 
-    render() {
-        return html`
+  render() {
+    return html`
       <div 
         class="wrapper" 
-        style="--border-width: ${this.borderWidth}px; --blur: ${this.blur}px;"
-        @mouseenter=${() => this._isHovered = true}
-        @mouseleave=${() => this._isHovered = false}
+        style="--border-width: ${this.borderWidth}px; --blur: ${this.blurAmount}px;"
       >
         <div class="border-animation"></div>
         <div class="border-blur"></div>
@@ -191,5 +189,5 @@ export class ZenAuroraBorder extends LitElement {
         </div>
       </div>
     `;
-    }
+  }
 }

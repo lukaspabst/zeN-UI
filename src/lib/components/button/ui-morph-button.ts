@@ -1,15 +1,14 @@
 import { LitElement, css, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 
 @customElement('zen-morph-button')
 export class ZenMorphButton extends LitElement {
-    @property({ type: String }) variant: 'liquid' | 'expand' | 'bounce' | 'glow' = 'liquid';
-    @property({ type: Boolean }) disabled = false;
+  @property({ type: String }) variant: 'liquid' | 'expand' | 'bounce' | 'glow' = 'liquid';
+  @property({ type: Boolean }) disabled = false;
 
-    @state() private _isHovered = false;
-    @state() private _isPressed = false;
 
-    static styles = css`
+
+  static styles = css`
     :host {
       display: inline-block;
     }
@@ -163,18 +162,13 @@ export class ZenMorphButton extends LitElement {
     }
   `;
 
-    render() {
-        return html`
-      <button
-        @mouseenter=${() => this._isHovered = true}
-        @mouseleave=${() => this._isHovered = false}
-        @mousedown=${() => this._isPressed = true}
-        @mouseup=${() => this._isPressed = false}
-      >
+  render() {
+    return html`
+      <button>
         <span class="content">
           <slot></slot>
         </span>
       </button>
     `;
-    }
+  }
 }

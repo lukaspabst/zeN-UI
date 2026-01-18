@@ -3,15 +3,14 @@ import { customElement, property, state } from 'lit/decorators.js';
 
 @customElement('zen-magnetic-button')
 export class ZenMagneticButton extends LitElement {
-    @property({ type: Number }) strength = 0.4;
-    @property({ type: String }) variant: 'primary' | 'gradient' | 'outline' | 'glow' = 'primary';
-    @property({ type: Boolean }) disabled = false;
+  @property({ type: Number }) strength = 0.4;
+  @property({ type: String }) variant: 'primary' | 'gradient' | 'outline' | 'glow' = 'primary';
+  @property({ type: Boolean }) disabled = false;
 
-    @state() private _translateX = 0;
-    @state() private _translateY = 0;
-    @state() private _isHovered = false;
+  @state() private _translateX = 0;
+  @state() private _translateY = 0;
 
-    static styles = css`
+  static styles = css`
     :host {
       display: inline-block;
     }
@@ -144,62 +143,56 @@ export class ZenMagneticButton extends LitElement {
     }
   `;
 
-    private _handleMouseMove(e: MouseEvent) {
-        if (this.disabled) return;
+  private _handleMouseMove(e: MouseEvent) {
+    if (this.disabled) return;
 
-        const rect = this.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
+    const rect = this.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
 
-        const deltaX = (e.clientX - centerX) * this.strength;
-        const deltaY = (e.clientY - centerY) * this.strength;
+    const deltaX = (e.clientX - centerX) * this.strength;
+    const deltaY = (e.clientY - centerY) * this.strength;
 
-        this._translateX = deltaX;
-        this._translateY = deltaY;
-    }
+    this._translateX = deltaX;
+    this._translateY = deltaY;
+  }
 
-    private _handleMouseLeave() {
-        this._translateX = 0;
-        this._translateY = 0;
-        this._isHovered = false;
-    }
+  private _handleMouseLeave() {
+    this._translateX = 0;
+    this._translateY = 0;
+  }
 
-    private _handleMouseEnter() {
-        this._isHovered = true;
-    }
+  private _handleClick(e: MouseEvent) {
+    if (this.disabled) return;
 
-    private _handleClick(e: MouseEvent) {
-        if (this.disabled) return;
+    const button = this.shadowRoot?.querySelector('button');
+    if (!button) return;
 
-        const button = this.shadowRoot?.querySelector('button');
-        if (!button) return;
+    const rect = button.getBoundingClientRect();
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
 
-        const rect = button.getBoundingClientRect();
-        const ripple = document.createElement('span');
-        ripple.className = 'ripple';
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = `${size}px`;
+    ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+    ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
 
-        const size = Math.max(rect.width, rect.height);
-        ripple.style.width = ripple.style.height = `${size}px`;
-        ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
-        ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+    button.appendChild(ripple);
+    ripple.addEventListener('animationend', () => ripple.remove());
+  }
 
-        button.appendChild(ripple);
-        ripple.addEventListener('animationend', () => ripple.remove());
-    }
-
-    render() {
-        return html`
+  render() {
+    return html`
       <div 
         class="magnetic-wrapper"
         style="transform: translate(${this._translateX}px, ${this._translateY}px)"
         @mousemove=${this._handleMouseMove}
         @mouseleave=${this._handleMouseLeave}
-        @mouseenter=${this._handleMouseEnter}
       >
         <button @click=${this._handleClick}>
           <slot></slot>
         </button>
       </div>
     `;
-    }
+  }
 }

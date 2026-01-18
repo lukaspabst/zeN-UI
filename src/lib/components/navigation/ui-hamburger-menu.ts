@@ -1,14 +1,14 @@
 import { LitElement, css, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 
 @customElement('zen-hamburger-menu')
 export class ZenHamburgerMenu extends LitElement {
-    @property({ type: Boolean, reflect: true }) open = false;
-    @property({ type: String }) variant: 'spin' | 'squeeze' | 'arrow' = 'spin';
+  @property({ type: Boolean, reflect: true }) open = false;
+  @property({ type: String }) variant: 'spin' | 'squeeze' | 'arrow' = 'spin';
 
-    @state() private _menuItems: { label: string; href: string; icon?: string }[] = [];
 
-    static styles = css`
+
+  static styles = css`
     :host {
       display: block;
     }
@@ -177,18 +177,18 @@ export class ZenHamburgerMenu extends LitElement {
     }
   `;
 
-    private _toggle() {
-        this.open = !this.open;
-        this.dispatchEvent(new CustomEvent('toggle', { detail: { open: this.open } }));
-    }
+  private _toggle() {
+    this.open = !this.open;
+    this.dispatchEvent(new CustomEvent('toggle', { detail: { open: this.open } }));
+  }
 
-    private _close() {
-        this.open = false;
-        this.dispatchEvent(new CustomEvent('toggle', { detail: { open: false } }));
-    }
+  private _close() {
+    this.open = false;
+    this.dispatchEvent(new CustomEvent('toggle', { detail: { open: false } }));
+  }
 
-    render() {
-        return html`
+  render() {
+    return html`
       <button class="hamburger" @click=${this._toggle} aria-label="Toggle menu">
         <div class="hamburger-inner">
           <span></span>
@@ -213,5 +213,5 @@ export class ZenHamburgerMenu extends LitElement {
         </div>
       </div>
     `;
-    }
+  }
 }
