@@ -1,0 +1,56 @@
+{
+  "name": "@zen-ui/library",
+  "private": false,
+  "version": "0.0.1",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/personal-library.umd.cjs",
+  "module": "./dist/personal-library.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/personal-library.js",
+      "require": "./dist/personal-library.umd.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "lint": "eslint ."
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "lit": "^3.1.0",
+    "react-is": "^19.2.3"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^5.0.0",
+    "@storybook/addon-a11y": "^10.1.11",
+    "@storybook/addon-docs": "^10.1.11",
+    "@storybook/addon-vitest": "^10.1.11",
+    "@storybook/web-components-vite": "^10.1.11",
+    "@typescript-eslint/eslint-plugin": "^8.53.0",
+    "@typescript-eslint/parser": "^8.53.0",
+    "@vitest/browser-playwright": "^4.0.17",
+    "@vitest/coverage-v8": "^4.0.17",
+    "eslint": "^9.39.2",
+    "eslint-plugin-lit": "^2.1.1",
+    "eslint-plugin-storybook": "^10.1.11",
+    "playwright": "^1.57.0",
+    "prettier": "^3.8.0",
+    "storybook": "^10.1.11",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.0",
+    "vite-plugin-dts": "^3.6.0",
+    "vitest": "^4.0.17"
+  }
+}

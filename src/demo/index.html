@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zen UI Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" src="../lib/index.ts"></script>
+    <style>
+        :root {
+            --zen-font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--zen-bg-0, #030304);
+            color: var(--zen-text-1, #ffffff);
+            font-family: var(--zen-font-family);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 4rem 2rem;
+        }
+
+        h1 {
+            margin-bottom: 2rem;
+            font-weight: 600;
+            letter-spacing: -1px;
+        }
+
+        section {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            padding: 2rem;
+            border: 1px solid var(--zen-glass-border);
+            border-radius: 16px;
+            background: var(--zen-glass-bg);
+            margin-bottom: 2rem;
+            max-width: 800px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Zen UI System</h1>
+
+    <section>
+        <zen-button>Primary</zen-button>
+        <zen-button variant="secondary">Secondary</zen-button>
+        <zen-button variant="outline">Outline</zen-button>
+        <zen-button variant="glass">Glass</zen-button>
+        <zen-button variant="destructive">Destructive</zen-button>
+        <zen-button loading>Loading</zen-button>
+    </section>
+
+    <section style="display: block;">
+        <zen-input label="Username" placeholder="Enter username"></zen-input>
+        <zen-input label="Password" type="password" helper="At least 8 chars"></zen-input>
+        <zen-input label="Invalid Input" error="This field is required"></zen-input>
+    </section>
+
+    <section style="display: block;">
+        <zen-card hover clickable>
+            <div slot="media">
+                <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000&auto=format&fit=crop" />
+            </div>
+            <h3>Glass Card</h3>
+            <p>Interactive card with media slot and hover effects.</p>
+            <div slot="footer">
+                <zen-button size="sm">Action</zen-button>
+            </div>
+        </zen-card>
+    </section>
+
+    <section>
+        <zen-button onclick="window.showToast('Success!', 'success')">Show Success Toast</zen-button>
+        <zen-button onclick="document.querySelector('zen-dialog').open = true">Open Dialog</zen-button>
+
+        <zen-tooltip content="I am a tooltip">
+            <zen-button variant="ghost">Hover me</zen-button>
+        </zen-tooltip>
+    </section>
+
+    <zen-dialog title="Confirmation">
+        <p>This is a premium dialog with scroll locking and backdrop animations.</p>
+        <div slot="footer">
+            <zen-button variant="ghost" onclick="document.querySelector('zen-dialog').open = false">Cancel</zen-button>
+            <zen-button onclick="document.querySelector('zen-dialog').open = false">Confirm</zen-button>
+        </div>
+    </zen-dialog>
+
+    <zen-toast-container></zen-toast-container>
+    <script type="module">
+        import { toast } from '../lib/index.ts';
+        window.showToast = toast;
+    </script>
+</body>
+
+</html>
