@@ -12,6 +12,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+
     steps:
       - uses: actions/checkout@v4
 
@@ -21,8 +22,17 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@zen-ui'
 
+      - run: |
+          pwd
+          ls -la
+          node -v
+          npm -v
+          node -p "require('./package.json').devDependencies?.vite || require('./package.json').dependencies?.vite"
+          node -p "require('./package-lock.json').packages?.['node_modules/vite']?.version || 'no vite in lock'"
+
       - run: npm ci
       - run: npm run build
+
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
