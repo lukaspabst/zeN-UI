@@ -1,0 +1,42 @@
+:root {
+    --zen-font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --zen-font-heading: 'Outfit', var(--zen-font-sans);
+    --zen-font-mono: 'Space Mono', monospace;
+
+    /* Font Weights */
+    --zen-weight-light: 300;
+    --zen-weight-regular: 400;
+    --zen-weight-medium: 500;
+    --zen-weight-semibold: 600;
+    --zen-weight-bold: 700;
+    --zen-weight-black: 900;
+
+    /* Line Heights */
+    --zen-leading-none: 1;
+    --zen-leading-tight: 1.25;
+    --zen-leading-snug: 1.375;
+    --zen-leading-normal: 1.5;
+    --zen-leading-relaxed: 1.625;
+    --zen-leading-loose: 2;
+
+    /* Letter Spacing */
+    --zen-tracking-tighter: -0.05em;
+    --zen-tracking-tight: -0.025em;
+    --zen-tracking-normal: 0em;
+    --zen-tracking-wide: 0.025em;
+    --zen-tracking-wider: 0.05em;
+    --zen-tracking-widest: 0.1em;
+}
+
+/* Font Loading Classes */
+.font-inter {
+    --zen-font-family: 'Inter', sans-serif;
+}
+
+.font-outfit {
+    --zen-font-family: 'Outfit', sans-serif;
+}
+
+.font-space {
+    --zen-font-family: 'Space Grotesk', sans-serif;
+}

@@ -1,3 +1,5 @@
+@import './fonts.css';
+
 :root {
     --zen-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --zen-font-size-sm: 0.875rem;
@@ -76,7 +78,10 @@
 :root,
 :root.dark {
     --zen-primary: hsl(var(--zen-primary-h), var(--zen-primary-s), var(--zen-primary-l));
-    --zen-primary-hover: hsl(var(--zen-primary-h), var(--zen-primary-s), 55%);
+    /* Hover is 10% darker/lighter relative to base, ensuring it adapts to the specific theme color */
+    --zen-primary-hover: hsl(var(--zen-primary-h), var(--zen-primary-s), calc(var(--zen-primary-l) + 5%));
+    --zen-primary-active: hsl(var(--zen-primary-h), var(--zen-primary-s), calc(var(--zen-primary-l) - 5%));
+
     --zen-primary-glow: hsla(var(--zen-primary-h), var(--zen-primary-s), var(--zen-primary-l), 0.5);
 
     --zen-destructive-h: 0;
