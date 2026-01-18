@@ -1,5 +1,8 @@
 {
   "name": "@zen-ui/library",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "private": false,
   "version": "0.0.1",
   "type": "module",
@@ -24,9 +27,6 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "lint": "eslint ."
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "dependencies": {
     "lit": "^3.1.0",
