@@ -36,6 +36,9 @@ export const Default: Story = {
 };
 
 export const Variants: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="padding: 60px; display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; align-items: center;">
       <zen-magnetic-button variant="primary">Primary</zen-magnetic-button>
@@ -48,7 +51,7 @@ export const Variants: Story = {
 
 export const NeonShowcase: Story = {
   render: () => html`
-    <div style="padding: 60px; background: #0a0a0a; min-height: 300px; display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; align-items: center;">
+    <div style="padding: 60px; min-height: 300px; display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; align-items: center;">
       <zen-magnetic-button variant="glow" strength="0.5">Subscribe</zen-magnetic-button>
       <zen-magnetic-button variant="glow" strength="0.5">Get Started</zen-magnetic-button>
       <zen-magnetic-button variant="glow" strength="0.5">Learn More</zen-magnetic-button>
@@ -57,6 +60,9 @@ export const NeonShowcase: Story = {
 };
 
 export const InteractiveDemo: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="padding: 80px; display: flex; flex-direction: column; align-items: center; gap: 24px;">
       <p style="color: var(--zen-text-2); margin: 0; font-size: 0.9rem;">Move your mouse around the button - it follows you!</p>

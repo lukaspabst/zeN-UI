@@ -99,7 +99,7 @@ export class ZenButton extends LitElement {
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,0.15); /* Stronger border */
-      color: var(--zen-text-1);
+      color: var(--zen-text-1, #ffffff);
     }
     .variant-glass:hover:not(:disabled) {
       background: rgba(255,255,255,0.15);

@@ -39,7 +39,7 @@ export const Default: Story = {
       speed="${args.speed}"
       ?connected="${args.connected}"
       connectionDistance="${args.connectionDistance}"
-      style="height: 500px; background: #0a0a0a; border-radius: 16px;"
+      style="height: 500px; border-radius: 16px;"
     >
       <div style="
         height: 100%;

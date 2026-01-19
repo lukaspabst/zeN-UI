@@ -79,7 +79,7 @@ export const CodeTerminal: Story = {
   render: () => html`
     <div style="
       padding: 40px;
-      background: #0a0a0a;
+      padding: 40px;
       border-radius: 12px;
       font-family: 'Courier New', monospace;
       max-width: 600px;

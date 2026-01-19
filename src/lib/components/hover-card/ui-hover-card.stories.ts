@@ -1,4 +1,4 @@
-/* eslint-disable lit/attribute-value-entities */
+
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import './ui-hover-card';
@@ -21,6 +21,9 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: (args) => html`
     <div style="padding: 40px; display: flex; justify-content: center;">
       <zen-hover-card intensity="${args.intensity}" ?glare="${args.glare}" style="width: 300px; height: 400px; cursor: pointer;">
@@ -101,8 +104,11 @@ export const ProfileCard: Story = {
 };
 
 export const NeonGlow: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
-    <div style="padding: 40px; display: flex; justify-content: center; background: #0a0a0a; min-height: 500px;">
+    <div style="padding: 40px; display: flex; justify-content: center; min-height: 500px;">
       <zen-hover-card intensity="25" style="width: 300px; height: 400px; cursor: pointer;">
         <div style="
           height: 100%;

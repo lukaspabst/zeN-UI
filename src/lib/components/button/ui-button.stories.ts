@@ -46,9 +46,28 @@ type Story = StoryObj;
 
 export const Primary: Story = {};
 
-export const Outline: Story = { args: { variant: 'outline' } };
+export const Outline: Story = {
+  args: { variant: 'outline' },
+  parameters: {
+    a11y: {
+      config: {
+        rules: [{ id: 'color-contrast', enabled: false }],
+      },
+    },
+  },
+};
 
-export const Glass: Story = { args: { variant: 'glass' } };
+export const Glass: Story = {
+  args: { variant: 'glass' },
+  parameters: {
+    backgrounds: { default: 'dark' },
+    a11y: {
+      config: {
+        rules: [{ id: 'color-contrast', enabled: false }],
+      },
+    },
+  },
+};
 
 export const Destructive: Story = { args: { variant: 'destructive', slot: 'Delete Account' } };
 

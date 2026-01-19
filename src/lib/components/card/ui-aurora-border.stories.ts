@@ -23,7 +23,7 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: (args) => html`
-    <div style="padding: 40px; background: #0a0a0a; display: flex; justify-content: center;">
+    <div style="padding: 40px; display: flex; justify-content: center;">
       <zen-aurora-border 
         variant="${args.variant}"
         borderWidth="${args.borderWidth}"
@@ -43,7 +43,7 @@ export const Default: Story = {
 
 export const AllVariants: Story = {
   render: () => html`
-    <div style="padding: 40px; background: #0a0a0a; display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;">
+    <div style="padding: 40px; display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;">
       <zen-aurora-border variant="rainbow" style="width: 200px;">
         <div style="padding: 32px; color: white; text-align: center;">
           <div style="font-size: 2rem; margin-bottom: 12px;">🌈</div>
@@ -77,7 +77,7 @@ export const AllVariants: Story = {
 
 export const SubscriptionCard: Story = {
   render: () => html`
-    <div style="padding: 60px; background: #0a0a0a; display: flex; justify-content: center;">
+    <div style="padding: 60px; display: flex; justify-content: center;">
       <zen-aurora-border variant="neon" borderWidth="2" blur="15" style="width: 320px;">
         <div style="padding: 40px; color: white; text-align: center;">
           <p style="margin: 0 0 8px 0; color: #00ffff; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px;">Premium</p>
@@ -110,7 +110,7 @@ export const SubscriptionCard: Story = {
 
 export const GamingCard: Story = {
   render: () => html`
-    <div style="padding: 60px; background: #0a0a0a; display: flex; justify-content: center;">
+    <div style="padding: 60px; display: flex; justify-content: center;">
       <zen-aurora-border variant="fire" borderWidth="3" blur="20" style="width: 300px;">
         <div style="padding: 32px; color: white; text-align: center;">
           <div style="font-size: 4rem; margin-bottom: 16px;">🎮</div>

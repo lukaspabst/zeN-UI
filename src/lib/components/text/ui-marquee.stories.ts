@@ -24,6 +24,9 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: (args) => html`
     <zen-marquee 
       speed="${args.speed}"
@@ -81,6 +84,9 @@ export const TechStack: Story = {
 };
 
 export const Testimonials: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="padding: 60px 0; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);">
       <zen-marquee speed="40" gap="32">

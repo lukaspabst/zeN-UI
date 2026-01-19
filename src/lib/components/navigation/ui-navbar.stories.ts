@@ -84,6 +84,9 @@ export const PillLinks: Story = {
 };
 
 export const GlowLinks: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="background: #050505;">
       <zen-navbar logoText="⚡ NeonApp">

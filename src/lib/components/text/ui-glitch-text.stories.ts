@@ -23,7 +23,7 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: (args) => html`
-    <div style="padding: 60px; background: #0a0a0a; display: flex; justify-content: center;">
+    <div style="padding: 60px; display: flex; justify-content: center;">
       <zen-glitch-text 
         text="${args.text}" 
         variant="${args.variant}"
@@ -36,7 +36,7 @@ export const Default: Story = {
 
 export const AllVariants: Story = {
   render: () => html`
-    <div style="padding: 60px; background: #0a0a0a; display: flex; flex-direction: column; gap: 60px; align-items: center;">
+    <div style="padding: 60px; display: flex; flex-direction: column; gap: 60px; align-items: center;">
       <div style="text-align: center;">
         <zen-glitch-text text="CYBERPUNK" variant="cyberpunk" style="font-size: 3rem;"></zen-glitch-text>
         <p style="color: #666; margin-top: 16px; font-size: 0.875rem;">Cyberpunk</p>

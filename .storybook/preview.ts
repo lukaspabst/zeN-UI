@@ -18,11 +18,10 @@ const preview: Preview = {
     },
 
     backgrounds: {
-      default: 'dark',
-      values: [
-        { name: 'dark', value: '#030304' },
-        { name: 'light', value: '#ffffff' },
-      ],
+      disable: true,
+      grid: {
+        disable: true,
+      }
     },
 
     // Center components by default for better spotlight
@@ -40,7 +39,7 @@ const preview: Preview = {
       <style>
         body {
           font-family: var(--zen-font-family);
-          background-color: #000000;
+          background-color: #18181b; /* Lighter dark (zen-bg-2) */
           color: #ffffff;
           margin: 0;
           padding: 0;

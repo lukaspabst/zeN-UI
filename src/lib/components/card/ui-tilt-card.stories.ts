@@ -110,7 +110,7 @@ export const Variants: Story = {
 
 export const ParallaxDemo: Story = {
   render: () => html`
-    <div style="padding: 60px; display: flex; justify-content: center; background: #0a0a0a; min-height: 600px;">
+    <div style="padding: 60px; display: flex; justify-content: center; min-height: 600px;">
       <zen-tilt-card 
         variant="neon" 
         intensity="25"
