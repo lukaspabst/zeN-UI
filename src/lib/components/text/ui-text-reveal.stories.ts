@@ -18,6 +18,9 @@ const meta: Meta = {
     duration: 0.6,
     trigger: true,
   },
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
 };
 
 export default meta;

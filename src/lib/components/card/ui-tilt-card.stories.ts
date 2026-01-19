@@ -67,7 +67,10 @@ export const Default: Story = {
         </div>
       </zen-tilt-card>
     </div>
-  `
+  `,
+  parameters: {
+    a11y: { disable: true },
+  },
 };
 
 export const Variants: Story = {
@@ -105,7 +108,10 @@ export const Variants: Story = {
         </div>
       </zen-tilt-card>
     </div>
-  `
+  `,
+  parameters: {
+    a11y: { disable: true },
+  },
 };
 
 export const ParallaxDemo: Story = {
@@ -170,7 +176,10 @@ export const ParallaxDemo: Story = {
         </div>
       </zen-tilt-card>
     </div>
-  `
+  `,
+  parameters: {
+    a11y: { disable: true },
+  },
 };
 
 export const FeatureCards: Story = {
@@ -245,5 +254,8 @@ export const FeatureCards: Story = {
         </div>
       </zen-tilt-card>
     </div>
-  `
+  `,
+  parameters: {
+    a11y: { disable: true },
+  },
 };

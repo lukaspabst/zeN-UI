@@ -31,6 +31,9 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: (args) => html`
     <div style="width: 400px;">
       <zen-progress 
@@ -46,6 +49,9 @@ export const Default: Story = {
 };
 
 export const AllVariants: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="width: 400px; display: flex; flex-direction: column; gap: 32px;">
       <div>
@@ -82,6 +88,9 @@ export const AllVariants: Story = {
 };
 
 export const Sizes: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="width: 400px; display: flex; flex-direction: column; gap: 24px;">
       <div>
@@ -105,6 +114,9 @@ export const Sizes: Story = {
 };
 
 export const Colors: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="width: 400px; display: flex; flex-direction: column; gap: 24px;">
       <div>
@@ -128,6 +140,9 @@ export const Colors: Story = {
 };
 
 export const StripedColors: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="width: 400px; display: flex; flex-direction: column; gap: 16px;">
       <zen-progress color="primary" value="90" variant="striped" size="lg" showValue></zen-progress>

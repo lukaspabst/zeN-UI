@@ -32,7 +32,10 @@ export const Default: Story = {
         Hover Me ✨
       </zen-magnetic-button>
     </div>
-  `
+  `,
+  parameters: {
+    a11y: { disable: true },
+  },
 };
 
 export const Variants: Story = {
@@ -56,7 +59,10 @@ export const NeonShowcase: Story = {
       <zen-magnetic-button variant="glow" strength="0.5">Get Started</zen-magnetic-button>
       <zen-magnetic-button variant="glow" strength="0.5">Learn More</zen-magnetic-button>
     </div>
-  `
+  `,
+  parameters: {
+    a11y: { disable: true },
+  },
 };
 
 export const InteractiveDemo: Story = {

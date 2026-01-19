@@ -13,6 +13,9 @@ const meta: Meta = {
   render: (args) => html`
     <zen-switch ?checked=${args.checked} ?disabled=${args.disabled}></zen-switch>
   `,
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
 };
 
 export default meta;

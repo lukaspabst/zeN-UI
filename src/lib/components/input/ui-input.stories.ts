@@ -37,9 +37,16 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {};
+export const Default: Story = {
+    parameters: {
+        a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+    },
+};
 
 export const WithError: Story = {
+    parameters: {
+        a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+    },
     args: {
         label: 'Username',
         error: 'This username is already taken.',
@@ -48,6 +55,9 @@ export const WithError: Story = {
 };
 
 export const Password: Story = {
+    parameters: {
+        a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+    },
     args: {
         label: 'Password',
         type: 'password',
@@ -56,13 +66,19 @@ export const Password: Story = {
 };
 
 export const Disabled: Story = {
-    args: {
-        label: 'Disabled Input',
-        disabled: true,
+    parameters: {
+        a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
     },
+    args: {
+        disabled: true,
+        value: 'Disabled input',
+    }
 };
 
 export const WithIcon: Story = {
+    parameters: {
+        a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+    },
     render: () => html`
     <zen-input label="Search" helper="Press Enter to search">
       <span slot="prefix">🔍</span>

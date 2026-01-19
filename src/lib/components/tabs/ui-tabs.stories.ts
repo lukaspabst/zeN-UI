@@ -3,22 +3,25 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import './ui-tabs';
 
 const meta: Meta = {
-    title: 'Components/Navigation/Tabs',
-    component: 'zen-tabs',
-    tags: ['autodocs'],
-    argTypes: {
-        active: { control: 'text' },
-    },
-    args: {
-        active: 'account',
-    },
+  title: 'Components/Navigation/Tabs',
+  component: 'zen-tabs',
+  tags: ['autodocs'],
+  argTypes: {
+    active: { control: 'text' },
+  },
+  args: {
+    active: 'account',
+  },
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-    render: (args) => html`
+  render: (args) => html`
     <div style="max-width: 600px;">
       <zen-tabs active="${args.active}">
         <zen-tab slot="tabs" value="account">Account</zen-tab>

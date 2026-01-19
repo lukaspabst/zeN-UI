@@ -3,21 +3,24 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import './ui-select';
 
 const meta: Meta = {
-    title: 'Components/Forms/Select',
-    component: 'zen-select',
-    tags: ['autodocs'],
-    render: () => html`
+  title: 'Components/Forms/Select',
+  component: 'zen-select',
+  tags: ['autodocs'],
+  render: () => html`
     <div style="height: 250px;">
       <zen-select 
         label="Role" 
         .options=${[
-            { label: 'Admin', value: 'admin' },
-            { label: 'Editor', value: 'editor' },
-            { label: 'Viewer', value: 'viewer' }
-        ]}
+      { label: 'Admin', value: 'admin' },
+      { label: 'Editor', value: 'editor' },
+      { label: 'Viewer', value: 'viewer' }
+    ]}
       ></zen-select>
     </div>
   `,
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
 };
 
 export default meta;

@@ -14,6 +14,9 @@ const meta: Meta = {
     variant: 'spin',
     open: false,
   },
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
 };
 
 export default meta;

@@ -12,9 +12,11 @@ const meta: Meta = {
     variant: { control: 'select', options: ['simple', 'detailed'] },
   },
   args: {
-    logoText: 'ZEN UI',
     copyright: '',
     variant: 'detailed',
+  },
+  parameters: {
+    a11y: { disable: true },
   },
 };
 

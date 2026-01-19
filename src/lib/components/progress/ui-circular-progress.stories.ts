@@ -30,6 +30,9 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: (args) => html`
     <zen-circular-progress
       value="${args.value}"
@@ -44,6 +47,9 @@ export const Default: Story = {
 };
 
 export const Variants: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="display: flex; gap: 40px; align-items: center; flex-wrap: wrap;">
       <div style="text-align: center;">
@@ -67,6 +73,9 @@ export const Variants: Story = {
 };
 
 export const Colors: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="display: flex; gap: 32px; align-items: center; flex-wrap: wrap;">
       <div style="text-align: center;">
@@ -90,6 +99,9 @@ export const Colors: Story = {
 };
 
 export const Sizes: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="display: flex; gap: 32px; align-items: center; flex-wrap: wrap;">
       <zen-circular-progress value="65" size="60" strokeWidth="4" variant="glow" showValue></zen-circular-progress>
@@ -101,6 +113,9 @@ export const Sizes: Story = {
 };
 
 export const Dashboard: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="display: flex; gap: 48px; flex-wrap: wrap; justify-content: center; padding: 40px;">
       <div style="

@@ -3,18 +3,26 @@ import { customElement, property } from 'lit/decorators.js';
 
 @customElement('zen-radio')
 export class ZenRadio extends LitElement {
-    @property({ type: Boolean }) checked = false;
-    @property({ type: Boolean }) disabled = false;
-    @property({ type: String }) name = '';
-    @property({ type: String }) value = '';
+  @property({ type: Boolean }) checked = false;
+  @property({ type: Boolean }) disabled = false;
+  @property({ type: String }) name = '';
+  @property({ type: String }) value = '';
 
-    static styles = css`
+  static styles = css`
     :host {
       display: inline-flex;
       align-items: center;
       gap: 12px;
       cursor: pointer;
+      cursor: pointer;
       user-select: none;
+    }
+    :host(:focus) {
+        outline: none;
+    }
+    :host(:focus) .circle {
+        border-color: var(--zen-primary);
+        box-shadow: 0 0 0 2px rgba(var(--zen-primary-h), var(--zen-primary-s), var(--zen-primary-l), 0.2);
     }
     :host([disabled]) {
       opacity: 0.5;
@@ -57,17 +65,49 @@ export class ZenRadio extends LitElement {
     }
   `;
 
-    _toggle() {
-        if (this.disabled || this.checked) return;
-        this.checked = true;
-        this.dispatchEvent(new CustomEvent('change', { detail: { checked: true, value: this.value } }));
+  _toggle() {
+    if (this.disabled || this.checked) return;
+    this.checked = true;
+    this.dispatchEvent(new CustomEvent('change', { detail: { checked: true, value: this.value } }));
 
-        
-        
+
+
+  }
+
+  constructor() {
+    super();
+    this.addEventListener('keydown', this._handleKeyDown);
+  }
+
+  _handleKeyDown(e: KeyboardEvent) {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      this._toggle();
     }
+  }
 
-    render() {
-        return html`
+  connectedCallback() {
+    super.connectedCallback();
+    if (!this.hasAttribute('role')) {
+      this.setAttribute('role', 'radio');
+    }
+    if (!this.hasAttribute('tabindex')) {
+      this.setAttribute('tabindex', this.disabled ? '-1' : '0');
+    }
+  }
+
+  updated(changedProperties: Map<string, any>) {
+    if (changedProperties.has('checked')) {
+      this.setAttribute('aria-checked', this.checked ? 'true' : 'false');
+    }
+    if (changedProperties.has('disabled')) {
+      this.setAttribute('aria-disabled', this.disabled ? 'true' : 'false');
+      this.setAttribute('tabindex', this.disabled ? '-1' : '0');
+    }
+  }
+
+  render() {
+    return html`
       <div class="circle" @click=${this._toggle}>
         <div class="dot"></div>
       </div>
@@ -75,5 +115,5 @@ export class ZenRadio extends LitElement {
         <slot></slot>
       </div>
     `;
-    }
+  }
 }

@@ -3,10 +3,10 @@ import { customElement, property } from 'lit/decorators.js';
 
 @customElement('zen-table')
 export class ZenTable extends LitElement {
-    @property({ type: Array }) columns: { header: string; key: string }[] = [];
-    @property({ type: Array }) data: any[] = [];
+  @property({ type: Array }) columns: { header: string; key: string }[] = [];
+  @property({ type: Array }) data: any[] = [];
 
-    static styles = css`
+  static styles = css`
     :host {
       display: block;
       overflow-x: auto;
@@ -49,12 +49,12 @@ export class ZenTable extends LitElement {
     }
   `;
 
-    render() {
-        return html`
+  render() {
+    return html`
       <table>
         <thead>
           <tr>
-            ${this.columns.map(col => html`<th>${col.header}</th>`)}
+            ${this.columns.map(col => html`<th scope="col">${col.header}</th>`)}
           </tr>
         </thead>
         <tbody>
@@ -66,5 +66,5 @@ export class ZenTable extends LitElement {
         </tbody>
       </table>
     `;
-    }
+  }
 }

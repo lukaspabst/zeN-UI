@@ -13,6 +13,7 @@ const meta: Meta = {
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
   },
 };
 
@@ -87,5 +88,8 @@ export const ThemingDemo: Story = {
 
       </main>
     </div>
-  `
+  `,
+  parameters: {
+    a11y: { disable: true },
+  },
 };

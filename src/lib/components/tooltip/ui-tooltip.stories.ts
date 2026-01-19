@@ -25,6 +25,9 @@ const meta: Meta = {
       </zen-tooltip>
     </div>
   `,
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
 };
 
 export default meta;

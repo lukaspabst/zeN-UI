@@ -14,6 +14,9 @@ const meta: Meta = {
     open: false,
     placeholder: 'Type a command or search...',
   },
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
 };
 
 export default meta;

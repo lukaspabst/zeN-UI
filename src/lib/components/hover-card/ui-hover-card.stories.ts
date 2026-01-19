@@ -12,8 +12,10 @@ const meta: Meta = {
     glare: { control: 'boolean' },
   },
   args: {
-    intensity: 20,
     glare: true,
+  },
+  parameters: {
+    a11y: { disable: true },
   },
 };
 

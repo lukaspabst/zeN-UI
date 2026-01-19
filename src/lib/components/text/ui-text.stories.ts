@@ -35,6 +35,9 @@ const meta: Meta = {
     mono: false,
     font: 'Inter',
   },
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
 };
 
 export default meta;

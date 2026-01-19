@@ -8,13 +8,13 @@ export class ZenInput extends LitElement {
   @property({ type: String }) placeholder = '';
   @property({ type: String }) value = '';
   @property({ type: String }) type = 'text';
-  @property({ type: String }) error = ''; 
-  @property({ type: String }) helper = ''; 
+  @property({ type: String }) error = '';
+  @property({ type: String }) helper = '';
   @property({ type: Boolean }) disabled = false;
 
   @query('input') _input!: HTMLInputElement;
 
-  
+
   @state() private _hasPrefix = false;
   @state() private _hasSuffix = false;
 
@@ -204,6 +204,7 @@ export class ZenInput extends LitElement {
           </div>
           
           <input 
+            id="input"
             type="${this.type}" 
             .value="${this.value}" 
             placeholder=" " 
@@ -213,7 +214,7 @@ export class ZenInput extends LitElement {
             @blur="${this._handleBlur}"
           />
           
-          <label>${this.label}</label>
+          <label for="input">${this.label}</label>
           
           <div class="suffix" style="display: ${this._hasSuffix ? 'flex' : 'none'}">
             <slot name="suffix" @slotchange=${this._handleSlotChange}></slot>

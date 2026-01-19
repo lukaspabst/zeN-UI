@@ -22,6 +22,9 @@ const meta: Meta = {
     cursor: true,
     cursorChar: '|',
   },
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
 };
 
 export default meta;

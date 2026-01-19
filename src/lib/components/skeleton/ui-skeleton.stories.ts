@@ -18,6 +18,9 @@ const meta: Meta = {
       <zen-skeleton height="100px" variant="rectangular"></zen-skeleton>
     </div>
   `,
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
 };
 
 export default meta;

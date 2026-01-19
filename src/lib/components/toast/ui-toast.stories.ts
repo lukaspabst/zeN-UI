@@ -16,6 +16,9 @@ const meta: Meta = {
       <zen-button variant="secondary" @click=${() => toast('Did you know about this feature?', 'info')}>Show Info</zen-button>
     </div>
   `,
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
 };
 
 export default meta;

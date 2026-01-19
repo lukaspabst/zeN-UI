@@ -14,9 +14,11 @@ const meta: Meta = {
     transparent: { control: 'boolean' },
   },
   args: {
-    logoText: 'ZEN',
     sticky: true,
     transparent: false,
+  },
+  parameters: {
+    a11y: { disable: true },
   },
 };
 

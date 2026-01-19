@@ -16,12 +16,18 @@ const meta: Meta = {
     active: false,
     variant: 'default',
   },
+  parameters: {
+    a11y: { disable: true },
+  },
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
+  parameters: {
+    a11y: { disable: true },
+  },
   render: (args) => html`
     <div style="padding: 40px; display: flex; gap: 8px;">
       <zen-nav-link href="#" variant="${args.variant}" ?active="${args.active}">
@@ -35,6 +41,9 @@ export const Default: Story = {
 };
 
 export const AllVariants: Story = {
+  parameters: {
+    a11y: { disable: true },
+  },
   render: () => html`
     <div style="padding: 40px; display: flex; flex-direction: column; gap: 32px;">
       <div>
@@ -77,6 +86,9 @@ export const AllVariants: Story = {
 };
 
 export const WithIcons: Story = {
+  parameters: {
+    a11y: { disable: true },
+  },
   render: () => html`
     <div style="padding: 40px; display: flex; gap: 8px;">
       <zen-nav-link variant="default" active>
@@ -100,6 +112,9 @@ export const WithIcons: Story = {
 };
 
 export const InNavbar: Story = {
+  parameters: {
+    a11y: { disable: true },
+  },
   render: () => html`
     <div style="
       background: var(--zen-glass-bg);

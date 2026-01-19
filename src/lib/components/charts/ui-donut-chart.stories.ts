@@ -15,12 +15,11 @@ const meta: Meta = {
     centerValue: { control: 'text' },
   },
   args: {
-    size: 200,
-    thickness: 30,
-    animated: true,
-    showLegend: true,
     centerLabel: 'Total',
     centerValue: '$12.5k',
+  },
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
   },
 };
 

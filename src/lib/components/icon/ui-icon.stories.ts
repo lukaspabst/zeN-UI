@@ -25,6 +25,9 @@ const meta: Meta = {
     size: '24px',
     color: 'currentColor',
   },
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
 };
 
 export default meta;

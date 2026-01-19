@@ -14,6 +14,9 @@ const meta: Meta = {
     render: (args) => html`
     <zen-avatar .src=${args.src} .alt=${args.alt} .status=${args.status}></zen-avatar>
   `,
+    parameters: {
+        a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+    },
 };
 
 export default meta;

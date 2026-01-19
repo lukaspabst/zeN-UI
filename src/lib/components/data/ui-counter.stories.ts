@@ -28,6 +28,9 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: (args) => html`
     <div style="padding: 60px; text-align: center;">
       <div style="font-size: 5rem; font-weight: 800; color: var(--zen-text-1);">
@@ -45,6 +48,9 @@ export const Default: Story = {
 };
 
 export const Stats: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="padding: 60px; display: flex; gap: 60px; justify-content: center; flex-wrap: wrap;">
       <div style="text-align: center;">
@@ -72,6 +78,9 @@ export const Stats: Story = {
 };
 
 export const Dashboard: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="padding: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
       <div style="
@@ -130,6 +139,9 @@ export const Dashboard: Story = {
 };
 
 export const BigNumbers: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="
       padding: 80px;

@@ -3,12 +3,12 @@ import { customElement, property } from 'lit/decorators.js';
 
 @customElement('zen-textarea')
 export class ZenTextarea extends LitElement {
-    @property({ type: String }) label = '';
-    @property({ type: String }) placeholder = '';
-    @property({ type: String }) value = '';
-    @property({ type: Number }) rows = 3;
+  @property({ type: String }) label = '';
+  @property({ type: String }) placeholder = '';
+  @property({ type: String }) value = '';
+  @property({ type: Number }) rows = 3;
 
-    static styles = css`
+  static styles = css`
     :host {
       display: block;
       width: 100%;
@@ -46,21 +46,22 @@ export class ZenTextarea extends LitElement {
     }
   `;
 
-    _handleInput(e: Event) {
-        const target = e.target as HTMLTextAreaElement;
-        this.value = target.value;
-        this.dispatchEvent(new CustomEvent('input', { detail: this.value }));
-    }
+  _handleInput(e: Event) {
+    const target = e.target as HTMLTextAreaElement;
+    this.value = target.value;
+    this.dispatchEvent(new CustomEvent('input', { detail: this.value }));
+  }
 
-    render() {
-        return html`
-      ${this.label ? html`<label>${this.label}</label>` : ''}
+  render() {
+    return html`
+      ${this.label ? html`<label for="input">${this.label}</label>` : ''}
       <textarea
+        id="input"
         .value=${this.value}
         rows=${this.rows}
         placeholder=${this.placeholder}
         @input=${this._handleInput}
       ></textarea>
     `;
-    }
+  }
 }

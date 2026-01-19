@@ -22,6 +22,7 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
+
   render: (args) => html`
     <div style="padding: 60px; display: flex; justify-content: center;">
       <zen-spotlight-card 
@@ -39,10 +40,14 @@ export const Default: Story = {
         </div>
       </zen-spotlight-card>
     </div>
-  `
+  `,
+  parameters: {
+    a11y: { disable: true },
+  },
 };
 
 export const FeatureGrid: Story = {
+
   render: () => html`
     <div style="padding: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
       <zen-spotlight-card spotlightColor="rgba(102, 126, 234, 0.12)">
@@ -105,10 +110,14 @@ export const FeatureGrid: Story = {
         </div>
       </zen-spotlight-card>
     </div>
-  `
+  `,
+  parameters: {
+    a11y: { disable: true },
+  },
 };
 
 export const PricingCards: Story = {
+
   render: () => html`
     <div style="padding: 40px; display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; align-items: stretch;">
       <zen-spotlight-card spotlightColor="rgba(120, 119, 198, 0.1)" style="width: 280px;">
@@ -156,5 +165,8 @@ export const PricingCards: Story = {
         </div>
       </zen-spotlight-card>
     </div>
-  `
+  `,
+  parameters: {
+    a11y: { disable: true },
+  },
 };

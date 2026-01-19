@@ -2,18 +2,19 @@ import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 interface BreadcrumbItem {
-    label: string;
-    href?: string;
-    icon?: string;
+  label: string;
+  href?: string;
+  icon?: string;
 }
 
 @customElement('zen-breadcrumbs')
 export class ZenBreadcrumbs extends LitElement {
-    @property({ type: Array }) items: BreadcrumbItem[] = [];
-    @property({ type: String }) separator = '/';
-    @property({ type: Boolean }) animated = true;
+  @property({ type: Array }) items: BreadcrumbItem[] = [];
+  @property({ type: String }) separator = '/';
+  @property({ type: Boolean }) animated = true;
+  @property({ type: String, attribute: 'aria-label' }) label = 'Breadcrumb';
 
-    static styles = css`
+  static styles = css`
     :host {
       display: block;
     }
@@ -83,9 +84,9 @@ export class ZenBreadcrumbs extends LitElement {
     }
   `;
 
-    render() {
-        return html`
-      <nav class="breadcrumbs" aria-label="Breadcrumb">
+  render() {
+    return html`
+      <nav class="breadcrumbs" aria-label="${this.label}">
         ${this.items.map((item, i) => html`
           <div 
             class="item" 
@@ -109,5 +110,5 @@ export class ZenBreadcrumbs extends LitElement {
         `)}
       </nav>
     `;
-    }
+  }
 }

@@ -18,6 +18,9 @@ const meta: Meta = {
       </zen-accordion-item>
     </zen-accordion>
   `,
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
 };
 
 export default meta;

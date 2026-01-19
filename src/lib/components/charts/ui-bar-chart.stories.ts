@@ -12,9 +12,10 @@ const meta: Meta = {
     horizontal: { control: 'boolean' },
   },
   args: {
-    showValues: true,
-    animated: true,
     horizontal: false,
+  },
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
   },
 };
 

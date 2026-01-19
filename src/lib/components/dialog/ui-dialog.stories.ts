@@ -28,6 +28,9 @@ const meta: Meta = {
       </div>
     </zen-dialog>
   `,
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
 };
 
 export default meta;

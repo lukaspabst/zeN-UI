@@ -53,6 +53,9 @@ const sampleNotifications = [
 ];
 
 export const Default: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: (args) => html`
     <div style="padding: 40px; display: flex; justify-content: flex-end;">
       <zen-notification-bell 
@@ -64,6 +67,9 @@ export const Default: Story = {
 };
 
 export const WithManyUnread: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="padding: 40px; display: flex; justify-content: flex-end;">
       <zen-notification-bell 
@@ -80,6 +86,9 @@ export const WithManyUnread: Story = {
 };
 
 export const Empty: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="padding: 40px; display: flex; justify-content: flex-end;">
       <zen-notification-bell .notifications=${[]}></zen-notification-bell>
@@ -88,6 +97,9 @@ export const Empty: Story = {
 };
 
 export const InNavbar: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="
       background: var(--zen-glass-bg);

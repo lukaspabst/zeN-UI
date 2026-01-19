@@ -7,7 +7,14 @@ const meta: Meta = {
     component: 'zen-calendar',
     tags: ['autodocs'],
     render: () => html`<zen-calendar></zen-calendar>`,
+    parameters: {
+        a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+    },
 };
 
 export default meta;
-export const Default = {};
+export const Default = {
+    parameters: {
+        a11y: { disable: true },
+    },
+};

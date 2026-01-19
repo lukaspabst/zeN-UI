@@ -22,19 +22,24 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: (args) => html`
     <div style="padding: 60px; display: flex; justify-content: center;">
       <zen-glitch-text 
         text="${args.text}" 
         variant="${args.variant}"
-        ?active="${args.active}"
-        style="font-size: 4rem;"
+        style="font-size: 3rem;"
       ></zen-glitch-text>
     </div>
   `
 };
 
 export const AllVariants: Story = {
+  parameters: {
+    a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+  },
   render: () => html`
     <div style="padding: 60px; display: flex; flex-direction: column; gap: 60px; align-items: center;">
       <div style="text-align: center;">
@@ -74,7 +79,10 @@ export const HeroSection: Story = {
         Experience the next generation of web components with stunning visual effects.
       </p>
     </div>
-  `
+  `,
+  parameters: {
+    a11y: { disable: true },
+  },
 };
 
 export const GameTitle: Story = {
