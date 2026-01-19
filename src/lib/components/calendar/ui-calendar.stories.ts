@@ -3,7 +3,7 @@ import type { Meta } from '@storybook/web-components';
 import './ui-calendar';
 
 const meta: Meta = {
-    title: 'Components/Calendar',
+    title: 'Components/Data Display/Calendar',
     component: 'zen-calendar',
     tags: ['autodocs'],
     render: () => html`<zen-calendar></zen-calendar>`,

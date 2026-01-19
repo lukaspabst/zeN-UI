@@ -3,32 +3,32 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-typewriter';
 
 const meta: Meta = {
-    title: 'Components/Experimental/Typewriter',
-    component: 'zen-typewriter',
-    tags: ['autodocs'],
-    argTypes: {
-        typeSpeed: { control: { type: 'range', min: 20, max: 200, step: 10 } },
-        deleteSpeed: { control: { type: 'range', min: 20, max: 150, step: 10 } },
-        pauseDuration: { control: { type: 'range', min: 500, max: 5000, step: 100 } },
-        loop: { control: 'boolean' },
-        cursor: { control: 'boolean' },
-        cursorChar: { control: 'text' },
-    },
-    args: {
-        typeSpeed: 80,
-        deleteSpeed: 50,
-        pauseDuration: 2000,
-        loop: true,
-        cursor: true,
-        cursorChar: '|',
-    },
+  title: 'Components/Text Effects & Animations/Typewriter',
+  component: 'zen-typewriter',
+  tags: ['autodocs'],
+  argTypes: {
+    typeSpeed: { control: { type: 'range', min: 20, max: 200, step: 10 } },
+    deleteSpeed: { control: { type: 'range', min: 20, max: 150, step: 10 } },
+    pauseDuration: { control: { type: 'range', min: 500, max: 5000, step: 100 } },
+    loop: { control: 'boolean' },
+    cursor: { control: 'boolean' },
+    cursorChar: { control: 'text' },
+  },
+  args: {
+    typeSpeed: 80,
+    deleteSpeed: 50,
+    pauseDuration: 2000,
+    loop: true,
+    cursor: true,
+    cursorChar: '|',
+  },
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-    render: (args) => html`
+  render: (args) => html`
     <div style="padding: 60px; text-align: center;">
       <h1 style="font-size: 3rem; font-weight: 700; color: var(--zen-text-1); margin: 0;">
         I am a 
@@ -48,7 +48,7 @@ export const Default: Story = {
 };
 
 export const HeroHeadline: Story = {
-    render: () => html`
+  render: () => html`
     <div style="
       padding: 100px 40px;
       background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
@@ -76,7 +76,7 @@ export const HeroHeadline: Story = {
 };
 
 export const CodeTerminal: Story = {
-    render: () => html`
+  render: () => html`
     <div style="
       padding: 40px;
       background: #0a0a0a;
@@ -106,7 +106,7 @@ export const CodeTerminal: Story = {
 };
 
 export const MultipleTexts: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 60px; text-align: center;">
       <h2 style="font-size: 2rem; color: var(--zen-text-1); margin: 0;">
         We specialize in 

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-avatar';
 
 const meta: Meta = {
-    title: 'Components/Avatar',
+    title: 'Components/Data Display/Avatar',
     component: 'zen-avatar',
     tags: ['autodocs'],
     args: {

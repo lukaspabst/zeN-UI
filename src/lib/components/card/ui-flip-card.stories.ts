@@ -3,26 +3,26 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-flip-card';
 
 const meta: Meta = {
-    title: 'Components/Experimental/FlipCard',
-    component: 'zen-flip-card',
-    tags: ['autodocs'],
-    argTypes: {
-        trigger: { control: 'select', options: ['hover', 'click'] },
-        direction: { control: 'select', options: ['horizontal', 'vertical'] },
-        duration: { control: { type: 'range', min: 0.3, max: 1.5, step: 0.1 } },
-    },
-    args: {
-        trigger: 'hover',
-        direction: 'horizontal',
-        duration: 0.6,
-    },
+  title: 'Components/Data Display/Flip Card',
+  component: 'zen-flip-card',
+  tags: ['autodocs'],
+  argTypes: {
+    trigger: { control: 'select', options: ['hover', 'click'] },
+    direction: { control: 'select', options: ['horizontal', 'vertical'] },
+    duration: { control: { type: 'range', min: 0.3, max: 1.5, step: 0.1 } },
+  },
+  args: {
+    trigger: 'hover',
+    direction: 'horizontal',
+    duration: 0.6,
+  },
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-    render: (args) => html`
+  render: (args) => html`
     <div style="padding: 40px; display: flex; justify-content: center;">
       <zen-flip-card 
         trigger="${args.trigger}"
@@ -67,7 +67,7 @@ export const Default: Story = {
 };
 
 export const ProfileCard: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 40px; display: flex; justify-content: center;">
       <zen-flip-card direction="horizontal" style="width: 280px; height: 360px;">
         <div slot="front" style="height: 100%; background: var(--zen-bg-1);">
@@ -123,7 +123,7 @@ export const ProfileCard: Story = {
 };
 
 export const PricingToggle: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 40px; display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;">
       <zen-flip-card trigger="click" direction="vertical" style="width: 260px; height: 340px;">
         <div slot="front" style="
@@ -165,7 +165,7 @@ export const PricingToggle: Story = {
 };
 
 export const Gallery: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 40px; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
       ${['🌅', '🏔️', '🌊'].map((emoji, i) => html`
         <zen-flip-card style="width: 200px; height: 280px;">

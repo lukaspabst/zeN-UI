@@ -3,14 +3,14 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-switch';
 
 const meta: Meta = {
-    title: 'Components/Switch',
-    component: 'zen-switch',
-    tags: ['autodocs'],
-    args: {
-        checked: false,
-        disabled: false,
-    },
-    render: (args) => html`
+  title: 'Components/Forms/Switch',
+  component: 'zen-switch',
+  tags: ['autodocs'],
+  args: {
+    checked: false,
+    disabled: false,
+  },
+  render: (args) => html`
     <zen-switch ?checked=${args.checked} ?disabled=${args.disabled}></zen-switch>
   `,
 };

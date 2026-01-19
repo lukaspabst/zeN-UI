@@ -4,18 +4,18 @@ import './ui-dialog';
 import '../button/ui-button';
 
 const meta: Meta = {
-    title: 'Components/Dialog',
-    component: 'zen-dialog',
-    tags: ['autodocs'],
-    argTypes: {
-        open: { control: 'boolean' },
-        title: { control: 'text' },
-    },
-    args: {
-        open: false,
-        title: 'Confirm Action',
-    },
-    render: (args) => html`
+  title: 'Components/Feedback/Dialog',
+  component: 'zen-dialog',
+  tags: ['autodocs'],
+  argTypes: {
+    open: { control: 'boolean' },
+    title: { control: 'text' },
+  },
+  args: {
+    open: false,
+    title: 'Confirm Action',
+  },
+  render: (args) => html`
     <zen-button @click=${() => document.querySelector('zen-dialog')!.open = true}>
       Open Dialog
     </zen-button>

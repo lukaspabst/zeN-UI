@@ -4,34 +4,34 @@ import './ui-icon';
 import { icons } from '../../assets/icons';
 
 const meta: Meta = {
-    title: 'Components/Icon/Icon',
-    component: 'zen-icon',
-    tags: ['autodocs'],
-    argTypes: {
-        name: {
-            control: { type: 'select' },
-            options: Object.keys(icons),
-        },
-        variant: {
-            control: { type: 'select' },
-            options: ['default', 'glow', 'filled'],
-        },
-        size: { control: 'text' },
-        color: { control: 'color' },
+  title: 'Components/General/Icon',
+  component: 'zen-icon',
+  tags: ['autodocs'],
+  argTypes: {
+    name: {
+      control: { type: 'select' },
+      options: Object.keys(icons),
     },
-    args: {
-        name: 'home',
-        variant: 'default',
-        size: '24px',
-        color: 'currentColor',
+    variant: {
+      control: { type: 'select' },
+      options: ['default', 'glow', 'filled'],
     },
+    size: { control: 'text' },
+    color: { control: 'color' },
+  },
+  args: {
+    name: 'home',
+    variant: 'default',
+    size: '24px',
+    color: 'currentColor',
+  },
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-    render: (args) => html`
+  render: (args) => html`
     <div style="color: var(--zen-text-1);">
       <zen-icon
         name="${args.name}"
@@ -44,7 +44,7 @@ export const Default: Story = {
 };
 
 export const AllIcons: Story = {
-    render: () => html`
+  render: () => html`
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 1.5rem; color: var(--zen-text-1);">
       ${Object.keys(icons).map(name => html`
         <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 1rem; border: 1px solid var(--zen-glass-border); border-radius: 8px; background: var(--zen-glass-bg);">
@@ -57,7 +57,7 @@ export const AllIcons: Story = {
 };
 
 export const Variants: Story = {
-    render: () => html`
+  render: () => html`
     <div style="display: flex; gap: 2rem; color: var(--zen-primary);">
       <div style="text-align: center;">
         <zen-icon name="star" size="32px"></zen-icon>

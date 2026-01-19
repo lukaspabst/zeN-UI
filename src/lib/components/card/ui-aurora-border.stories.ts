@@ -3,26 +3,26 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-aurora-border';
 
 const meta: Meta = {
-    title: 'Components/Experimental/AuroraBorder',
-    component: 'zen-aurora-border',
-    tags: ['autodocs'],
-    argTypes: {
-        variant: { control: 'select', options: ['rainbow', 'neon', 'fire', 'ocean'] },
-        borderWidth: { control: { type: 'range', min: 1, max: 6, step: 1 } },
-        blur: { control: { type: 'range', min: 0, max: 30, step: 2 } },
-    },
-    args: {
-        variant: 'rainbow',
-        borderWidth: 2,
-        blur: 10,
-    },
+  title: 'Components/Data Display/Aurora Border',
+  component: 'zen-aurora-border',
+  tags: ['autodocs'],
+  argTypes: {
+    variant: { control: 'select', options: ['rainbow', 'neon', 'fire', 'ocean'] },
+    borderWidth: { control: { type: 'range', min: 1, max: 6, step: 1 } },
+    blur: { control: { type: 'range', min: 0, max: 30, step: 2 } },
+  },
+  args: {
+    variant: 'rainbow',
+    borderWidth: 2,
+    blur: 10,
+  },
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-    render: (args) => html`
+  render: (args) => html`
     <div style="padding: 40px; background: #0a0a0a; display: flex; justify-content: center;">
       <zen-aurora-border 
         variant="${args.variant}"
@@ -42,7 +42,7 @@ export const Default: Story = {
 };
 
 export const AllVariants: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 40px; background: #0a0a0a; display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;">
       <zen-aurora-border variant="rainbow" style="width: 200px;">
         <div style="padding: 32px; color: white; text-align: center;">
@@ -76,7 +76,7 @@ export const AllVariants: Story = {
 };
 
 export const SubscriptionCard: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 60px; background: #0a0a0a; display: flex; justify-content: center;">
       <zen-aurora-border variant="neon" borderWidth="2" blur="15" style="width: 320px;">
         <div style="padding: 40px; color: white; text-align: center;">
@@ -109,7 +109,7 @@ export const SubscriptionCard: Story = {
 };
 
 export const GamingCard: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 60px; background: #0a0a0a; display: flex; justify-content: center;">
       <zen-aurora-border variant="fire" borderWidth="3" blur="20" style="width: 300px;">
         <div style="padding: 32px; color: white; text-align: center;">

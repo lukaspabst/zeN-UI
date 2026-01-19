@@ -3,32 +3,32 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-counter';
 
 const meta: Meta = {
-    title: 'Components/Experimental/Counter',
-    component: 'zen-counter',
-    tags: ['autodocs'],
-    argTypes: {
-        value: { control: 'number' },
-        duration: { control: { type: 'range', min: 500, max: 5000, step: 100 } },
-        prefix: { control: 'text' },
-        suffix: { control: 'text' },
-        decimals: { control: { type: 'range', min: 0, max: 4, step: 1 } },
-        autoStart: { control: 'boolean' },
-    },
-    args: {
-        value: 1234,
-        duration: 2000,
-        prefix: '',
-        suffix: '',
-        decimals: 0,
-        autoStart: true,
-    },
+  title: 'Components/Data Display/Counter',
+  component: 'zen-counter',
+  tags: ['autodocs'],
+  argTypes: {
+    value: { control: 'number' },
+    duration: { control: { type: 'range', min: 500, max: 5000, step: 100 } },
+    prefix: { control: 'text' },
+    suffix: { control: 'text' },
+    decimals: { control: { type: 'range', min: 0, max: 4, step: 1 } },
+    autoStart: { control: 'boolean' },
+  },
+  args: {
+    value: 1234,
+    duration: 2000,
+    prefix: '',
+    suffix: '',
+    decimals: 0,
+    autoStart: true,
+  },
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-    render: (args) => html`
+  render: (args) => html`
     <div style="padding: 60px; text-align: center;">
       <div style="font-size: 5rem; font-weight: 800; color: var(--zen-text-1);">
         <zen-counter 
@@ -45,7 +45,7 @@ export const Default: Story = {
 };
 
 export const Stats: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 60px; display: flex; gap: 60px; justify-content: center; flex-wrap: wrap;">
       <div style="text-align: center;">
         <div style="font-size: 4rem; font-weight: 800; color: var(--zen-primary);">
@@ -72,7 +72,7 @@ export const Stats: Story = {
 };
 
 export const Dashboard: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
       <div style="
         background: var(--zen-glass-bg);
@@ -130,7 +130,7 @@ export const Dashboard: Story = {
 };
 
 export const BigNumbers: Story = {
-    render: () => html`
+  render: () => html`
     <div style="
       padding: 80px;
       background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);

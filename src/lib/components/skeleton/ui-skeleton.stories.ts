@@ -3,10 +3,10 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-skeleton';
 
 const meta: Meta = {
-    title: 'Components/Skeleton',
-    component: 'zen-skeleton',
-    tags: ['autodocs'],
-    render: () => html`
+  title: 'Components/Data Display/Skeleton',
+  component: 'zen-skeleton',
+  tags: ['autodocs'],
+  render: () => html`
     <div style="width: 300px; padding: 20px; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;">
       <div style="display: flex; gap: 12px; margin-bottom: 12px;">
         <zen-skeleton variant="circular" width="40px" height="40px"></zen-skeleton>

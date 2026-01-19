@@ -3,24 +3,24 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-hamburger-menu';
 
 const meta: Meta = {
-    title: 'Components/Navigation/HamburgerMenu',
-    component: 'zen-hamburger-menu',
-    tags: ['autodocs'],
-    argTypes: {
-        variant: { control: 'select', options: ['spin', 'squeeze', 'arrow'] },
-        open: { control: 'boolean' },
-    },
-    args: {
-        variant: 'spin',
-        open: false,
-    },
+  title: 'Components/Navigation/Hamburger Menu',
+  component: 'zen-hamburger-menu',
+  tags: ['autodocs'],
+  argTypes: {
+    variant: { control: 'select', options: ['spin', 'squeeze', 'arrow'] },
+    open: { control: 'boolean' },
+  },
+  args: {
+    variant: 'spin',
+    open: false,
+  },
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-    render: (args) => html`
+  render: (args) => html`
     <div style="padding: 40px;">
       <zen-hamburger-menu variant="${args.variant}" ?open="${args.open}">
         <a class="menu-item" href="#">
@@ -60,7 +60,7 @@ export const Default: Story = {
 };
 
 export const AllVariants: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 40px; display: flex; gap: 32px; flex-wrap: wrap;">
       <div style="text-align: center;">
         <zen-hamburger-menu variant="spin">

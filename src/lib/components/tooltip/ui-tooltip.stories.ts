@@ -4,7 +4,7 @@ import './ui-tooltip';
 import '../button/ui-button';
 
 const meta: Meta = {
-  title: 'Components/Tooltip',
+  title: 'Components/Feedback/Tooltip',
   component: 'zen-tooltip',
   tags: ['autodocs'],
   argTypes: {

@@ -3,26 +3,26 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-nav-button';
 
 const meta: Meta = {
-    title: 'Components/Navigation/NavButton',
-    component: 'zen-nav-button',
-    tags: ['autodocs'],
-    argTypes: {
-        variant: { control: 'select', options: ['primary', 'secondary', 'ghost', 'outline'] },
-        size: { control: 'select', options: ['sm', 'md', 'lg'] },
-        disabled: { control: 'boolean' },
-    },
-    args: {
-        variant: 'primary',
-        size: 'md',
-        disabled: false,
-    },
+  title: 'Components/Navigation/Nav Button',
+  component: 'zen-nav-button',
+  tags: ['autodocs'],
+  argTypes: {
+    variant: { control: 'select', options: ['primary', 'secondary', 'ghost', 'outline'] },
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    disabled: { control: 'boolean' },
+  },
+  args: {
+    variant: 'primary',
+    size: 'md',
+    disabled: false,
+  },
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-    render: (args) => html`
+  render: (args) => html`
     <div style="padding: 40px; display: flex; gap: 16px; flex-wrap: wrap;">
       <zen-nav-button variant="${args.variant}" size="${args.size}" ?disabled="${args.disabled}">
         Click Me
@@ -32,7 +32,7 @@ export const Default: Story = {
 };
 
 export const AllVariants: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 40px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
       <zen-nav-button variant="primary">Primary</zen-nav-button>
       <zen-nav-button variant="secondary">Secondary</zen-nav-button>
@@ -43,7 +43,7 @@ export const AllVariants: Story = {
 };
 
 export const Sizes: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 40px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
       <zen-nav-button variant="primary" size="sm">Small</zen-nav-button>
       <zen-nav-button variant="primary" size="md">Medium</zen-nav-button>
@@ -53,7 +53,7 @@ export const Sizes: Story = {
 };
 
 export const NavbarExample: Story = {
-    render: () => html`
+  render: () => html`
     <div style="
       background: var(--zen-glass-bg);
       border-bottom: 1px solid var(--zen-glass-border);
@@ -81,7 +81,7 @@ export const NavbarExample: Story = {
 };
 
 export const ActionPairs: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 40px; display: flex; flex-direction: column; gap: 24px;">
       <div style="display: flex; gap: 12px;">
         <zen-nav-button variant="ghost">Cancel</zen-nav-button>

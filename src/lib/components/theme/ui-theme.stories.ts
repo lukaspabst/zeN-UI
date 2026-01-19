@@ -9,7 +9,7 @@ import './ui-theme-picker';
 import '../../styles/variables.css';
 
 const meta: Meta = {
-  title: 'Theme/Showcase',
+  title: 'Components/Theme/Showcase',
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-hover-card';
 
 const meta: Meta = {
-  title: 'Components/Experimental/HoverCard',
+  title: 'Components/Data Display/Hover Card',
   component: 'zen-hover-card',
   tags: ['autodocs'],
   argTypes: {

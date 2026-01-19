@@ -3,30 +3,30 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-tilt-card';
 
 const meta: Meta = {
-    title: 'Components/Experimental/TiltCard',
-    component: 'zen-tilt-card',
-    tags: ['autodocs'],
-    argTypes: {
-        intensity: { control: { type: 'range', min: 5, max: 40, step: 1 } },
-        glare: { control: 'boolean' },
-        border: { control: 'boolean' },
-        parallax: { control: 'boolean' },
-        variant: { control: 'select', options: ['glass', 'solid', 'gradient', 'neon'] },
-    },
-    args: {
-        intensity: 20,
-        glare: true,
-        border: true,
-        parallax: true,
-        variant: 'gradient',
-    },
+  title: 'Components/Data Display/Tilt Card',
+  component: 'zen-tilt-card',
+  tags: ['autodocs'],
+  argTypes: {
+    intensity: { control: { type: 'range', min: 5, max: 40, step: 1 } },
+    glare: { control: 'boolean' },
+    border: { control: 'boolean' },
+    parallax: { control: 'boolean' },
+    variant: { control: 'select', options: ['glass', 'solid', 'gradient', 'neon'] },
+  },
+  args: {
+    intensity: 20,
+    glare: true,
+    border: true,
+    parallax: true,
+    variant: 'gradient',
+  },
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-    render: (args) => html`
+  render: (args) => html`
     <div style="padding: 60px; display: flex; justify-content: center;">
       <zen-tilt-card 
         intensity="${args.intensity}" 
@@ -71,7 +71,7 @@ export const Default: Story = {
 };
 
 export const Variants: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 40px; display: flex; gap: 32px; flex-wrap: wrap; justify-content: center;">
       <zen-tilt-card variant="glass" style="width: 200px; height: 280px; cursor: pointer;">
         <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; padding: 24px;">
@@ -109,7 +109,7 @@ export const Variants: Story = {
 };
 
 export const ParallaxDemo: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 60px; display: flex; justify-content: center; background: #0a0a0a; min-height: 600px;">
       <zen-tilt-card 
         variant="neon" 
@@ -174,7 +174,7 @@ export const ParallaxDemo: Story = {
 };
 
 export const FeatureCards: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 40px; display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;">
       <zen-tilt-card variant="gradient" intensity="15" style="width: 280px; height: 340px; cursor: pointer;">
         <div style="height: 100%; padding: 32px; display: flex; flex-direction: column; color: white;">

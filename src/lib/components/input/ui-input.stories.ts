@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-input';
 
 const meta: Meta = {
-    title: 'Components/Input',
+    title: 'Components/Forms/Input',
     component: 'zen-input',
     tags: ['autodocs'],
     argTypes: {

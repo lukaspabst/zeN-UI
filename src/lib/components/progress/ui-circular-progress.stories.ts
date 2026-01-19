@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-circular-progress';
 
 const meta: Meta = {
-  title: 'Components/Feedback/CircularProgress',
+  title: 'Components/Feedback/Circular Progress',
   component: 'zen-circular-progress',
   tags: ['autodocs'],
   argTypes: {

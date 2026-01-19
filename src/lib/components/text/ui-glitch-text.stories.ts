@@ -3,26 +3,26 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-glitch-text';
 
 const meta: Meta = {
-    title: 'Components/Experimental/GlitchText',
-    component: 'zen-glitch-text',
-    tags: ['autodocs'],
-    argTypes: {
-        text: { control: 'text' },
-        variant: { control: 'select', options: ['cyberpunk', 'neon', 'matrix', 'vhs'] },
-        active: { control: 'boolean' },
-    },
-    args: {
-        text: 'GLITCH',
-        variant: 'cyberpunk',
-        active: true,
-    },
+  title: 'Components/Text Effects & Animations/Glitch Text',
+  component: 'zen-glitch-text',
+  tags: ['autodocs'],
+  argTypes: {
+    text: { control: 'text' },
+    variant: { control: 'select', options: ['cyberpunk', 'neon', 'matrix', 'vhs'] },
+    active: { control: 'boolean' },
+  },
+  args: {
+    text: 'GLITCH',
+    variant: 'cyberpunk',
+    active: true,
+  },
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-    render: (args) => html`
+  render: (args) => html`
     <div style="padding: 60px; background: #0a0a0a; display: flex; justify-content: center;">
       <zen-glitch-text 
         text="${args.text}" 
@@ -35,7 +35,7 @@ export const Default: Story = {
 };
 
 export const AllVariants: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 60px; background: #0a0a0a; display: flex; flex-direction: column; gap: 60px; align-items: center;">
       <div style="text-align: center;">
         <zen-glitch-text text="CYBERPUNK" variant="cyberpunk" style="font-size: 3rem;"></zen-glitch-text>
@@ -61,7 +61,7 @@ export const AllVariants: Story = {
 };
 
 export const HeroSection: Story = {
-    render: () => html`
+  render: () => html`
     <div style="
       padding: 100px 40px;
       background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
@@ -78,7 +78,7 @@ export const HeroSection: Story = {
 };
 
 export const GameTitle: Story = {
-    render: () => html`
+  render: () => html`
     <div style="
       padding: 80px;
       background: #000;

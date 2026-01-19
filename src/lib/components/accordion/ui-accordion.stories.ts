@@ -3,9 +3,9 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-accordion';
 
 const meta: Meta = {
-    title: 'Components/Interaction/Accordion',
-    component: 'zen-accordion',
-    render: () => html`
+  title: 'Components/Data Display/Accordion',
+  component: 'zen-accordion',
+  render: () => html`
     <zen-accordion>
       <zen-accordion-item header="Premium Design">
         Our design system utilizes glassmorphism, fluid animations, and high-fidelity interactions to create a premium feel.

@@ -5,10 +5,10 @@ import { toast } from './ui-toast';
 import '../button/ui-button';
 
 const meta: Meta = {
-    title: 'Components/Toast',
-    component: 'zen-toast-container',
-    tags: ['autodocs'],
-    render: () => html`
+  title: 'Components/Feedback/Toast',
+  component: 'zen-toast-container',
+  tags: ['autodocs'],
+  render: () => html`
     <zen-toast-container></zen-toast-container>
     <div style="display: flex; gap: 10px; flex-direction: column; align-items: flex-start;">
       <zen-button @click=${() => toast('Operation Successful', 'success')}>Show Success</zen-button>

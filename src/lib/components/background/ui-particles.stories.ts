@@ -3,34 +3,34 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-particles';
 
 const meta: Meta = {
-    title: 'Components/Experimental/Particles',
-    component: 'zen-particles',
-    tags: ['autodocs'],
-    argTypes: {
-        count: { control: { type: 'range', min: 10, max: 150, step: 10 } },
-        color: { control: 'color' },
-        minSize: { control: { type: 'range', min: 1, max: 5, step: 0.5 } },
-        maxSize: { control: { type: 'range', min: 3, max: 15, step: 0.5 } },
-        speed: { control: { type: 'range', min: 0.1, max: 3, step: 0.1 } },
-        connected: { control: 'boolean' },
-        connectionDistance: { control: { type: 'range', min: 50, max: 300, step: 10 } },
-    },
-    args: {
-        count: 50,
-        color: '#667eea',
-        minSize: 2,
-        maxSize: 6,
-        speed: 1,
-        connected: true,
-        connectionDistance: 150,
-    },
+  title: 'Components/Special Effects & Backgrounds/Particles',
+  component: 'zen-particles',
+  tags: ['autodocs'],
+  argTypes: {
+    count: { control: { type: 'range', min: 10, max: 150, step: 10 } },
+    color: { control: 'color' },
+    minSize: { control: { type: 'range', min: 1, max: 5, step: 0.5 } },
+    maxSize: { control: { type: 'range', min: 3, max: 15, step: 0.5 } },
+    speed: { control: { type: 'range', min: 0.1, max: 3, step: 0.1 } },
+    connected: { control: 'boolean' },
+    connectionDistance: { control: { type: 'range', min: 50, max: 300, step: 10 } },
+  },
+  args: {
+    count: 50,
+    color: '#667eea',
+    minSize: 2,
+    maxSize: 6,
+    speed: 1,
+    connected: true,
+    connectionDistance: 150,
+  },
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-    render: (args) => html`
+  render: (args) => html`
     <zen-particles 
       count="${args.count}"
       color="${args.color}"
@@ -58,7 +58,7 @@ export const Default: Story = {
 };
 
 export const NetworkVisualization: Story = {
-    render: () => html`
+  render: () => html`
     <zen-particles 
       count="80"
       color="#00ffff"
@@ -106,7 +106,7 @@ export const NetworkVisualization: Story = {
 };
 
 export const FloatingParticles: Story = {
-    render: () => html`
+  render: () => html`
     <zen-particles 
       count="40"
       color="#ffffff"
@@ -137,7 +137,7 @@ export const FloatingParticles: Story = {
 };
 
 export const MatrixStyle: Story = {
-    render: () => html`
+  render: () => html`
     <zen-particles 
       count="100"
       color="#00ff00"

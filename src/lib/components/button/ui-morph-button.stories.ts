@@ -3,24 +3,24 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-morph-button';
 
 const meta: Meta = {
-    title: 'Components/Experimental/MorphButton',
-    component: 'zen-morph-button',
-    tags: ['autodocs'],
-    argTypes: {
-        variant: { control: 'select', options: ['liquid', 'expand', 'bounce', 'glow'] },
-        disabled: { control: 'boolean' },
-    },
-    args: {
-        variant: 'liquid',
-        disabled: false,
-    },
+  title: 'Components/General/Morph Button',
+  component: 'zen-morph-button',
+  tags: ['autodocs'],
+  argTypes: {
+    variant: { control: 'select', options: ['liquid', 'expand', 'bounce', 'glow'] },
+    disabled: { control: 'boolean' },
+  },
+  args: {
+    variant: 'liquid',
+    disabled: false,
+  },
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-    render: (args) => html`
+  render: (args) => html`
     <div style="padding: 60px; display: flex; justify-content: center;">
       <zen-morph-button variant="${args.variant}" ?disabled="${args.disabled}">
         Hover Me
@@ -30,7 +30,7 @@ export const Default: Story = {
 };
 
 export const AllVariants: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 60px; display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; align-items: center;">
       <zen-morph-button variant="liquid">Liquid 💧</zen-morph-button>
       <zen-morph-button variant="expand">Expand ↔️</zen-morph-button>
@@ -41,7 +41,7 @@ export const AllVariants: Story = {
 };
 
 export const CallToAction: Story = {
-    render: () => html`
+  render: () => html`
     <div style="
       padding: 80px;
       background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
@@ -62,7 +62,7 @@ export const CallToAction: Story = {
 };
 
 export const BounceDemo: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 60px; display: flex; justify-content: center;">
       <zen-morph-button variant="bounce">
         🎉 Click Me!

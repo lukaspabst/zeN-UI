@@ -3,24 +3,24 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-gradient-blob';
 
 const meta: Meta = {
-    title: 'Components/Experimental/GradientBlob',
-    component: 'zen-gradient-blob',
-    tags: ['autodocs'],
-    argTypes: {
-        variant: { control: 'select', options: ['purple', 'ocean', 'sunset', 'aurora'] },
-        speed: { control: { type: 'range', min: 0.5, max: 3, step: 0.1 } },
-    },
-    args: {
-        variant: 'purple',
-        speed: 1,
-    },
+  title: 'Components/Special Effects & Backgrounds/Gradient Blob',
+  component: 'zen-gradient-blob',
+  tags: ['autodocs'],
+  argTypes: {
+    variant: { control: 'select', options: ['purple', 'ocean', 'sunset', 'aurora'] },
+    speed: { control: { type: 'range', min: 0.5, max: 3, step: 0.1 } },
+  },
+  args: {
+    variant: 'purple',
+    speed: 1,
+  },
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-    render: (args) => html`
+  render: (args) => html`
     <zen-gradient-blob variant="${args.variant}" speed="${args.speed}" style="height: 500px; border-radius: 16px;">
       <div style="
         height: 100%;
@@ -42,7 +42,7 @@ export const Default: Story = {
 };
 
 export const AllVariants: Story = {
-    render: () => html`
+  render: () => html`
     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
       <zen-gradient-blob variant="purple" style="height: 300px; border-radius: 16px;">
         <div style="height: 100%; display: flex; justify-content: center; align-items: center; color: white;">
@@ -72,7 +72,7 @@ export const AllVariants: Story = {
 };
 
 export const HeroSection: Story = {
-    render: () => html`
+  render: () => html`
     <zen-gradient-blob variant="aurora" speed="0.7" style="height: 600px;">
       <div style="
         height: 100%;

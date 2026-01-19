@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-command-palette';
 
 const meta: Meta = {
-  title: 'Components/Navigation/CommandPalette',
+  title: 'Components/Navigation/Command Palette',
   component: 'zen-command-palette',
   tags: ['autodocs'],
   argTypes: {

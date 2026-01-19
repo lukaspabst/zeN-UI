@@ -5,14 +5,14 @@ import './ui-card';
 import '../button/ui-button';
 
 const meta: Meta = {
-    title: 'Components/Card',
-    component: 'zen-card',
-    tags: ['autodocs'],
-    args: {
-        hover: true,
-        clickable: false,
-    },
-    render: (args) => html`
+  title: 'Components/Data Display/Card',
+  component: 'zen-card',
+  tags: ['autodocs'],
+  args: {
+    hover: true,
+    clickable: false,
+  },
+  render: (args) => html`
     <zen-card ?hover=${args.hover} ?clickable=${args.clickable} style="width: 340px;">
       <div slot="media">
         <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop" alt="Abstract gradient" />
@@ -33,7 +33,7 @@ type Story = StoryObj;
 export const Default: Story = {};
 
 export const Simple: Story = {
-    render: () => html`
+  render: () => html`
     <zen-card style="width: 300px;">
       <h3>Simple Card</h3>
       <p>Just content, no media or footer.</p>

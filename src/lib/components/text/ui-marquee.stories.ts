@@ -3,28 +3,28 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-marquee';
 
 const meta: Meta = {
-    title: 'Components/Experimental/Marquee',
-    component: 'zen-marquee',
-    tags: ['autodocs'],
-    argTypes: {
-        speed: { control: { type: 'range', min: 10, max: 60, step: 5 } },
-        direction: { control: 'select', options: ['left', 'right'] },
-        pauseOnHover: { control: 'boolean' },
-        gap: { control: { type: 'range', min: 20, max: 100, step: 10 } },
-    },
-    args: {
-        speed: 30,
-        direction: 'left',
-        pauseOnHover: true,
-        gap: 40,
-    },
+  title: 'Components/Text Effects & Animations/Marquee',
+  component: 'zen-marquee',
+  tags: ['autodocs'],
+  argTypes: {
+    speed: { control: { type: 'range', min: 10, max: 60, step: 5 } },
+    direction: { control: 'select', options: ['left', 'right'] },
+    pauseOnHover: { control: 'boolean' },
+    gap: { control: { type: 'range', min: 20, max: 100, step: 10 } },
+  },
+  args: {
+    speed: 30,
+    direction: 'left',
+    pauseOnHover: true,
+    gap: 40,
+  },
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-    render: (args) => html`
+  render: (args) => html`
     <zen-marquee 
       speed="${args.speed}"
       direction="${args.direction}"
@@ -45,7 +45,7 @@ export const Default: Story = {
 };
 
 export const TechStack: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 40px 0; background: var(--zen-bg-1);">
       <p style="text-align: center; color: var(--zen-text-2); margin: 0 0 24px 0; text-transform: uppercase; letter-spacing: 2px; font-size: 0.875rem;">
         Trusted by teams using
@@ -81,7 +81,7 @@ export const TechStack: Story = {
 };
 
 export const Testimonials: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 60px 0; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);">
       <zen-marquee speed="40" gap="32">
         ${['Amazing library! 🔥', 'Best components ever!', 'My go-to UI kit 💯', 'Saved us weeks of work!', 'Beautiful design ✨', 'Highly recommended!'].map(text => html`
@@ -119,7 +119,7 @@ export const Testimonials: Story = {
 };
 
 export const LogoCloud: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 40px 0;">
       <zen-marquee speed="20" gap="80">
         ${['ACME', 'STARK', 'WAYNE', 'UMBRELLA', 'CYBERDYNE', 'WEYLAND'].map(name => html`

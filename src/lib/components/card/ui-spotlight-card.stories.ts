@@ -3,26 +3,26 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-spotlight-card';
 
 const meta: Meta = {
-    title: 'Components/Experimental/SpotlightCard',
-    component: 'zen-spotlight-card',
-    tags: ['autodocs'],
-    argTypes: {
-        spotlightSize: { control: { type: 'range', min: 100, max: 800, step: 50 } },
-        spotlightColor: { control: 'color' },
-        border: { control: 'boolean' },
-    },
-    args: {
-        spotlightSize: 400,
-        spotlightColor: 'rgba(120, 119, 198, 0.15)',
-        border: true,
-    },
+  title: 'Components/Data Display/Spotlight Card',
+  component: 'zen-spotlight-card',
+  tags: ['autodocs'],
+  argTypes: {
+    spotlightSize: { control: { type: 'range', min: 100, max: 800, step: 50 } },
+    spotlightColor: { control: 'color' },
+    border: { control: 'boolean' },
+  },
+  args: {
+    spotlightSize: 400,
+    spotlightColor: 'rgba(120, 119, 198, 0.15)',
+    border: true,
+  },
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-    render: (args) => html`
+  render: (args) => html`
     <div style="padding: 60px; display: flex; justify-content: center;">
       <zen-spotlight-card 
         spotlightSize="${args.spotlightSize}"
@@ -43,7 +43,7 @@ export const Default: Story = {
 };
 
 export const FeatureGrid: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
       <zen-spotlight-card spotlightColor="rgba(102, 126, 234, 0.12)">
         <div style="padding: 32px; color: var(--zen-text-1);">
@@ -109,7 +109,7 @@ export const FeatureGrid: Story = {
 };
 
 export const PricingCards: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 40px; display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; align-items: stretch;">
       <zen-spotlight-card spotlightColor="rgba(120, 119, 198, 0.1)" style="width: 280px;">
         <div style="padding: 32px; color: var(--zen-text-1); text-align: center;">

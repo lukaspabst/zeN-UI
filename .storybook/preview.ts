@@ -28,7 +28,13 @@ const preview: Preview = {
   decorators: [
     (story) => html`
       <style>
-        body { font-family: var(--zen-font-family); }
+        body { 
+          font-family: var(--zen-font-family);
+          background-color: #000000;
+          color: #ffffff;
+          margin: 0;
+          padding: 0;
+        }
       </style>
       ${story()}
     `

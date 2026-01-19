@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-text-reveal';
 
 const meta: Meta = {
-  title: 'Components/Experimental/TextReveal',
+  title: 'Components/Text Effects & Animations/Text Reveal',
   component: 'zen-text-reveal',
   tags: ['autodocs'],
   argTypes: {

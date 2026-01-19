@@ -3,26 +3,26 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import './ui-nav-link';
 
 const meta: Meta = {
-    title: 'Components/Navigation/NavLink',
-    component: 'zen-nav-link',
-    tags: ['autodocs'],
-    argTypes: {
-        href: { control: 'text' },
-        active: { control: 'boolean' },
-        variant: { control: 'select', options: ['default', 'underline', 'pill', 'glow'] },
-    },
-    args: {
-        href: '#',
-        active: false,
-        variant: 'default',
-    },
+  title: 'Components/Navigation/Nav Link',
+  component: 'zen-nav-link',
+  tags: ['autodocs'],
+  argTypes: {
+    href: { control: 'text' },
+    active: { control: 'boolean' },
+    variant: { control: 'select', options: ['default', 'underline', 'pill', 'glow'] },
+  },
+  args: {
+    href: '#',
+    active: false,
+    variant: 'default',
+  },
 };
 
 export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-    render: (args) => html`
+  render: (args) => html`
     <div style="padding: 40px; display: flex; gap: 8px;">
       <zen-nav-link href="#" variant="${args.variant}" ?active="${args.active}">
         Home
@@ -35,7 +35,7 @@ export const Default: Story = {
 };
 
 export const AllVariants: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 40px; display: flex; flex-direction: column; gap: 32px;">
       <div>
         <p style="color: var(--zen-text-2); margin: 0 0 12px 0; font-size: 0.875rem;">Default</p>
@@ -77,7 +77,7 @@ export const AllVariants: Story = {
 };
 
 export const WithIcons: Story = {
-    render: () => html`
+  render: () => html`
     <div style="padding: 40px; display: flex; gap: 8px;">
       <zen-nav-link variant="default" active>
         <span slot="icon">🏠</span>
@@ -100,7 +100,7 @@ export const WithIcons: Story = {
 };
 
 export const InNavbar: Story = {
-    render: () => html`
+  render: () => html`
     <div style="
       background: var(--zen-glass-bg);
       border-bottom: 1px solid var(--zen-glass-border);
