@@ -22,6 +22,17 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@zen-ui'
 
+      - name: Setup Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Bump Version
+        run: |
+          npm version patch -m "chore: bump version to %s [skip ci]"
+          git push
+          git push --tags
+
       - run: |
           pwd
           ls -la

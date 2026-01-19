@@ -1,4 +1,4 @@
-import type { Preview } from "@storybook/web-components";
+import type { Preview } from '@storybook/web-components';
 import { html } from 'lit';
 import '../src/lib/styles/variables.css';
 
@@ -16,6 +16,7 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+
     backgrounds: {
       default: 'dark',
       values: [
@@ -23,12 +24,21 @@ const preview: Preview = {
         { name: 'light', value: '#ffffff' },
       ],
     },
-    layout: 'centered', // Center components by default for better spotlight
+
+    // Center components by default for better spotlight
+    layout: 'centered',
+
+    a11y: {
+      // 'todo' - show a11y violations in the test UI only
+      // 'error' - fail CI on a11y violations
+      // 'off' - skip a11y checks entirely
+      test: 'todo',
+    },
   },
   decorators: [
     (story) => html`
       <style>
-        body { 
+        body {
           font-family: var(--zen-font-family);
           background-color: #000000;
           color: #ffffff;
@@ -37,8 +47,8 @@ const preview: Preview = {
         }
       </style>
       ${story()}
-    `
-  ]
+    `,
+  ],
 };
 
 export default preview;
