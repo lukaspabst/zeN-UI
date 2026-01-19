@@ -1,12 +1,12 @@
 import { LitElement, css, html } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 
 @customElement('zen-tooltip')
 export class ZenTooltip extends LitElement {
   @property({ type: String }) content = '';
   @property({ type: String }) position = 'top';
 
-  @state() private _visible = false;
+
 
 
   static styles = css`
@@ -25,7 +25,6 @@ export class ZenTooltip extends LitElement {
   _show() {
     this._createTooltip();
     this._updatePosition();
-    this._visible = true;
 
     if (this._tooltipEl) {
       // Force reflow
@@ -41,7 +40,6 @@ export class ZenTooltip extends LitElement {
   }
 
   _hide() {
-    this._visible = false;
     if (this._tooltipEl) {
       this._tooltipEl.style.opacity = '0';
       this._tooltipEl.style.transform = 'scale(0.95)';
