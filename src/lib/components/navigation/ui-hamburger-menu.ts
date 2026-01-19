@@ -128,7 +128,8 @@ export class ZenHamburgerMenu extends LitElement {
       background: var(--zen-bg-1);
       border-left: 1px solid var(--zen-glass-border);
       transform: translateX(100%);
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      visibility: hidden;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.4s;
       z-index: 1000;
       display: flex;
       flex-direction: column;
@@ -136,6 +137,7 @@ export class ZenHamburgerMenu extends LitElement {
 
     :host([open]) .panel {
       transform: translateX(0);
+      visibility: visible;
     }
 
     .panel-header {
