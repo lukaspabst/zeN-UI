@@ -7,10 +7,10 @@ export class ZenCircularProgress extends LitElement {
   @property({ type: Number }) max = 100;
   @property({ type: Number }) size = 120;
   @property({ type: Number }) strokeWidth = 8;
-  @property({ type: Boolean }) indeterminate = false;
+  @property({ type: Boolean, reflect: true }) indeterminate = false;
   @property({ type: Boolean }) showValue = true;
-  @property({ type: String }) variant: 'default' | 'gradient' | 'glow' = 'default';
-  @property({ type: String }) color: 'primary' | 'success' | 'warning' | 'danger' = 'primary';
+  @property({ type: String, reflect: true }) variant: 'default' | 'gradient' | 'glow' = 'default';
+  @property({ type: String, reflect: true }) color: 'primary' | 'success' | 'warning' | 'danger' = 'primary';
 
   static styles = css`
     :host {
@@ -120,7 +120,7 @@ export class ZenCircularProgress extends LitElement {
   `;
 
   render() {
-    
+
     const padding = this.variant === 'glow' ? 20 : 0;
     const svgSize = this.size + padding * 2;
     const radius = (this.size - this.strokeWidth) / 2;

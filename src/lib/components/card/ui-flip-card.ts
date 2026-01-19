@@ -3,13 +3,14 @@ import { customElement, property, state } from 'lit/decorators.js';
 
 @customElement('zen-flip-card')
 export class ZenFlipCard extends LitElement {
-    @property({ type: String }) trigger: 'hover' | 'click' = 'hover';
-    @property({ type: String }) direction: 'horizontal' | 'vertical' = 'horizontal';
-    @property({ type: Number }) duration = 0.6;
+  @property({ type: String, reflect: true }) trigger: 'hover' | 'click' = 'hover';
+  @property({ type: String, reflect: true }) direction: 'horizontal' | 'vertical' = 'horizontal';
+  @property({ type: Number }) duration = 0.6;
 
-    @state() private _isFlipped = false;
+  @state() private _isFlipped = false;
+  @state() private _isHovered = false;
 
-    static styles = css`
+  static styles = css`
     :host {
       display: block;
       perspective: 1000px;
@@ -29,16 +30,8 @@ export class ZenFlipCard extends LitElement {
       transform: rotateY(180deg);
     }
 
-    :host([direction="horizontal"][trigger="hover"]) .card:hover {
-      transform: rotateY(180deg);
-    }
-
     /* Vertical flip */
     :host([direction="vertical"]) .card.flipped {
-      transform: rotateX(180deg);
-    }
-
-    :host([direction="vertical"][trigger="hover"]) .card:hover {
       transform: rotateX(180deg);
     }
 
@@ -76,29 +69,50 @@ export class ZenFlipCard extends LitElement {
       position: absolute;
       inset: -2px;
       border-radius: calc(var(--zen-radius-lg) + 2px);
-      background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+      background: linear-gradient(
+        135deg, 
+        hsl(var(--zen-primary-h), var(--zen-primary-s), var(--zen-primary-l)),
+        hsl(calc(var(--zen-primary-h) + 40), 70%, 60%),
+        hsl(calc(var(--zen-primary-h) + 80), 80%, 70%)
+      );
       opacity: 0;
       transition: opacity 0.3s;
       z-index: -1;
     }
 
-    .card:hover::before {
+    .card.hovered::before {
       opacity: 0.5;
       filter: blur(10px);
     }
   `;
 
-    private _handleClick() {
-        if (this.trigger === 'click') {
-            this._isFlipped = !this._isFlipped;
-        }
+  private _handleMouseEnter() {
+    this._isHovered = true;
+    if (this.trigger === 'hover') {
+      this._isFlipped = true;
     }
+  }
 
-    render() {
-        return html`
+  private _handleMouseLeave() {
+    this._isHovered = false;
+    if (this.trigger === 'hover') {
+      this._isFlipped = false;
+    }
+  }
+
+  private _handleClick() {
+    if (this.trigger === 'click') {
+      this._isFlipped = !this._isFlipped;
+    }
+  }
+
+  render() {
+    return html`
       <div 
-        class="card ${this._isFlipped ? 'flipped' : ''}"
+        class="card ${this._isFlipped ? 'flipped' : ''} ${this._isHovered ? 'hovered' : ''}"
         style="--duration: ${this.duration}s;"
+        @mouseenter=${this._handleMouseEnter}
+        @mouseleave=${this._handleMouseLeave}
         @click=${this._handleClick}
       >
         <div class="face front">
@@ -109,5 +123,5 @@ export class ZenFlipCard extends LitElement {
         </div>
       </div>
     `;
-    }
+  }
 }

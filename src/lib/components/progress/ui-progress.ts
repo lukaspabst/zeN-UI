@@ -5,11 +5,11 @@ import { customElement, property } from 'lit/decorators.js';
 export class ZenProgress extends LitElement {
   @property({ type: Number }) value = 0;
   @property({ type: Number }) max = 100;
-  @property({ type: Boolean }) indeterminate = false;
-  @property({ type: String }) variant: 'default' | 'gradient' | 'striped' | 'pulse' | 'glow' = 'default';
-  @property({ type: String }) size: 'sm' | 'md' | 'lg' | 'xl' = 'md';
+  @property({ type: Boolean, reflect: true }) indeterminate = false;
+  @property({ type: String, reflect: true }) variant: 'default' | 'gradient' | 'striped' | 'pulse' | 'glow' = 'default';
+  @property({ type: String, reflect: true }) size: 'sm' | 'md' | 'lg' | 'xl' = 'md';
   @property({ type: Boolean }) showValue = false;
-  @property({ type: String }) color: 'primary' | 'success' | 'warning' | 'danger' = 'primary';
+  @property({ type: String, reflect: true }) color: 'primary' | 'success' | 'warning' | 'danger' = 'primary';
 
   static styles = css`
     :host {
@@ -29,6 +29,7 @@ export class ZenProgress extends LitElement {
       border-radius: 99px;
       overflow: hidden;
       position: relative;
+      height: 8px; /* default height */
     }
 
     /* Sizes */
