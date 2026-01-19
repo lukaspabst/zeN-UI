@@ -1,6 +1,7 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { repeat } from 'lit/directives/repeat.js';
+import '../icon/ui-icon';
+import { IconName } from '../../assets/icons';
 
 export type ToastType = 'info' | 'success' | 'error' | 'warning';
 
@@ -14,6 +15,10 @@ interface ToastItem {
 @customElement('zen-toast-container')
 export class ZenToastContainer extends LitElement {
   @state() private toasts: ToastItem[] = [];
+
+  connectedCallback() {
+    super.connectedCallback();
+  }
 
   static styles = css`
     :host {
@@ -121,20 +126,22 @@ export class ZenToastContainer extends LitElement {
     }
   }
 
-  _getIcon(type: ToastType) {
+  _getIcon(type: ToastType): IconName {
     switch (type) {
-      case 'success': return '✓';
-      case 'error': return '!';
-      case 'info': return 'i';
-      default: return 'i';
+      case 'success': return 'check';
+      case 'error': return 'alert-circle';
+      case 'warning': return 'alert-triangle';
+      default: return 'info';
     }
   }
 
   render() {
     return html`
-      ${repeat(this.toasts, (t) => t.id, (toast) => html`
+      ${this.toasts.map((toast) => html`
         <div id="${toast.id}" class="toast toast-${toast.type}">
-          <div class="icon">${this._getIcon(toast.type)}</div>
+          <div class="icon">
+            <zen-icon name="${this._getIcon(toast.type)}" size="14px"></zen-icon>
+          </div>
           <div class="content">${toast.message}</div>
           <div class="progress" style="animation-duration: ${toast.duration}ms"></div>
         </div>
