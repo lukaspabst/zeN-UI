@@ -39,4 +39,7 @@ jobs:
       - run: npm run build-storybook
       - run: npx http-server storybook-static --port 6006 &
       - run: npx wait-on tcp:6006
-      - run: npm run test-storybook
+      - run: npm run test
+      - run: npx chromatic --exit-zero-on-changes --storybook-build-dir storybook-static
+        env:
+          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
