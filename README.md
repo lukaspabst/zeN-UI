@@ -125,6 +125,12 @@ The library uses CSS variables for theming. You can override them globally:
 - `<zen-glitch-text>` - Glitch animation text
 - `<zen-text-reveal>` - Animated text reveal
 
+## Testing
+
+- **Unit Tests**: `npm run test`
+- **Storybook Tests**: `npm run test-storybook` (requires running Storybook)
+- **Coverage**: `npm run test:coverage`
+
 ## Development
 1. Clone the repository.
 2. Run `npm install`.

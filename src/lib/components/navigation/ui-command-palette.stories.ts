@@ -1,5 +1,5 @@
 import { html } from 'lit';
-import type { Meta, StoryObj } from '@storybook/web-components';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import './ui-command-palette';
 
 const meta: Meta = {
@@ -48,7 +48,7 @@ export const Default: Story = {
       <button 
         @click=${() => {
       const palette = document.querySelector('zen-command-palette');
-      if (palette) (palette as any).open = true;
+      if (palette) (palette as HTMLElement & { open: boolean }).open = true;
     }}
         style="
           padding: 12px 24px;

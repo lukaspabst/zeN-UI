@@ -1,5 +1,6 @@
+/* eslint-disable lit/attribute-value-entities */
 import { html } from 'lit';
-import type { Meta, StoryObj } from '@storybook/web-components';
+import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import './ui-hover-card';
 
 const meta: Meta = {
@@ -28,7 +29,7 @@ export const Default: Story = {
           position: relative;
           overflow: hidden;
         ">
-          <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop" 
+          <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&amp;w=1000&amp;auto=format&amp;fit=crop" 
                alt="Abstract" 
                style="width: 100%; height: 100%; object-fit: cover;" />
           <div style="
@@ -73,7 +74,7 @@ export const ProfileCard: Story = {
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             overflow: hidden;
           ">
-            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop" 
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&amp;w=200&amp;auto=format&amp;fit=crop" 
                  alt="Avatar" 
                  style="width: 100%; height: 100%; object-fit: cover;" />
           </div>
@@ -209,7 +210,7 @@ export const Gallery: Story = {
     <div style="padding: 40px; display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;">
       <zen-hover-card intensity="18" style="width: 220px; height: 300px; cursor: pointer;">
         <div style="height: 100%; position: relative; overflow: hidden;">
-          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=400&auto=format&fit=crop" 
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&amp;w=400&amp;auto=format&amp;fit=crop" 
                style="width: 100%; height: 100%; object-fit: cover;" />
           <div style="
             position: absolute; bottom: 0; left: 0; right: 0;
@@ -224,7 +225,7 @@ export const Gallery: Story = {
       
       <zen-hover-card intensity="18" style="width: 220px; height: 300px; cursor: pointer;">
         <div style="height: 100%; position: relative; overflow: hidden;">
-          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=400&auto=format&fit=crop" 
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&amp;w=400&amp;auto=format&amp;fit=crop" 
                style="width: 100%; height: 100%; object-fit: cover;" />
           <div style="
             position: absolute; bottom: 0; left: 0; right: 0;
@@ -239,7 +240,7 @@ export const Gallery: Story = {
       
       <zen-hover-card intensity="18" style="width: 220px; height: 300px; cursor: pointer;">
         <div style="height: 100%; position: relative; overflow: hidden;">
-          <img src="https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?q=80&w=400&auto=format&fit=crop" 
+          <img src="https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?q=80&amp;w=400&amp;auto=format&amp;fit=crop" 
                style="width: 100%; height: 100%; object-fit: cover;" />
           <div style="
             position: absolute; bottom: 0; left: 0; right: 0;

@@ -106,7 +106,7 @@ export class ZenDialog extends LitElement {
     }
   `;
 
-  updated(changedProperties: Map<string, any>) {
+  updated(changedProperties: Map<string, unknown>) {
     if (changedProperties.has('open')) {
       if (this.open) {
         this._dialog.showModal();
@@ -123,7 +123,7 @@ export class ZenDialog extends LitElement {
     this.dispatchEvent(new CustomEvent('close'));
   }
 
-  
+
   _handleBackdropClick(e: MouseEvent) {
     const rect = this._dialog.getBoundingClientRect();
     const isInDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height

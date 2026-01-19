@@ -89,7 +89,8 @@ export class ZenTooltip extends LitElement {
   }
 
   _updatePosition() {
-    const trigger = this; // The host element is the trigger
+    // const trigger = this; // The host element is the trigger
+    const trigger = this as HTMLElement;
     if (!trigger || !this._tooltipEl) return;
 
     const rect = trigger.getBoundingClientRect();

@@ -1,5 +1,5 @@
 import { html } from 'lit';
-import type { Meta } from '@storybook/web-components';
+import type { Meta } from '@storybook/web-components-vite';
 import './ui-calendar';
 
 const meta: Meta = {
