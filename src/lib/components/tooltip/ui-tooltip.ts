@@ -4,103 +4,126 @@ import { customElement, property, state } from 'lit/decorators.js';
 @customElement('zen-tooltip')
 export class ZenTooltip extends LitElement {
   @property({ type: String }) content = '';
-  @property({ type: String }) position = 'top'; 
+  @property({ type: String }) position = 'top';
 
   @state() private _visible = false;
-  @state() private _x = 0;
-  @state() private _y = 0;
+
 
   static styles = css`
     :host {
       display: inline-block;
     }
-
-    .tooltip {
-      position: fixed;
-      /* Top/Left set via inline style, no transition on these to avoid "flying" */
-      background: #18181b;
-      color: #ffffff;
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 6px 12px;
-      font-size: 0.85rem;
-      border-radius: 6px;
-      white-space: nowrap;
-      pointer-events: none;
-      z-index: 9999;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      font-family: var(--zen-font-family, sans-serif);
-      font-weight: 500;
-      
-      opacity: 0;
-      scale: 0.95; /* Use scale property if supported, or transform */
-      transform-origin: center bottom; /* Dynamic based on pos? Left default for now */
-      transition: opacity 0.2s ease, scale 0.2s var(--zen-ease-spring), transform 0.2s var(--zen-ease-spring);
-    }
-    
-    .tooltip.visible {
-      opacity: 1;
-      scale: 1;
-    }
   `;
 
+  private _tooltipEl: HTMLElement | null = null;
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._removeTooltip();
+  }
+
   _show() {
+    this._createTooltip();
     this._updatePosition();
     this._visible = true;
+
+    if (this._tooltipEl) {
+      // Force reflow
+      this._tooltipEl.getBoundingClientRect();
+
+      requestAnimationFrame(() => {
+        if (this._tooltipEl) {
+          this._tooltipEl.style.opacity = '1';
+          this._tooltipEl.style.transform = 'scale(1)';
+        }
+      });
+    }
   }
 
   _hide() {
     this._visible = false;
+    if (this._tooltipEl) {
+      this._tooltipEl.style.opacity = '0';
+      this._tooltipEl.style.transform = 'scale(0.95)';
+
+      // Wait for transition to finish before removing
+      setTimeout(() => this._removeTooltip(), 200);
+    }
+  }
+
+  _createTooltip() {
+    if (this._tooltipEl) return;
+
+    this._tooltipEl = document.createElement('div');
+    this._tooltipEl.className = 'zen-tooltip-portal';
+    this._tooltipEl.textContent = this.content;
+
+    // Copy styles from component to portal
+    Object.assign(this._tooltipEl.style, {
+      position: 'fixed',
+      background: 'var(--zen-bg-2)',
+      color: 'var(--zen-text-1)',
+      border: '1px solid var(--zen-glass-border)',
+      padding: '6px 12px',
+      fontSize: '0.85rem',
+      borderRadius: '6px',
+      whiteSpace: 'nowrap',
+      pointerEvents: 'none',
+      zIndex: '10000',
+      boxShadow: 'var(--zen-shadow-md)',
+      fontFamily: 'var(--zen-font-family, sans-serif)',
+      fontWeight: '500',
+      opacity: '0',
+      transform: 'scale(0.95)',
+      transition: 'opacity 0.2s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+      top: 'var(--y, 0)',
+      left: 'var(--x, 0)'
+    });
+
+    document.body.appendChild(this._tooltipEl);
+  }
+
+  _removeTooltip() {
+    if (this._tooltipEl && this._tooltipEl.parentNode) {
+      this._tooltipEl.parentNode.removeChild(this._tooltipEl);
+    }
+    this._tooltipEl = null;
   }
 
   _updatePosition() {
-    const trigger = this.shadowRoot?.querySelector('slot')?.assignedElements()[0]
-      || this.shadowRoot?.querySelector('.trigger');
+    const trigger = this; // The host element is the trigger
+    if (!trigger || !this._tooltipEl) return;
 
-    if (!trigger) return;
+    const rect = trigger.getBoundingClientRect();
+    const tooltipRect = this._tooltipEl.getBoundingClientRect();
 
-    const rect = (trigger as Element).getBoundingClientRect();
-    
-
-    
     let top = 0;
     let left = 0;
-
-    
-    
-    
-    
-
     const gap = 8;
+
+    // Default dimensions if not yet rendered (approximation)
+    const width = tooltipRect.width || 100;
+    const height = tooltipRect.height || 30;
 
     switch (this.position) {
       case 'top':
-        top = rect.top - gap;
-        left = rect.left + rect.width / 2;
+        top = rect.top - gap - height;
+        left = rect.left + (rect.width / 2) - (width / 2);
         break;
       case 'bottom':
         top = rect.bottom + gap;
-        left = rect.left + rect.width / 2;
+        left = rect.left + (rect.width / 2) - (width / 2);
         break;
-      
+      default:
+        top = rect.top - gap - height;
+        left = rect.left + (rect.width / 2) - (width / 2);
     }
 
-    this._x = left;
-    this._y = top;
+    this._tooltipEl.style.setProperty('--x', `${left}px`);
+    this._tooltipEl.style.setProperty('--y', `${top}px`);
   }
 
   render() {
-    
-
-    let transformBase = '';
-    if (this.position === 'top') transformBase = 'translate(-50%, -100%)';
-    if (this.position === 'bottom') transformBase = 'translate(-50%, 0)';
-
-    const style = `
-      top: ${this._y}px; 
-      left: ${this._x}px; 
-      transform: ${transformBase} ${this._visible ? 'scale(1)' : 'scale(0.95)'};
-    `;
-
     return html`
       <div class="trigger" 
            @mouseenter=${this._show} 
@@ -108,12 +131,6 @@ export class ZenTooltip extends LitElement {
            @focusin=${this._show}
            @focusout=${this._hide}>
         <slot></slot>
-      </div>
-      
-      <div id="tooltip" 
-           class="tooltip ${this._visible ? 'visible' : ''}" 
-           style="${style}">
-        ${this.content}
       </div>
     `;
   }
