@@ -46,14 +46,15 @@ describe('ZenHamburgerMenu', () => {
     });
 
     it('should dispatch toggle event', async () => {
-        let receivedDetail: { open: boolean } | null = null;
+        let receivedDetail: { open: boolean } | undefined;
         menu.addEventListener('toggle', (e: Event) => {
-            receivedDetail = (e as CustomEvent).detail;
+            receivedDetail = (e as CustomEvent<{ open: boolean }>).detail;
         });
 
         (menu as unknown as { _toggle: () => void })._toggle();
 
-        expect(receivedDetail?.open).toBe(true);
+        expect(receivedDetail).toBeDefined();
+        expect(receivedDetail!.open).toBe(true);
     });
 
     it('should close on _close()', async () => {
@@ -70,14 +71,15 @@ describe('ZenHamburgerMenu', () => {
         menu.open = true;
         await menu.updateComplete;
 
-        let receivedDetail: { open: boolean } | null = null;
+        let receivedDetail: { open: boolean } | undefined;
         menu.addEventListener('toggle', (e: Event) => {
-            receivedDetail = (e as CustomEvent).detail;
+            receivedDetail = (e as CustomEvent<{ open: boolean }>).detail;
         });
 
         (menu as unknown as { _close: () => void })._close();
 
-        expect(receivedDetail?.open).toBe(false);
+        expect(receivedDetail).toBeDefined();
+        expect(receivedDetail!.open).toBe(false);
     });
 
     it('should render hamburger button', async () => {

@@ -37,15 +37,16 @@ describe('ZenRadio', () => {
     });
 
     it('should dispatch change event on toggle', async () => {
-        let receivedDetail: { checked: boolean; value: string } | null = null;
+        let receivedDetail: { checked: boolean; value: string } | undefined;
         radio.addEventListener('change', (e: Event) => {
-            receivedDetail = (e as CustomEvent).detail;
+            receivedDetail = (e as CustomEvent<{ checked: boolean; value: string }>).detail;
         });
 
         (radio as unknown as { _toggle: () => void })._toggle();
 
-        expect(receivedDetail?.checked).toBe(true);
-        expect(receivedDetail?.value).toBe('option1');
+        expect(receivedDetail).toBeDefined();
+        expect(receivedDetail!.checked).toBe(true);
+        expect(receivedDetail!.value).toBe('option1');
     });
 
     it('should not toggle when disabled', async () => {

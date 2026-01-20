@@ -78,14 +78,15 @@ describe('ZenNotificationBell', () => {
         bell.notifications = [notification];
         await bell.updateComplete;
 
-        let receivedNotification: Notification | null = null;
+        let receivedNotification: Notification | undefined;
         bell.addEventListener('notificationClick', (e: Event) => {
-            receivedNotification = (e as CustomEvent).detail;
+            receivedNotification = (e as CustomEvent<Notification>).detail;
         });
 
         (bell as unknown as { _handleNotificationClick: (n: Notification) => void })._handleNotificationClick(notification);
 
-        expect(receivedNotification?.id).toBe('1');
+        expect(receivedNotification).toBeDefined();
+        expect(receivedNotification!.id).toBe('1');
     });
 
     it('should close on outside click', async () => {
