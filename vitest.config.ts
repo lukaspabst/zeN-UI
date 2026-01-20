@@ -10,15 +10,39 @@ const dirname =
 export default defineConfig({
   test: {
     globals: true,
-    environment: 'jsdom',
-    include: ['src/**/*.test.ts'],
     coverage: {
       provider: 'v8',
       include: ['src/lib/**/*.ts'],
-      exclude: ['src/lib/**/*.stories.ts', 'src/lib/index.ts'],
+      exclude: ['src/lib/**/*.stories.ts', 'src/lib/**/*.test.ts', 'src/lib/index.ts'],
+      thresholds: {
+        statements: 90,
+        lines: 90,
+        branches: 50,
+        functions: 70,
+        perFile: true
+      }
     },
     passWithNoTests: true,
     projects: [
+      // Unit tests project
+      {
+        extends: true,
+        test: {
+          name: 'unit',
+          include: ['src/**/*.test.ts'],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright({}),
+            instances: [
+              {
+                browser: 'chromium',
+              },
+            ],
+          },
+        },
+      },
+      // Storybook tests project
       {
         extends: true,
         plugins: [
@@ -46,3 +70,4 @@ export default defineConfig({
     ],
   },
 });
+

@@ -6,6 +6,8 @@ import '../navigation/ui-nav-button';
 import '../card/ui-card';
 import './ui-theme-toggle';
 import './ui-theme-picker';
+import { ZenThemeToggle } from './ui-theme-toggle';
+import { ZenThemePicker } from './ui-theme-picker';
 import '../../styles/variables.css';
 
 const meta: Meta = {
@@ -89,6 +91,69 @@ export const ThemingDemo: Story = {
       </main>
     </div>
   `,
+  parameters: {
+    a11y: { disable: true },
+  },
+};
+
+export const ThemeToggleStandalone: Story = {
+  render: () => html`
+    <div style="padding: 40px; display: flex; flex-direction: column; gap: 24px; align-items: center;">
+      <zen-theme-toggle @theme-change=${(e: CustomEvent) => console.log('Theme changed to:', e.detail.mode)}></zen-theme-toggle>
+      <p style="color: var(--zen-text-2); font-size: 0.875rem; margin: 0;">
+        Click to cycle through: Light → Dark → System
+      </p>
+    </div>
+  `,
+  parameters: {
+    a11y: { disable: true },
+  },
+};
+
+export const ThemeToggleProgrammatic: Story = {
+  render: () => {
+    const cycleTheme = () => {
+      const toggle = document.querySelector('zen-theme-toggle') as ZenThemeToggle;
+      if (toggle) {
+        (toggle as unknown as { _cycleMode: () => void })._cycleMode();
+      }
+    };
+
+    return html`
+      <div style="padding: 40px; display: flex; flex-direction: column; gap: 24px; align-items: center;">
+        <zen-theme-toggle @theme-change=${(e: CustomEvent) => console.log('Theme changed to:', e.detail.mode)}></zen-theme-toggle>
+        <button @click=${cycleTheme} style="padding: 8px 16px; cursor: pointer;">
+          Cycle Theme Programmatically
+        </button>
+      </div>
+    `;
+  },
+  parameters: {
+    a11y: { disable: true },
+  },
+};
+
+export const ThemePickerStandalone: Story = {
+  render: () => {
+    const selectTheme = (theme: string) => {
+      const picker = document.querySelector('zen-theme-picker') as ZenThemePicker;
+      if (picker) {
+        (picker as unknown as { _selectTheme: (t: string) => void })._selectTheme(theme);
+      }
+    };
+
+    return html`
+      <div style="padding: 40px; display: flex; flex-direction: column; gap: 24px; align-items: center;">
+        <zen-theme-picker @color-theme-change=${(e: CustomEvent) => console.log('Color theme changed to:', e.detail.theme)}></zen-theme-picker>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button @click=${() => selectTheme('default')} style="padding: 8px 16px; cursor: pointer;">Default</button>
+          <button @click=${() => selectTheme('ocean')} style="padding: 8px 16px; cursor: pointer;">Ocean</button>
+          <button @click=${() => selectTheme('sunset')} style="padding: 8px 16px; cursor: pointer;">Sunset</button>
+          <button @click=${() => selectTheme('emerald')} style="padding: 8px 16px; cursor: pointer;">Emerald</button>
+        </div>
+      </div>
+    `;
+  },
   parameters: {
     a11y: { disable: true },
   },
