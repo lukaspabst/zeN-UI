@@ -133,7 +133,7 @@ describe('ZenCommandPalette', () => {
         input.dispatchEvent(new Event('input'));
         await palette.updateComplete;
 
-        expect((palette as any)._selectedIndex).toBe(0);
+        expect((palette as unknown as { _selectedIndex: number })._selectedIndex).toBe(0);
     });
 
     it('should navigate items with arrow keys', async () => {
@@ -148,11 +148,11 @@ describe('ZenCommandPalette', () => {
         document.dispatchEvent(downEvent);
         await palette.updateComplete;
 
-        expect((palette as any)._selectedIndex).toBe(1);
+        expect((palette as unknown as { _selectedIndex: number })._selectedIndex).toBe(1);
 
         document.dispatchEvent(downEvent);
         await palette.updateComplete;
-        expect((palette as any)._selectedIndex).toBe(2);
+        expect((palette as unknown as { _selectedIndex: number })._selectedIndex).toBe(2);
 
         const upEvent = new KeyboardEvent('keydown', {
             key: 'ArrowUp',
@@ -162,7 +162,7 @@ describe('ZenCommandPalette', () => {
         document.dispatchEvent(upEvent);
         await palette.updateComplete;
 
-        expect((palette as any)._selectedIndex).toBe(1);
+        expect((palette as unknown as { _selectedIndex: number })._selectedIndex).toBe(1);
     });
 
     it('should clamp navigation within bounds', async () => {
@@ -173,15 +173,15 @@ describe('ZenCommandPalette', () => {
         const upEvent = new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true });
         document.dispatchEvent(upEvent);
         await palette.updateComplete;
-        expect((palette as any)._selectedIndex).toBe(0);
+        expect((palette as unknown as { _selectedIndex: number })._selectedIndex).toBe(0);
 
         // Try to go down past last item (4 items total, index 3)
         // Set index to 3 first
-        (palette as any)._selectedIndex = 3;
+        (palette as unknown as { _selectedIndex: number })._selectedIndex = 3;
         const downEvent = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true });
         document.dispatchEvent(downEvent);
         await palette.updateComplete;
-        expect((palette as any)._selectedIndex).toBe(3);
+        expect((palette as unknown as { _selectedIndex: number })._selectedIndex).toBe(3);
     });
 
     it('should select item on click and dispatch event', async () => {

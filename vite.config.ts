@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
 
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(() => {
     const isStorybookBuild = process.argv.some(arg => arg.includes('storybook'));
 
     return {

@@ -32,7 +32,7 @@ describe('ZenDonutChart', () => {
 
     it('should render segments correctly', async () => {
         // Trigger visibility
-        (chart as any)._visible = true;
+        (chart as unknown as { _visible: boolean })._visible = true;
         await chart.updateComplete;
 
         const segments = chart.shadowRoot?.querySelectorAll('.segment');
@@ -61,13 +61,13 @@ describe('ZenDonutChart', () => {
         firstSegment.dispatchEvent(new MouseEvent('mouseenter'));
         await chart.updateComplete;
 
-        expect((chart as any)._hoveredIndex).toBe(0);
+        expect((chart as unknown as { _hoveredIndex: number })._hoveredIndex).toBe(0);
         expect(firstSegment.classList.contains('hovered')).toBe(true);
 
         firstSegment.dispatchEvent(new MouseEvent('mouseleave'));
         await chart.updateComplete;
 
-        expect((chart as any)._hoveredIndex).toBe(-1);
+        expect((chart as unknown as { _hoveredIndex: number })._hoveredIndex).toBe(-1);
         expect(firstSegment.classList.contains('hovered')).toBe(false);
     });
 
@@ -79,6 +79,6 @@ describe('ZenDonutChart', () => {
         firstItem.dispatchEvent(new MouseEvent('mouseenter'));
         await chart.updateComplete;
 
-        expect((chart as any)._hoveredIndex).toBe(0);
+        expect((chart as unknown as { _hoveredIndex: number })._hoveredIndex).toBe(0);
     });
 });

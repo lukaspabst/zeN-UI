@@ -4,6 +4,7 @@ import { customElement, property } from 'lit/decorators.js';
 @customElement('zen-table')
 export class ZenTable extends LitElement {
   @property({ type: Array }) columns: { header: string; key: string }[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @property({ type: Array }) data: any[] = [];
 
   static styles = css`

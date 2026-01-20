@@ -41,7 +41,7 @@ describe('ZenHoverCard', () => {
     });
 
     it('should update rotation on mouse move', async () => {
-        const cardDiv = card.shadowRoot?.querySelector('.card') as HTMLElement;
+        card.shadowRoot?.querySelector('.card') as HTMLElement;
 
         // Mock getBoundingClientRect
         card.getBoundingClientRect = () => ({

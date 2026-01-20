@@ -32,7 +32,7 @@ describe('ZenCounter', () => {
         await counter.updateComplete;
 
         // Force display value update since animation might not run in test environment easily
-        (counter as any)._displayValue = 1234.56;
+        (counter as unknown as { _displayValue: number })._displayValue = 1234.56;
         await counter.requestUpdate();
         await counter.updateComplete;
 
@@ -44,7 +44,7 @@ describe('ZenCounter', () => {
         counter.prefix = '$';
         counter.suffix = ' USD';
         counter.value = 100;
-        (counter as any)._displayValue = 100;
+        (counter as unknown as { _displayValue: number })._displayValue = 100;
         await counter.updateComplete;
 
         const prefix = counter.shadowRoot?.querySelector('.prefix');
@@ -62,11 +62,11 @@ describe('ZenCounter', () => {
         counter.start();
 
         // Check initial state
-        expect((counter as any)._hasStarted).toBe(true); // start() sets check to false then _startAnimation sets it to true? 
+        expect((counter as unknown as { _hasStarted: boolean })._hasStarted).toBe(true); // start() sets check to false then _startAnimation sets it to true? 
         // Code: this._hasStarted = false; this._displayValue = 0; this._startAnimation();
         // _startAnimation sets this._hasStarted = true;
 
-        expect((counter as any)._displayValue).toBe(0);
+        expect((counter as unknown as { _displayValue: number })._displayValue).toBe(0);
 
         // Advance time 50%
         vi.advanceTimersByTime(500);
@@ -82,6 +82,6 @@ describe('ZenCounter', () => {
     it('should handle intersection observer callback', async () => {
         // Mock IntersectionObserver logic if needed, or trigger it via private method if possible or just assume connectedCallback sets it up.
         // We can test if observer is created.
-        expect((counter as any)._observer).toBeInstanceOf(IntersectionObserver);
+        expect((counter as unknown as { _observer: IntersectionObserver })._observer).toBeInstanceOf(IntersectionObserver);
     });
 });

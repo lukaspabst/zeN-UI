@@ -1,9 +1,9 @@
-import { LitElement, css, html } from 'lit';
+import { LitElement, css, html, PropertyValues } from 'lit';
 import { customElement, property, state, queryAssignedElements } from 'lit/decorators.js';
 
 @customElement('zen-tabs')
 export class ZenTabs extends LitElement {
-  @property({ type: String }) active = ''; 
+  @property({ type: String }) active = '';
 
   static styles = css`
     :host {
@@ -55,7 +55,7 @@ export class ZenTabs extends LitElement {
     this._updateIndicator();
   }
 
-  updated(changed: Map<string, any>) {
+  updated(changed: PropertyValues) {
     if (changed.has('active')) {
       this._updateIndicator();
     }
@@ -85,7 +85,7 @@ export class ZenTabs extends LitElement {
       this._indicatorLeft = tabRect.left - listRect.left;
       this._indicatorWidth = tabRect.width;
 
-      
+
       this._tabs.forEach(t => {
         if (t === activeTab) t.setAttribute('active', '');
         else t.removeAttribute('active');
@@ -110,7 +110,7 @@ export class ZenTabs extends LitElement {
 export class ZenTab extends LitElement {
   @property({ type: String }) value = '';
 
-  
+
   static styles = css`
     :host { display: inline-block; }
   `;
@@ -122,9 +122,9 @@ export class ZenTabPanel extends LitElement {
   @property({ type: String }) value = '';
 
   render() {
-    
-    
-    
+
+
+
     return html`
       <style>
         :host { display: none; }
@@ -135,20 +135,20 @@ export class ZenTabPanel extends LitElement {
     `;
   }
 
-  
-  
-  
+
+
+
   connectedCallback() {
     super.connectedCallback();
     this.parentElement?.addEventListener('change', this._onParentChange);
-    
+
     this._checkActive();
   }
 
   _onParentChange = () => this._checkActive();
 
   _checkActive() {
-    const parent = this.closest('zen-tabs') as any;
+    const parent = this.closest('zen-tabs') as ZenTabs;
     if (parent && parent.active === this.value) {
       this.style.display = 'block';
       this.style.animation = 'fadeIn 0.3s ease';

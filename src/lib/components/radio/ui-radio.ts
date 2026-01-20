@@ -1,4 +1,4 @@
-import { LitElement, css, html } from 'lit';
+import { LitElement, css, html, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 @customElement('zen-radio')
@@ -96,7 +96,7 @@ export class ZenRadio extends LitElement {
     }
   }
 
-  updated(changedProperties: Map<string, any>) {
+  updated(changedProperties: PropertyValues) {
     if (changedProperties.has('checked')) {
       this.setAttribute('aria-checked', this.checked ? 'true' : 'false');
     }
