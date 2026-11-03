@@ -26,8 +26,8 @@ export function ZenAudioController({
         mono
         pressed={synth.active}
         onClick={synth.toggle}
-        aria-label="Toggle Lo-Fi background audio"
-        className={`px-3.5 py-2 ${className}`.trim()}
+        aria-label="Toggle procedural ambient synthesizer"
+        className={className}
         iconLeft={
           synth.active ? (
             <Volume2 className="w-3.5 h-3.5 animate-pulse" />

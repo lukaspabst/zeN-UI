@@ -6,7 +6,6 @@ export interface ZenNavbarProps {
   readonly brandSubtitle?: ReactNode;
   readonly navSlot?: ReactNode;
   readonly actionsSlot?: ReactNode;
-  readonly containerClassName?: string;
   readonly className?: string;
 }
 
@@ -15,7 +14,6 @@ export function ZenNavbar({
   brandSubtitle,
   navSlot,
   actionsSlot,
-  containerClassName = 'max-w-7xl mx-auto px-4 sm:px-8 h-20',
   className = '',
 }: ZenNavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -36,15 +34,13 @@ export function ZenNavbar({
       data-zen-occlude="true"
       className={`fixed top-0 inset-x-0 z-30 border-b border-[var(--zen-border-subtle)] bg-[var(--zen-surface-header)] backdrop-blur-xl ${className}`.trim()}
     >
-      <div
-        className={`${containerClassName} flex items-center justify-between gap-4`}
-      >
-        <div className="min-w-0">
-          <span className="zen-font-serif italic text-2xl sm:text-3xl tracking-tight text-[var(--zen-ink-primary)]">
+      <div className="max-w-[90rem] mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-4">
+        <div className="flex items-baseline gap-2.5 min-w-0">
+          <span className="zen-font-serif italic text-xl sm:text-3xl tracking-tight text-[var(--zen-ink-primary)] truncate">
             {brandTitle}
           </span>
           {brandSubtitle && (
-            <span className="hidden md:inline-block ml-3 zen-font-mono text-xs text-[var(--zen-ink-muted)]">
+            <span className="hidden xl:inline-block zen-telemetry-label truncate">
               {brandSubtitle}
             </span>
           )}
@@ -59,7 +55,7 @@ export function ZenNavbar({
           </nav>
         )}
 
-        <div className="flex items-center gap-2.5 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           {actionsSlot}
 
           {navSlot && (
