@@ -462,45 +462,16 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
     font-family: var(--zen-font-sans);
     background-color: var(--zen-bg-canvas);
     color: var(--zen-ink-primary);
-    scrollbar-width: thin;
-    scrollbar-color: var(--zen-accent-primary) var(--zen-bg-elevated);
   }
 
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--zen-accent-primary) var(--zen-bg-elevated);
-  }
-
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: var(--zen-bg-elevated);
-    border-left: 1px solid var(--zen-border-subtle);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: color-mix(in srgb, var(--zen-accent-primary) 62%, var(--zen-surface-3));
-    border: 2px solid var(--zen-bg-elevated);
-    border-radius: var(--zen-radius-pill);
-    transition: background-color var(--zen-duration-fast) var(--zen-ease-out-quad);
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--zen-accent-primary);
-  }
-
-  ::-webkit-scrollbar-thumb:active {
-    background: var(--zen-accent-primary-active);
-  }
-
-  ::-webkit-scrollbar-corner {
-    background: var(--zen-bg-elevated);
+  body {
+    overflow-x: clip;
+    background-color: var(--zen-bg-canvas);
+    color: var(--zen-ink-primary);
   }
 
   ::selection {
@@ -509,6 +480,64 @@
   }
 }
 
+@supports (-moz-appearance: none) {
+  html,
+  body,
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--zen-accent-primary) var(--zen-bg-elevated);
+  }
+}
+
+::-webkit-scrollbar,
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track,
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+*::-webkit-scrollbar-track {
+  background: var(--zen-bg-elevated);
+  border-left: 1px solid var(--zen-border-subtle);
+}
+
+::-webkit-scrollbar-thumb,
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--zen-accent-primary) 68%, var(--zen-bg-elevated));
+  border: 2px solid var(--zen-bg-elevated);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover,
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover,
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--zen-accent-primary);
+  border: 2px solid var(--zen-bg-elevated);
+}
+
+::-webkit-scrollbar-thumb:active,
+html::-webkit-scrollbar-thumb:active,
+body::-webkit-scrollbar-thumb:active,
+*::-webkit-scrollbar-thumb:active {
+  background-color: var(--zen-accent-primary-active);
+  border: 2px solid var(--zen-bg-elevated);
+}
+
+::-webkit-scrollbar-corner,
+html::-webkit-scrollbar-corner,
+body::-webkit-scrollbar-corner,
+*::-webkit-scrollbar-corner {
+  background: var(--zen-bg-elevated);
+}
+
+@layer components {
 .zen-root {
   background-color: var(--zen-bg-canvas);
   color: var(--zen-ink-primary);
@@ -842,6 +871,7 @@
   color: var(--zen-ink-secondary);
   border: 1px solid var(--zen-border-control);
   box-shadow: inset 0 -1px 0 0 var(--zen-border-strong);
+}
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -147,6 +147,78 @@ export interface ZenThemeProviderProps {
   readonly children: ReactNode;
 }
 
+export function syncZenScrollbarStyles(
+  themeMeta: ZenThemeMetadata,
+  overrides?: ZenThemeTokenOverrides
+): void {
+  if (typeof document === 'undefined') return;
+  const accent = overrides?.accentPrimary ?? themeMeta.accentHex;
+  const track = overrides?.bgCanvas ?? themeMeta.canvasHex;
+  const borderSubtle =
+    themeMeta.polarity === 'dark'
+      ? 'rgba(255, 255, 255, 0.12)'
+      : 'rgba(15, 23, 42, 0.14)';
+
+  const styleId = 'zen-theme-scrollbar';
+  let styleEl = document.getElementById(styleId) as HTMLStyleElement | null;
+  if (!styleEl) {
+    styleEl = document.createElement('style');
+    styleEl.id = styleId;
+    document.head.appendChild(styleEl);
+  }
+
+  styleEl.textContent = `
+@supports (-moz-appearance: none) {
+  html, body, * {
+    scrollbar-width: thin;
+    scrollbar-color: ${accent} ${track};
+  }
+}
+::-webkit-scrollbar,
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track,
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+*::-webkit-scrollbar-track {
+  background-color: ${track};
+  border-left: 1px solid ${borderSubtle};
+}
+::-webkit-scrollbar-thumb,
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, ${accent} 68%, ${track});
+  border: 2px solid ${track};
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover,
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover,
+*::-webkit-scrollbar-thumb:hover {
+  background-color: ${accent};
+  border: 2px solid ${track};
+}
+::-webkit-scrollbar-thumb:active,
+html::-webkit-scrollbar-thumb:active,
+body::-webkit-scrollbar-thumb:active,
+*::-webkit-scrollbar-thumb:active {
+  background-color: ${themeMeta.secondaryHex};
+  border: 2px solid ${track};
+}
+::-webkit-scrollbar-corner,
+html::-webkit-scrollbar-corner,
+body::-webkit-scrollbar-corner,
+*::-webkit-scrollbar-corner {
+  background-color: ${track};
+}
+`.trim();
+}
+
 export function ZenThemeProvider({
   defaultTheme = 'blackwall-crimson',
   defaultDensity = 'comfortable',
@@ -202,7 +274,9 @@ export function ZenThemeProvider({
     } else {
       root.style.removeProperty('--zen-ink-primary');
     }
-  }, [theme, themeMeta.polarity, density, radius, overrides, syncDocumentRoot]);
+
+    syncZenScrollbarStyles(themeMeta, overrides);
+  }, [theme, themeMeta, density, radius, overrides, syncDocumentRoot]);
 
   const togglePolarity = () => {
     setTheme((prev) => {

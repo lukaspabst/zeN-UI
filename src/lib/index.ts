@@ -4,6 +4,7 @@ export const ZEN_PACKAGE_NAME = '@zen-ui/system';
 export {
   ZenThemeProvider,
   useZenTheme,
+  syncZenScrollbarStyles,
   ZEN_THEMES,
   type ZenThemeId,
   type ZenThemeMode,

@@ -1,8 +1,9 @@
-import type {
-  ZenDensityMode,
-  ZenRadiusMode,
-  ZenThemeId,
-  ZenThemeMetadata,
+import {
+  syncZenScrollbarStyles,
+  type ZenDensityMode,
+  type ZenRadiusMode,
+  type ZenThemeId,
+  type ZenThemeMetadata,
 } from '../theme/ZenThemeProvider';
 import type {
   ZenAICameraFraming,
@@ -270,6 +271,10 @@ export class ZenThemeController {
     root.setAttribute('data-polarity', this.state.polarity);
     root.setAttribute('data-density', this.state.density);
     root.setAttribute('data-radius', this.state.radius);
+    const meta =
+      ZEN_UNIVERSAL_THEMES.find((t) => t.id === this.state.theme) ??
+      ZEN_UNIVERSAL_THEMES[0];
+    syncZenScrollbarStyles(meta);
   }
 
   private notify(): void {
