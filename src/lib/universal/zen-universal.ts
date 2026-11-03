@@ -492,7 +492,7 @@ export class ZenAIConstructElement extends HTMLElement {
             <button type="button" data-framing="full" class="zen-btn-base zen-btn-sm ${this.framing === 'full' ? 'zen-btn-primary' : 'zen-btn-ghost'}">Full Pose</button>
           </div>
         </div>
-        <div style="position: relative; height: 20rem; border-radius: 1rem; overflow: hidden; background: radial-gradient(circle at 50% 32%, rgba(255,46,147,0.22), rgba(5,5,8,0.96) 72%); border: 1px solid var(--zen-border-default); display: flex; align-items: center; justify-content: center;">
+        <div style="position: relative; height: 20rem; border-radius: 1rem; overflow: hidden; background: radial-gradient(circle at 50% 32%, rgba(var(--zen-accent-rgb), 0.18), var(--zen-bg-elevated) 72%); border: 1px solid var(--zen-border-default); display: flex; align-items: center; justify-content: center;">
           <div data-capri-figure style="${this.framing === 'portrait' ? 'width: 21rem; max-width: 92%; margin-top: 8.5rem;' : 'height: 18.5rem;'} position: relative; aspect-ratio: 623 / 1000; user-select: none; pointer-events: none;">
             <img src="${imageSrc}" alt="Capri Construct" style="width: 100%; height: 100%; object-fit: contain; display: block;" />
             <canvas data-capri-eyes width="623" height="1000" style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;"></canvas>

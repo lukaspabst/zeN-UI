@@ -465,6 +465,42 @@
     font-family: var(--zen-font-sans);
     background-color: var(--zen-bg-canvas);
     color: var(--zen-ink-primary);
+    scrollbar-width: thin;
+    scrollbar-color: var(--zen-accent-primary) var(--zen-bg-elevated);
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--zen-accent-primary) var(--zen-bg-elevated);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--zen-bg-elevated);
+    border-left: 1px solid var(--zen-border-subtle);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--zen-accent-primary) 62%, var(--zen-surface-3));
+    border: 2px solid var(--zen-bg-elevated);
+    border-radius: var(--zen-radius-pill);
+    transition: background-color var(--zen-duration-fast) var(--zen-ease-out-quad);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--zen-accent-primary);
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background: var(--zen-accent-primary-active);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: var(--zen-bg-elevated);
   }
 
   ::selection {
@@ -505,6 +541,9 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   font-variant-numeric: tabular-nums;
+}
+
+:where(.zen-telemetry-label) {
   color: var(--zen-ink-muted);
 }
 

@@ -111,7 +111,7 @@ export function ZenAIConstruct({
   compact = false,
   className = '',
 }: ZenAIConstructProps) {
-  const { themeMeta, reducedMotion, setTheme, setRadius, setDensity } = useZenTheme();
+  const { polarity, themeMeta, reducedMotion, setTheme, setRadius, setDensity } = useZenTheme();
   const [activeMode, setActiveMode] = useState<ZenAIPersonaMode>(defaultMode);
   const [framing, setFraming] = useState<ZenAICameraFraming>(defaultFraming);
   const [voiceEnabled, setVoiceEnabled] = useState<boolean>(false);
@@ -166,6 +166,7 @@ export function ZenAIConstruct({
       zoomInterpRef.current += (targetZoom - zoomInterpRef.current) * 0.12;
       const z = zoomInterpRef.current;
 
+      const isLight = polarity === 'light';
       const crimsonRed = '#FF003C';
       const hotPink = '#FF1268';
       const acidGreen = '#00FF44';
@@ -178,6 +179,26 @@ export function ZenAIConstruct({
       const cy = height * 0.48;
       const radiusScale = Math.min(width, height) * 0.42;
 
+      if (isLight) {
+        ctx.save();
+        ctx.strokeStyle = 'rgba(15, 23, 42, 0.05)';
+        ctx.lineWidth = 1;
+        const step = 28;
+        for (let gx = step; gx < width; gx += step) {
+          ctx.beginPath();
+          ctx.moveTo(gx, 0);
+          ctx.lineTo(gx, height);
+          ctx.stroke();
+        }
+        for (let gy = step; gy < height; gy += step) {
+          ctx.beginPath();
+          ctx.moveTo(0, gy);
+          ctx.lineTo(width, gy);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
       const bgGlow = ctx.createRadialGradient(
         cx + px * 10,
         cy - 12 + py * 8,
@@ -186,10 +207,17 @@ export function ZenAIConstruct({
         cy,
         radiusScale * 1.45
       );
-      bgGlow.addColorStop(0, 'rgba(255, 0, 56, 0.24)');
-      bgGlow.addColorStop(0.55, 'rgba(180, 12, 72, 0.10)');
-      bgGlow.addColorStop(0.85, 'rgba(110, 24, 150, 0.04)');
-      bgGlow.addColorStop(1, 'transparent');
+      if (isLight) {
+        bgGlow.addColorStop(0, `${themeMeta.accentHex}29`);
+        bgGlow.addColorStop(0.55, 'rgba(225, 29, 72, 0.10)');
+        bgGlow.addColorStop(0.85, `${themeMeta.secondaryHex}12`);
+        bgGlow.addColorStop(1, 'transparent');
+      } else {
+        bgGlow.addColorStop(0, 'rgba(255, 0, 56, 0.24)');
+        bgGlow.addColorStop(0.55, 'rgba(180, 12, 72, 0.10)');
+        bgGlow.addColorStop(0.85, 'rgba(110, 24, 150, 0.04)');
+        bgGlow.addColorStop(1, 'transparent');
+      }
       ctx.fillStyle = bgGlow;
       ctx.fillRect(0, 0, width, height);
 
@@ -235,7 +263,16 @@ export function ZenAIConstruct({
           ctx.restore();
         }
 
-        ctx.drawImage(sprite, drawX, drawY, targetW, targetH);
+        if (isLight) {
+          ctx.save();
+          ctx.shadowColor = 'rgba(15, 23, 42, 0.22)';
+          ctx.shadowBlur = 18;
+          ctx.shadowOffsetY = 6;
+          ctx.drawImage(sprite, drawX, drawY, targetW, targetH);
+          ctx.restore();
+        } else {
+          ctx.drawImage(sprite, drawX, drawY, targetW, targetH);
+        }
 
         const blinkCycle = Math.sin(time * 1.1 - 1.2);
         const isBlinking = blinkCycle > 0.992;
@@ -299,8 +336,17 @@ export function ZenAIConstruct({
           (4 +
             Math.abs(Math.sin(time * 4.2 + b * 0.45)) *
               (9 + pulseBoost * 8));
-        ctx.fillStyle =
-          b % 3 === 0 ? crimsonRed : b % 5 === 0 ? acidGreen : hotPink;
+        ctx.fillStyle = isLight
+          ? b % 3 === 0
+            ? themeMeta.accentHex
+            : b % 5 === 0
+              ? themeMeta.secondaryHex
+              : crimsonRed
+          : b % 3 === 0
+            ? crimsonRed
+            : b % 5 === 0
+              ? acidGreen
+              : hotPink;
         ctx.fillRect(
           startX + b * barWidth,
           baseY - amp * 0.5,
@@ -315,7 +361,7 @@ export function ZenAIConstruct({
 
     rafId = window.requestAnimationFrame(render);
     return () => window.cancelAnimationFrame(rafId);
-  }, [themeMeta.accentHex, themeMeta.secondaryHex, reducedMotion, pulseBoost, framing]);
+  }, [polarity, themeMeta.accentHex, themeMeta.secondaryHex, reducedMotion, pulseBoost, framing]);
 
   const handleSelectDirective = (next: ZenAIPersonaMode) => {
     setActiveMode(next);
@@ -355,10 +401,10 @@ export function ZenAIConstruct({
         <div
           className={`${
             compact ? 'lg:col-span-5' : 'lg:col-span-5'
-          } relative flex flex-col items-center justify-center rounded-2xl bg-[#07050B] border border-[var(--zen-accent-border)] p-2.5 sm:p-3 overflow-hidden shadow-inner`}
+          } relative flex flex-col items-center justify-center rounded-2xl bg-[var(--zen-bg-elevated)] border border-[var(--zen-accent-border)] p-2.5 sm:p-3 overflow-hidden shadow-inner transition-colors`}
         >
           <div className="w-full flex flex-wrap items-center justify-between gap-2 px-2 pt-1 z-10">
-            <span className="zen-telemetry-label text-[#00FF66] flex items-center gap-1.5 truncate">
+            <span className="zen-telemetry-label text-[var(--zen-accent-primary)] font-semibold flex items-center gap-1.5 truncate">
               <Radio className="w-3.5 h-3.5 animate-pulse shrink-0" />
               <span className="truncate">{directive.frequency}</span>
             </span>
@@ -368,7 +414,7 @@ export function ZenAIConstruct({
                 onClick={() =>
                   setFraming((prev) => (prev === 'portrait' ? 'full' : 'portrait'))
                 }
-                className="zen-focus-ring inline-flex items-center gap-1 px-2 py-0.5 rounded-full border border-[#00FF66]/45 bg-[#00FF66]/10 zen-font-mono text-[10px] text-[#00FF66] hover:bg-[#00FF66]/20 cursor-pointer transition-colors"
+                className="zen-focus-ring inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border border-[var(--zen-accent-border)] bg-[var(--zen-accent-subtle)] zen-font-mono text-[10px] font-medium text-[var(--zen-accent-primary)] hover:bg-[var(--zen-surface-subtle-hover)] cursor-pointer transition-colors"
               >
                 {framing === 'portrait' ? (
                   <>
@@ -394,9 +440,9 @@ export function ZenAIConstruct({
             className="w-full h-72 sm:h-96 block"
           />
 
-          <div className="w-full flex items-center justify-between gap-2 px-2 pb-1 zen-telemetry-label text-[#c8d0dc]">
+          <div className="w-full flex items-center justify-between gap-2 px-2 pb-1 zen-telemetry-label text-[var(--zen-ink-secondary)]">
             <span className="truncate">ARASAKA // MIXED CONSTRUCT</span>
-            <span className="shrink-0" style={{ color: '#00FF66' }}>
+            <span className="shrink-0 font-semibold text-[var(--zen-accent-primary)]">
               {themeMeta.name.toUpperCase()}
             </span>
           </div>
