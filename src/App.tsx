@@ -194,9 +194,9 @@ export default function App() {
 
       <ZenNavbar
         brandTitle={
-          <span className="inline-flex items-center gap-2.5">
-            <span>zeN-UI // CAPRI</span>
-            <ZenBadge tone="gold" pulse>
+          <span className="inline-flex items-center gap-1.5 sm:gap-2.5">
+            <span className="pr-0.5">zeN-UI // CAPRI</span>
+            <ZenBadge tone="gold" pulse className="shrink-0">
               v{ZEN_UI_VERSION}
             </ZenBadge>
           </span>
@@ -260,11 +260,13 @@ export default function App() {
               variant="secondary"
               size="sm"
               mono
+              aria-label="Open Command Palette (Ctrl+K)"
+              className="!px-2.5 sm:!px-3.5 !gap-0 sm:!gap-2"
               onClick={() => setCommandOpen(true)}
               iconLeft={<Search className="w-3.5 h-3.5 text-[var(--zen-accent-primary)]" />}
             >
-              <span className="hidden xs:inline">Command</span>
-              <span className="hidden sm:inline-flex">
+              <span className="hidden sm:inline">Command</span>
+              <span className="hidden md:inline-flex sm:ml-1.5">
                 <ZenKbd keys={['Ctrl', 'K']} />
               </span>
             </ZenButton>
@@ -273,6 +275,8 @@ export default function App() {
               variant="secondary"
               size="sm"
               mono
+              aria-label={polarity === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              className="!px-2.5 sm:!px-3.5 !gap-0 min-[360px]:!gap-1.5 sm:!gap-2"
               onClick={() => {
                 audio.playMicroClick(560);
                 togglePolarity();
@@ -288,7 +292,7 @@ export default function App() {
               <span className="hidden sm:inline">
                 {polarity === 'dark' ? 'Light Mode' : 'Dark Mode'}
               </span>
-              <span className="sm:hidden">
+              <span className="hidden min-[360px]:inline sm:hidden">
                 {polarity === 'dark' ? 'Light' : 'Dark'}
               </span>
             </ZenButton>
@@ -298,6 +302,24 @@ export default function App() {
               mode="pill"
               className="hidden md:inline-flex"
             />
+          </>
+        }
+        mobileActionsSlot={
+          <>
+            <ZenAudioController
+              synth={audio}
+              mode="pill"
+              className="flex-1 justify-center"
+            />
+            <ZenButton
+              variant="secondary"
+              size="sm"
+              mono
+              onClick={() => setCommandOpen(true)}
+              iconLeft={<Search className="w-3.5 h-3.5 text-[var(--zen-accent-primary)]" />}
+            >
+              Command
+            </ZenButton>
           </>
         }
       />

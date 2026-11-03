@@ -100,6 +100,17 @@ test.describe('zeN-UI // CAPRI Universal Design System & Multi-Screen Readiness'
     );
     expect(mobileOverflow).toBe(false);
 
+    const brandTitleBox = await page
+      .locator('header')
+      .getByText('zeN-UI // CAPRI')
+      .boundingBox();
+    expect(brandTitleBox).not.toBeNull();
+    expect(brandTitleBox!.width).toBeGreaterThan(80);
+
+    await expect(
+      page.locator('header').getByText('Lo-Fi Background').first()
+    ).toBeHidden();
+
     const mobileMenuToggle = page.getByRole('button', {
       name: 'Open navigation menu',
     });
@@ -110,8 +121,23 @@ test.describe('zeN-UI // CAPRI Universal Design System & Multi-Screen Readiness'
       name: 'Mobile navigation',
     });
     await expect(mobileNav).toBeVisible();
+    await expect(
+      page.locator('header').getByText('Lo-Fi Background').last()
+    ).toBeVisible();
     await mobileNav.getByText('02. 8 Themes').click();
     await expect(mobileNav).toBeHidden();
+
+    await page.setViewportSize({ width: 320, height: 568 });
+    const smallMobileOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth
+    );
+    expect(smallMobileOverflow).toBe(false);
+    const smallBrandBox = await page
+      .locator('header')
+      .getByText('zeN-UI // CAPRI')
+      .boundingBox();
+    expect(smallBrandBox).not.toBeNull();
+    expect(smallBrandBox!.width).toBeGreaterThan(75);
 
     await page.setViewportSize({ width: 768, height: 1024 });
     const tabletOverflow = await page.evaluate(
