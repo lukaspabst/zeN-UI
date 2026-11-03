@@ -43,7 +43,6 @@ import {
   ZenCopyButton,
   ZenDataTable,
   ZenDivider,
-  ZenDossierPanel,
   ZenDrawer,
   ZenDropdown,
   ZenEmptyState,
@@ -92,7 +91,6 @@ import {
 import {
   COMPONENT_BENCHMARKS,
   ORION_ACCORDION_ITEMS,
-  SHOWCASE_DOSSIERS,
   TOKEN_SWATCHES,
   WORKFLOW_STEPS,
   type ComponentBenchmarkRow,
@@ -100,7 +98,6 @@ import {
 import { ZenStorybookPlayground } from './components/ZenStorybookPlayground';
 
 type CatalogSectionTab = 'all' | 'forms' | 'navigation' | 'overlays' | 'data' | 'feedback';
-type BlueprintDomain = 'all' | 'ai' | 'saas' | 'fintech';
 
 const AMBIENT_SEGMENTS: readonly ZenSegmentItem<ZenBackgroundVariant>[] = [
   { value: 'blackwall-lattice', label: 'Blackwall Lattice' },
@@ -127,13 +124,6 @@ const CATALOG_TABS: readonly ZenTabItem<CatalogSectionTab>[] = [
   { id: 'overlays', label: 'Surfaces & Overlays', badge: '8' },
   { id: 'data', label: 'Data & Telemetry', badge: '10' },
   { id: 'feedback', label: 'Feedback & States', badge: '8' },
-];
-
-const BLUEPRINT_SEGMENTS: readonly ZenSegmentItem<BlueprintDomain>[] = [
-  { value: 'all', label: 'All Blueprints', count: 3 },
-  { value: 'ai', label: 'AI Console', count: 1 },
-  { value: 'saas', label: 'Enterprise SaaS', count: 1 },
-  { value: 'fintech', label: 'Quant Terminal', count: 1 },
 ];
 
 const FRAMEWORK_OPTIONS: readonly ZenDropdownOption<string>[] = [
@@ -355,8 +345,6 @@ export default function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const [catalogTab, setCatalogTab] = useState<CatalogSectionTab>('all');
-  const [blueprintDomain, setBlueprintDomain] = useState<BlueprintDomain>('all');
-  const [selectedBlueprintId, setSelectedBlueprintId] = useState<string>('orion-neural-console');
 
   const [projectName, setProjectName] = useState('Nexus Orbital Console');
   const [systemPrompt, setSystemPrompt] = useState(
@@ -399,14 +387,6 @@ export default function App() {
 
   const darkThemes = ZEN_THEMES.filter((item) => item.polarity === 'dark');
   const lightThemes = ZEN_THEMES.filter((item) => item.polarity === 'light');
-
-  const filteredBlueprints = SHOWCASE_DOSSIERS.filter((item) =>
-    blueprintDomain === 'all' ? true : item.domain === blueprintDomain
-  );
-
-  const activeBlueprint =
-    SHOWCASE_DOSSIERS.find((item) => item.id === selectedBlueprintId) ??
-    SHOWCASE_DOSSIERS[0];
 
   const handleTriggerDeploy = () => {
     audio.playMicroClick(680);
@@ -574,12 +554,6 @@ export default function App() {
               className="px-3 py-1.5 rounded-lg zen-font-mono text-xs text-[var(--zen-accent-primary)] font-semibold hover:text-[var(--zen-ink-primary)] transition-colors"
             >
               04. Storybook (51)
-            </a>
-            <a
-              href="#blueprints"
-              className="px-3 py-1.5 rounded-lg zen-font-mono text-xs text-[var(--zen-ink-secondary)] hover:text-[var(--zen-ink-primary)] transition-colors"
-            >
-              05. Blueprints
             </a>
           </>
         }
@@ -1608,76 +1582,6 @@ export default function App() {
           </ZenHeading>
 
           <ZenStorybookPlayground />
-        </section>
-
-        <section id="blueprints" className="space-y-8">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
-            <ZenHeading
-              as="h2"
-              size="section"
-              eyebrow="05 // UNIVERSAL PROJECT BLUEPRINTS & MASTER-DETAIL DOSSIER"
-              accentText="Blueprints"
-            >
-              Multi-Project Reference Architectures
-            </ZenHeading>
-
-            <ZenSegmentedControl
-              ariaLabel="Filter Project Blueprints"
-              size="sm"
-              items={BLUEPRINT_SEGMENTS}
-              value={blueprintDomain}
-              onChange={(next) => {
-                audio.playMicroClick(540);
-                setBlueprintDomain(next);
-              }}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            <div className="lg:col-span-5 space-y-4">
-              {filteredBlueprints.map((item) => {
-                const isSelected = item.id === activeBlueprint.id;
-                return (
-                  <ZenCard
-                    key={item.id}
-                    variant="interactive"
-                    padding="md"
-                    selected={isSelected}
-                    onSelect={() => {
-                      audio.playMicroClick(580);
-                      setSelectedBlueprintId(item.id);
-                    }}
-                    className="space-y-3"
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="zen-telemetry-label text-[var(--zen-accent-primary)]">
-                        {item.index} // {item.categoryLabel}
-                      </span>
-                      <ZenBadge tone={isSelected ? 'gold' : 'neutral'}>
-                        {item.statusPill}
-                      </ZenBadge>
-                    </div>
-
-                    <h3 className="zen-font-display text-lg font-bold text-[var(--zen-ink-primary)]">
-                      {item.title}
-                    </h3>
-
-                    <p className="text-xs text-[var(--zen-ink-secondary)] leading-relaxed">
-                      {item.story}
-                    </p>
-
-                    <div className="pt-2">
-                      <ZenTagList tags={item.tags} />
-                    </div>
-                  </ZenCard>
-                );
-              })}
-            </div>
-
-            <div className="lg:col-span-7 lg:sticky lg:top-24">
-              <ZenDossierPanel item={activeBlueprint} />
-            </div>
-          </div>
         </section>
       </main>
 

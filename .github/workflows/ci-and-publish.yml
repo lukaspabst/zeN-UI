@@ -1,4 +1,4 @@
-name: CI, Pages Deploy & NPM Publish (@zen-ui/system)
+name: CI, Pages Deploy & Package Publish (@zen-ui/system)
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
   packages: write
@@ -64,33 +64,55 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-  publish-npm:
-    name: Publish @zen-ui/system to NPM Registry
+  publish-package:
+    name: Publish Package to GitHub Packages & GitHub Releases
     needs: verify-and-audit
-    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/tags/deploy'
+    if: github.event_name == 'push' || github.event_name == 'release' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 22 for NPM Registry
+      - name: Setup Node.js 22 for GitHub Packages
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@lukaspabst'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build @zen-ui/system Package
+      - name: Build @zen-ui/system Library
         run: npm run build
 
-      - name: Verify Package Tarball Contents (Dry Run)
-        run: npm pack --dry-run
+      - name: Create Universal NPM Tarball (zen-ui-system.tgz)
+        run: |
+          TARBALL=$(npm pack)
+          cp "$TARBALL" zen-ui-system.tgz
 
-      - name: Publish to NPM (when NPM_TOKEN is configured)
-        if: env.NODE_AUTH_TOKEN != ''
+      - name: Publish @lukaspabst/zen-ui to GitHub Packages Registry
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --provenance --access public
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node -e '
+            const fs = require("fs");
+            const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+            pkg.name = "@lukaspabst/zen-ui";
+            pkg.version = `1.0.${process.env.GITHUB_RUN_NUMBER || 1}`;
+            pkg.publishConfig = { registry: "https://npm.pkg.github.com", access: "public" };
+            fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
+          '
+          npm publish
+
+      - name: Publish Release Tarball Asset (zen-ui-system.tgz) for Direct npm install
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="v1.0.${GITHUB_RUN_NUMBER}"
+          if gh release view latest >/dev/null 2>&1; then
+            gh release upload latest zen-ui-system.tgz --clobber
+          else
+            gh release create latest zen-ui-system.tgz --title "@zen-ui/system Latest Package" --notes "Install in any project via: npm install https://github.com/${GITHUB_REPOSITORY}/releases/download/latest/zen-ui-system.tgz or npm install @lukaspabst/zen-ui"
+          fi
