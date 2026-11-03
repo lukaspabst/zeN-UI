@@ -1,20 +1,37 @@
 services:
-  zen-ui-capri:
+  zen-ui-web:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    container_name: zen-ui-capri
-    ports:
-      - "5180:5180"
+    container_name: zen-ui-web
+    restart: unless-stopped
+    user: "101:101"
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=16m,uid=101,gid=101
+      - /var/cache/nginx:rw,noexec,nosuid,nodev,size=16m,uid=101,gid=101
+      - /var/run:rw,noexec,nosuid,nodev,size=4m,uid=101,gid=101
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
     extra_hosts:
       - "host.docker.internal:host-gateway"
     deploy:
       resources:
         limits:
-          memory: 384M
+          cpus: "1.0"
+          memory: 256M
+          pids: 64
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     networks:
-      - journeylink-net
+      - zen-ui-net
 
 networks:
-  journeylink-net:
-    external: true
+  zen-ui-net:
+    name: zen-ui-net
+    driver: bridge
