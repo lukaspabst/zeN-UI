@@ -436,66 +436,323 @@ function runZenAudit(rootDir, voiceEnabled) {
   sub.rules.forEach((r, i) => console.log(`${i + 1}. ${r}`));
 }
 
-function generateStaticDocu(rootDir) {
-  const srcDir = path.join(rootDir, 'src');
-  const files = scanDirectory(srcDir);
-  const componentFiles = files.filter((f) => /[\\/]components[\\/]/.test(f));
-  const libFiles = files.filter((f) => /[\\/]lib[\\/]/.test(f));
+const IGNORED_DIRS = new Set([
+  'node_modules',
+  'dist',
+  'build',
+  'target',
+  'coverage',
+  'storybook-static',
+  '.git',
+  '.idea',
+  '.angular',
+  '.gradle',
+  '.pytest_cache',
+  '__pycache__',
+  'venv',
+  '.venv',
+  'test-results',
+  'playwright-report',
+  'lh-final-results',
+  'lighthouse-fleet-reports',
+  'lighthouse-fleet-results',
+  'lighthouse-reports',
+  'videos',
+]);
 
-  const exportedSymbols = [];
-  const indexFile = path.join(srcDir, 'lib', 'index.ts');
-  if (fs.existsSync(indexFile)) {
-    const content = fs.readFileSync(indexFile, 'utf8');
-    const matches = content.matchAll(
-      /\b(Zen[A-Za-z0-9_]+|Capri[A-Za-z0-9_]+|useZen[A-Za-z0-9_]+)\b/g
+function scanAllRepoFiles(dirPath, fileList = [], depth = 0) {
+  if (!fs.existsSync(dirPath) || depth > 5) return fileList;
+  let entries = [];
+  try {
+    entries = fs.readdirSync(dirPath, { withFileTypes: true });
+  } catch {
+    return fileList;
+  }
+  for (const entry of entries) {
+    if (entry.name.startsWith('.') || IGNORED_DIRS.has(entry.name)) {
+      continue;
+    }
+    const fullPath = path.join(dirPath, entry.name);
+    if (entry.isDirectory()) {
+      scanAllRepoFiles(fullPath, fileList, depth + 1);
+    } else if (
+      /\.(tsx?|jsx?|mjs|cjs|py|kt|java|go|rs|vue|svelte|html|css|scss|ps1|sh|sql)$/.test(
+        entry.name
+      ) &&
+      !entry.name.endsWith('.min.js') &&
+      !entry.name.endsWith('.d.ts')
+    ) {
+      fileList.push(fullPath);
+    }
+  }
+  return fileList;
+}
+
+function generateStaticDocu(targetDir) {
+  const absDir = path.resolve(targetDir);
+  const repoName = path.basename(absDir);
+  const pkgPath = path.join(absDir, 'package.json');
+  const pkg = fs.existsSync(pkgPath)
+    ? JSON.parse(readSafe(pkgPath) || '{}')
+    : null;
+  const reqTxt = readSafe(path.join(absDir, 'requirements.txt'));
+  const hasDockerCompose =
+    fs.existsSync(path.join(absDir, 'docker-compose.yml')) ||
+    fs.existsSync(path.join(absDir, 'docker-compose.infra.yml'));
+  const hasDockerfile =
+    fs.existsSync(path.join(absDir, 'Dockerfile')) ||
+    fs.existsSync(path.join(absDir, 'docker', 'Dockerfile'));
+
+  const allFiles = scanAllRepoFiles(absDir);
+  const extCounts = {};
+  let totalLoc = 0;
+  const fileStats = [];
+  const exportedSymbols = new Set();
+  const routesAndEndpoints = new Set();
+
+  for (const file of allFiles) {
+    const ext = path.extname(file).toLowerCase();
+    extCounts[ext] = (extCounts[ext] || 0) + 1;
+    const content = readSafe(file);
+    const lines = content ? content.split(/\r?\n/).length : 0;
+    totalLoc += lines;
+    const rel = path.relative(absDir, file).replace(/\\/g, '/');
+    fileStats.push({ rel, lines, ext });
+
+    const symMatches = content.matchAll(
+      /\bexport\s+(?:async\s+)?(?:function|class|const|interface|type)\s+([A-Za-z0-9_]+)/g
     );
-    for (const m of matches) {
-      if (!exportedSymbols.includes(m[1]) && !m[1].endsWith('Props')) {
-        exportedSymbols.push(m[1]);
+    for (const m of symMatches) {
+      if (!m[1].endsWith('Props') && exportedSymbols.size < 45) {
+        exportedSymbols.add(m[1]);
+      }
+    }
+
+    const pyMatches = content.matchAll(/^(?:async\s+)?(?:def|class)\s+([A-Za-z0-9_]+)/gm);
+    for (const m of pyMatches) {
+      if (!m[1].startsWith('_') && exportedSymbols.size < 45) {
+        exportedSymbols.add(m[1]);
+      }
+    }
+
+    const ktMatches = content.matchAll(
+      /\b(?:class|interface|fun|object)\s+([A-Za-z0-9_]+)/g
+    );
+    for (const m of ktMatches) {
+      if (exportedSymbols.size < 45) {
+        exportedSymbols.add(m[1]);
+      }
+    }
+
+    const routeMatches = content.matchAll(
+      /@(?:GetMapping|PostMapping|PutMapping|DeleteMapping|RequestMapping)\(\s*["']([^"']+)["']|\b(?:app|router)\.(?:get|post|put|delete)\(\s*["']([^"']+)["']/g
+    );
+    for (const m of routeMatches) {
+      const route = m[1] || m[2];
+      if (route && routesAndEndpoints.size < 25) {
+        routesAndEndpoints.add(route);
       }
     }
   }
 
-  const mermaid = [
-    'flowchart TD',
-    '  Tokens["zen-tokens.css (8 Dark/Light Themes)"] --> ReactLayer["React 19 Primitives (src/lib/components)"]',
-    '  Tokens --> UniversalLayer["Universal W3C Custom Elements (src/lib/universal)"]',
-    '  ReactLayer --> AppShell["Application Views & User Flows"]',
-    '  UniversalLayer --> MultiStack["Angular 20+ / Vue 3 / Svelte 5 / HTML"]',
-    '  CapriCLI["Capri AI Skill & CLI (Claude / Codex / Gemini)"] -.->|"Zero Runtime Overhead"| AppShell',
+  fileStats.sort((a, b) => b.lines - a.lines);
+  const topFiles = fileStats.slice(0, 12);
+
+  let topSubdirs = [];
+  try {
+    topSubdirs = fs
+      .readdirSync(absDir, { withFileTypes: true })
+      .filter(
+        (e) =>
+          e.isDirectory() &&
+          !e.name.startsWith('.') &&
+          !IGNORED_DIRS.has(e.name)
+      )
+      .map((e) => e.name);
+  } catch {
+    topSubdirs = [];
+  }
+
+  const stackTags = [];
+  if (pkg) {
+    const allDeps = {
+      ...(pkg.dependencies || {}),
+      ...(pkg.devDependencies || {}),
+    };
+    if (allDeps.react) stackTags.push(`React ${allDeps.react}`);
+    if (allDeps['@angular/core']) stackTags.push(`Angular ${allDeps['@angular/core']}`);
+    if (allDeps.three) stackTags.push('Three.js / WebGL');
+    if (allDeps.gsap) stackTags.push('GSAP Motion');
+    if (allDeps.vite) stackTags.push('Vite');
+    if (allDeps.express) stackTags.push('Express / Node.js');
+    if (allDeps['discord.js']) stackTags.push('Discord.js');
+    if (allDeps['@zen-ui/system'] || pkg.name === '@zen-ui/system') {
+      stackTags.push('@zen-ui/system (CAPRI)');
+    }
+    if (allDeps.typescript) stackTags.push('TypeScript');
+  }
+  if (reqTxt || extCounts['.py']) stackTags.push('Python');
+  if (extCounts['.kt']) stackTags.push('Kotlin / Spring Boot');
+  if (extCounts['.ps1']) stackTags.push('PowerShell');
+  if (extCounts['.html'] && !pkg) stackTags.push('Static HTML5 / CSS3 / JS');
+  if (hasDockerCompose || hasDockerfile) stackTags.push('Docker Containerized');
+  if (stackTags.length === 0) stackTags.push('Polyglot / Custom');
+
+  const extSummary = Object.entries(extCounts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([ext, count]) => `\`${ext}\` (${count})`)
+    .join(', ');
+
+  const mermaidLines = ['flowchart TD'];
+  const safeId = (s, idx) => `N${idx}_${s.replace(/[^A-Za-z0-9]/g, '')}`;
+  mermaidLines.push(
+    `  Repo["${repoName}${pkg?.version ? ` v${pkg.version}` : ''}"]`
+  );
+  mermaidLines.push(`  Stack["Stack: ${stackTags.slice(0, 4).join(' · ')}"]`);
+  mermaidLines.push('  Repo --> Stack');
+
+  if (topSubdirs.length > 0) {
+    topSubdirs.slice(0, 8).forEach((dir, idx) => {
+      const nodeId = safeId(dir, idx);
+      mermaidLines.push(`  ${nodeId}["/${dir}"]`);
+      mermaidLines.push(`  Stack --> ${nodeId}`);
+    });
+  } else {
+    topFiles.slice(0, 6).forEach((f, idx) => {
+      const nodeId = safeId(f.rel, idx);
+      mermaidLines.push(`  ${nodeId}["${f.rel} (${f.lines}L)"]`);
+      mermaidLines.push(`  Stack --> ${nodeId}`);
+    });
+  }
+
+  if (hasDockerCompose || hasDockerfile) {
+    mermaidLines.push('  Docker["Docker / Compose Runtime"]');
+    mermaidLines.push('  Repo -.->|"Containerized"| Docker');
+  }
+
+  const scriptsList = pkg?.scripts
+    ? Object.entries(pkg.scripts)
+        .map(([k, v]) => `- \`npm run ${k}\`: \`${v}\``)
+        .join('\n')
+    : '- Standalone / Non-NPM execution (`Dockerfile` / scripts / native)';
+
+  const topFilesTable = [
+    '| Module Path | Lines | Extension |',
+    '| :--- | ---: | :--- |',
+    ...topFiles.map((f) => `| \`${f.rel}\` | ${f.lines} | \`${f.ext}\` |`),
   ].join('\n');
 
+  const symbolsPreview =
+    exportedSymbols.size > 0
+      ? [...exportedSymbols].slice(0, 30).map((s) => `\`${s}\``).join(', ')
+      : 'Internal / Script-level entrypoints';
+
+  const routesSection =
+    routesAndEndpoints.size > 0
+      ? `\n## 5. Detected HTTP / API Endpoints\n${[...routesAndEndpoints]
+          .map((r) => `- \`${r}\``)
+          .join('\n')}\n`
+      : '';
+
   return [
-    '# @zen-ui/system // CAPRI Automated Architecture & AI Context Dossier',
-    'Generated on demand via `npx capri docu` (Zero build or browser runtime overhead)',
+    `# ${repoName} // CAPRI Automated Architecture & AI Context Dossier`,
+    '> Generated on demand via `npx capri docu` (Zero build or browser runtime overhead)',
     '',
-    '## 1. Codebase Topology',
-    `- **Total Source Files Scanned:** ${files.length}`,
-    `- **Library Core Modules (\`src/lib/\`):** ${libFiles.length}`,
-    `- **UI Component Modules:** ${componentFiles.length}`,
-    `- **Exported Public Primitives & Hooks:** ${exportedSymbols.length} (${exportedSymbols.slice(0, 18).join(', ')}...)`,
+    '## 1. Project Identity & Stack Overview',
+    `- **Repository:** \`${repoName}\`${pkg?.name ? ` (\`${pkg.name}\`)` : ''}`,
+    `- **Version:** \`${pkg?.version || '1.0.0'}\``,
+    `- **Detected Stack:** ${stackTags.join(' · ')}`,
+    `- **Top-Level Subsystems:** ${
+      topSubdirs.length > 0
+        ? topSubdirs.map((d) => `\`/${d}\``).join(', ')
+        : 'Root-level flat topology'
+    }`,
+    `- **Container Readiness:** ${
+      hasDockerCompose
+        ? '`docker-compose.yml` present'
+        : hasDockerfile
+        ? '`Dockerfile` present'
+        : 'Host / Native runtime'
+    }`,
     '',
-    '## 2. Architecture & User-Flow Mermaid Diagram',
+    '## 2. Codebase Metrics & Language Breakdown',
+    `- **Total Source Files Scanned:** ${allFiles.length}`,
+    `- **Total Lines of Code (LOC):** ${totalLoc.toLocaleString('en-US')}`,
+    `- **File Extensions:** ${extSummary || 'N/A'}`,
+    `- **Key Exported Symbols / Classes / Functions (${exportedSymbols.size}):** ${symbolsPreview}`,
+    '',
+    '## 3. Architecture & Subsystem Topology (`flowchart TD`)',
     '```mermaid',
-    mermaid,
+    mermaidLines.join('\n'),
     '```',
     '',
-    '## 3. How AI Agents (Claude / Codex / Gemini) Should Interact with This Repo',
-    '- **Subroutine `orion`:** Build UI screens using `@zen-ui/system` primitives and `<ZenIcon>` (40 built-in vector glyphs).',
-    '- **Subroutine `architect`:** Enforce zero `any`, `readonly T[]`, and `--zen-*` CSS custom properties.',
-    '- **Subroutine `sentinel` (`guard`):** Enforce WCAG 2.2 AA, `onMouseDown` dropdown selection, and zero horizontal overflow (`320px` to `4K`).',
-    '- **Subroutine `zen`:** Verify dark/light polarity across all 8 themes and `--zen-ease-spring` motion tokens.',
-    '- **Subroutine `docu`:** Generate architecture and user-flow documentation on demand.',
+    '## 4. Largest Modules & Entrypoints Inventory',
+    topFilesTable,
+    routesSection,
+    '## 6. Available Build & Automation Scripts',
+    scriptsList,
+    '',
+    '## 7. Capri AI Agent Protocol (Claude / Codex / Gemini / Antigravity)',
+    '- **Subroutine `orion` (`CAPRI // UNLEASHED`):** Use `@zen-ui/system` primitives and `<ZenIcon>` (40 vector glyphs) for UI views; keep action labels concise (`1-3 words`).',
+    '- **Subroutine `architect` (`SCS // ARCHITECT`):** Enforce strict typing (zero `any`, `readonly T[]`), modular files (`< 900` lines), and `--zen-*` CSS tokens.',
+    '- **Subroutine `guard` (`CYBERPSYCHOSIS // GUARD`):** Sanitize untrusted inputs (`capri.sanitizeForPrompt()`), prevent XSS/secret leaks, bind dropdowns to `onMouseDown`, and ensure zero horizontal overflow (`320px` to `4K`).',
+    '- **Subroutine `zen` (`THEME // MATRIX`):** Maintain 4 Dark + 4 Light themes (`>= 4.5:1` AA contrast) and 60fps `--zen-ease-spring` tactile motion.',
+    '- **Subroutine `docu` (`CAPRI // AUTO-DOCU`):** Re-run `npx capri docu --write` whenever architectural boundaries or modules change.',
+    '',
   ].join('\n');
 }
 
 const [, , rawCommand = 'help', rawArg = 'orion'] = process.argv;
 const command = rawCommand.toLowerCase();
 const voiceEnabled = process.argv.includes('--voice');
+const writeEnabled = process.argv.includes('--write');
+const workspaceIdx = process.argv.indexOf('--workspace');
+const workspaceDir =
+  workspaceIdx !== -1 && process.argv[workspaceIdx + 1]
+    ? path.resolve(process.argv[workspaceIdx + 1])
+    : null;
 const rootDir = process.cwd();
 
 if (command === 'docu') {
-  console.log(generateStaticDocu(rootDir));
+  if (workspaceDir && fs.existsSync(workspaceDir)) {
+    const entries = fs
+      .readdirSync(workspaceDir, { withFileTypes: true })
+      .filter((e) => e.isDirectory() && !e.name.startsWith('.'));
+    const summaryRows = [];
+    for (const entry of entries) {
+      const repoPath = path.join(workspaceDir, entry.name);
+      const docContent = generateStaticDocu(repoPath);
+      const outDir = path.join(repoPath, 'docs');
+      const outFile = path.join(outDir, 'CAPRI-ARCHITECTURE.md');
+      if (writeEnabled) {
+        fs.mkdirSync(outDir, { recursive: true });
+        fs.writeFileSync(outFile, docContent, 'utf8');
+      }
+      const filesCount = scanAllRepoFiles(repoPath).length;
+      summaryRows.push(
+        `- **${entry.name}**: \`${outFile}\` (${filesCount} source files analyzed)`
+      );
+    }
+    console.log(
+      `# CAPRI // AUTO-DOCU — Workspace Batch Documentation Complete (${entries.length} Repositories)\n`
+    );
+    console.log(summaryRows.join('\n'));
+  } else {
+    const targetPath =
+      rawArg && !rawArg.startsWith('--') && rawArg !== 'orion'
+        ? path.resolve(rawArg)
+        : rootDir;
+    const docContent = generateStaticDocu(targetPath);
+    if (writeEnabled) {
+      const outDir = path.join(targetPath, 'docs');
+      const outFile = path.join(outDir, 'CAPRI-ARCHITECTURE.md');
+      fs.mkdirSync(outDir, { recursive: true });
+      fs.writeFileSync(outFile, docContent, 'utf8');
+      console.log(`Wrote Capri Architecture Dossier to: ${outFile}`);
+    } else {
+      console.log(docContent);
+    }
+  }
 } else if (command === 'orion') {
   runOrionAudit(rootDir, voiceEnabled);
 } else if (command === 'architect') {
