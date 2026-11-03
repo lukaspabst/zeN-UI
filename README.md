@@ -1,6 +1,11 @@
-# `@zen-ui/system` (`zeN-UI // CAPRI`)
+# `@zen-ui/system` (`zeN-UI // CAPRI`) — `v1.1.0`
 
-Universal, zero-dependency, multi-framework design system and component library (`320px` mobile to `4K` ultrawide) for **React 19**, **Angular 20+**, **Vue 3**, **Svelte 5**, and **Vanilla HTML/CSS**, paired with the **Capri 5-Subroutine AI Co-Pilot & Headless Runtime Engine**.
+Universal, zero-dependency, multi-framework design system and component library (`320px` mobile to `4K` ultrawide) for **React 19**, **Angular 20+**, **Vue 3**, **Svelte 5**, and **Vanilla HTML/CSS**, paired with the **Capri 5-Subroutine AI Co-Pilot & Security Guard CLI** in a single versioned npm package (`33.9 kB` gzipped).
+
+```bash
+# Install the latest versioned release (v1.1.0):
+npm install "@zen-ui/system@https://github.com/lukaspabst/zeN-UI/releases/download/v1.1.0/zen-ui-system-1.1.0.tgz"
+```
 
 - **Full Architecture & User-Flow Dossier:** [`docs/CAPRI-ARCHITECTURE-DOSSIER.md`](./docs/CAPRI-ARCHITECTURE-DOSSIER.md)
 - **AI Agent Subroutine Protocol (`Claude` / `Codex` / `Gemini`):** [`AGENTS.md`](./AGENTS.md) & [`.agents/skills/capri-zen-ui/SKILL.md`](./.agents/skills/capri-zen-ui/SKILL.md)
