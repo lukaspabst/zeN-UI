@@ -5,7 +5,7 @@ COPY package.json package-lock.json ./
 RUN npm ci --ignore-scripts --no-audit --no-fund
 
 COPY . .
-RUN npm run build
+RUN npx tsc --noEmit && npx vite build
 
 FROM nginxinc/nginx-unprivileged:1.27-alpine AS runtime
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
