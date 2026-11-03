@@ -98,6 +98,14 @@ import {
 import { ZenStorybookPlayground } from './components/ZenStorybookPlayground';
 
 type CatalogSectionTab = 'all' | 'forms' | 'navigation' | 'overlays' | 'data' | 'feedback';
+type NavSectionId = 'orion-core' | 'theme-matrix' | 'component-catalog' | 'storybook-playground';
+
+const NAV_SECTION_IDS: readonly NavSectionId[] = [
+  'orion-core',
+  'theme-matrix',
+  'component-catalog',
+  'storybook-playground',
+];
 
 const AMBIENT_SEGMENTS: readonly ZenSegmentItem<ZenBackgroundVariant>[] = [
   { value: 'blackwall-lattice', label: 'Blackwall Lattice' },
@@ -118,12 +126,12 @@ const DENSITY_SEGMENTS: readonly ZenSegmentItem<ZenDensityMode>[] = [
 ];
 
 const CATALOG_TABS: readonly ZenTabItem<CatalogSectionTab>[] = [
-  { id: 'all', label: 'All Suites', badge: '44' },
+  { id: 'all', label: 'All Suites', badge: '51' },
   { id: 'forms', label: 'Forms & Inputs', badge: '11' },
   { id: 'navigation', label: 'Navigation', badge: '7' },
   { id: 'overlays', label: 'Surfaces & Overlays', badge: '8' },
-  { id: 'data', label: 'Data & Telemetry', badge: '10' },
-  { id: 'feedback', label: 'Feedback & States', badge: '8' },
+  { id: 'data', label: 'Data & Telemetry', badge: '16' },
+  { id: 'feedback', label: 'Feedback & States', badge: '9' },
 ];
 
 const FRAMEWORK_OPTIONS: readonly ZenDropdownOption<string>[] = [
@@ -152,59 +160,59 @@ const FRAMEWORK_OPTIONS: readonly ZenDropdownOption<string>[] = [
 const DEPLOY_REGION_OPTIONS = [
   {
     value: 'eu-central',
-    label: 'EU-Central (Frankfurt // Blackwall Node 01)',
-    description: 'Sub-8ms edge routing with zero-knowledge telemetry encryption.',
-    badge: 'PRIMARY',
+    label: 'Vite / Rollup ESM Bundle (Tree-Shaken)',
+    description: 'Import only the React primitives and CSS tokens your app uses (33.9 kB gzip full bundle).',
+    badge: 'DEFAULT',
   },
   {
     value: 'us-east',
-    label: 'US-East (Virginia // Neural Relay 04)',
-    description: 'High-throughput GPU inference cluster with automatic failover.',
-    badge: 'REPLICA',
+    label: 'Angular 20+ Native Federation Singleton',
+    description: 'Share @zen-ui/system/universal and tokens.css across micro-frontend remotes.',
+    badge: 'MFE',
   },
   {
     value: 'ap-northeast',
-    label: 'AP-Northeast (Tokyo // Pacific Core 09)',
-    description: 'Low-latency financial ledger synchronization node.',
-    badge: 'EDGE',
+    label: 'SSR / Static HTML Custom Elements',
+    description: 'Zero-hydration CSS utility classes (.zen-card, .zen-btn) + W3C Web Components.',
+    badge: 'SSR',
   },
 ] as const;
 
 const FILTER_CHIPS: readonly ZenChipOption<string>[] = [
-  { value: 'wcag-aa', label: 'WCAG 2.2 AA (44)' },
+  { value: 'wcag-aa', label: 'WCAG 2.2 AA (51)' },
   { value: 'roving-tab', label: 'Roving TabIndex (14)' },
-  { value: 'tabular-nums', label: 'Tabular Telemetry (19)' },
-  { value: 'zero-dep', label: 'Zero External UI Deps (44)' },
-  { value: 'reduced-motion', label: 'Reduced Motion Safe (44)' },
+  { value: 'tabular-nums', label: 'Tabular Nums (19)' },
+  { value: 'zero-dep', label: 'Zero UI Runtime Deps (51)' },
+  { value: 'reduced-motion', label: 'Reduced Motion Safe (51)' },
 ];
 
 const SIDEBAR_ITEMS: readonly ZenSidebarItem[] = [
   {
     id: 'overview',
-    label: 'Neural Overview',
+    label: 'Package Overview',
     icon: <Cpu className="w-4 h-4" />,
-    badge: 'LIVE',
+    badge: `v${ZEN_UI_VERSION}`,
   },
   {
     id: 'deployments',
-    label: 'Edge Deployments',
+    label: 'UI Primitives',
     icon: <Layers className="w-4 h-4" />,
-    badge: 12,
+    badge: 51,
   },
   {
     id: 'telemetry',
-    label: 'Telemetry Streams',
+    label: 'CSS Token Matrix',
     icon: <Activity className="w-4 h-4" />,
   },
   {
     id: 'security',
-    label: 'Blackwall Firewall',
+    label: 'Capri Guard CLI',
     icon: <Shield className="w-4 h-4" />,
-    badge: 'OK',
+    badge: 'PASS',
   },
   {
     id: 'settings',
-    label: 'System Parameters',
+    label: 'TS / Build Config',
     icon: <Settings className="w-4 h-4" />,
   },
 ];
@@ -345,10 +353,11 @@ export default function App() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const [catalogTab, setCatalogTab] = useState<CatalogSectionTab>('all');
+  const [activeNavSection, setActiveNavSection] = useState<NavSectionId>('orion-core');
 
-  const [projectName, setProjectName] = useState('Nexus Orbital Console');
+  const [projectName, setProjectName] = useState('JourneyLink Web Workspace');
   const [systemPrompt, setSystemPrompt] = useState(
-    'Maintain sub-millisecond UI frame budgets and enforce WCAG 2.2 AA contrast across all 8 polarity themes.'
+    'Enforce strict TypeScript (0 any), readonly T[] arrays, WCAG 2.2 AA contrast, and SQLi/XSS/Prompt firewall checks via npx capri guard.'
   );
   const [selectedFramework, setSelectedFramework] = useState('react-19');
   const [workerCount, setWorkerCount] = useState(8);
@@ -381,8 +390,29 @@ export default function App() {
         setCommandOpen((prev) => !prev);
       }
     };
+
+    const updateActiveSection = () => {
+      const threshold = 180;
+      let current: NavSectionId = 'orion-core';
+      for (const sectionId of NAV_SECTION_IDS) {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= threshold) {
+            current = sectionId;
+          }
+        }
+      }
+      setActiveNavSection(current);
+    };
+
+    updateActiveSection();
     window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
+    window.addEventListener('scroll', updateActiveSection, { passive: true });
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('scroll', updateActiveSection);
+    };
   }, []);
 
   const darkThemes = ZEN_THEMES.filter((item) => item.polarity === 'dark');
@@ -540,25 +570,49 @@ export default function App() {
           <>
             <a
               href="#orion-core"
-              className="px-3 py-1.5 rounded-lg zen-font-mono text-xs text-[var(--zen-ink-secondary)] hover:text-[var(--zen-ink-primary)] transition-colors"
+              onClick={() => setActiveNavSection('orion-core')}
+              aria-current={activeNavSection === 'orion-core' ? 'location' : undefined}
+              className={`px-3 py-1.5 rounded-lg zen-font-mono text-xs transition-colors ${
+                activeNavSection === 'orion-core'
+                  ? 'text-[var(--zen-accent-primary)] font-semibold bg-[var(--zen-accent-subtle)]'
+                  : 'text-[var(--zen-ink-secondary)] hover:text-[var(--zen-ink-primary)]'
+              }`}
             >
               01. Capri Core
             </a>
             <a
               href="#theme-matrix"
-              className="px-3 py-1.5 rounded-lg zen-font-mono text-xs text-[var(--zen-ink-secondary)] hover:text-[var(--zen-ink-primary)] transition-colors"
+              onClick={() => setActiveNavSection('theme-matrix')}
+              aria-current={activeNavSection === 'theme-matrix' ? 'location' : undefined}
+              className={`px-3 py-1.5 rounded-lg zen-font-mono text-xs transition-colors ${
+                activeNavSection === 'theme-matrix'
+                  ? 'text-[var(--zen-accent-primary)] font-semibold bg-[var(--zen-accent-subtle)]'
+                  : 'text-[var(--zen-ink-secondary)] hover:text-[var(--zen-ink-primary)]'
+              }`}
             >
               02. 8 Themes
             </a>
             <a
               href="#component-catalog"
-              className="px-3 py-1.5 rounded-lg zen-font-mono text-xs text-[var(--zen-ink-secondary)] hover:text-[var(--zen-ink-primary)] transition-colors"
+              onClick={() => setActiveNavSection('component-catalog')}
+              aria-current={activeNavSection === 'component-catalog' ? 'location' : undefined}
+              className={`px-3 py-1.5 rounded-lg zen-font-mono text-xs transition-colors ${
+                activeNavSection === 'component-catalog'
+                  ? 'text-[var(--zen-accent-primary)] font-semibold bg-[var(--zen-accent-subtle)]'
+                  : 'text-[var(--zen-ink-secondary)] hover:text-[var(--zen-ink-primary)]'
+              }`}
             >
               03. Overview
             </a>
             <a
               href="#storybook-playground"
-              className="px-3 py-1.5 rounded-lg zen-font-mono text-xs text-[var(--zen-accent-primary)] font-semibold hover:text-[var(--zen-ink-primary)] transition-colors"
+              onClick={() => setActiveNavSection('storybook-playground')}
+              aria-current={activeNavSection === 'storybook-playground' ? 'location' : undefined}
+              className={`px-3 py-1.5 rounded-lg zen-font-mono text-xs transition-colors ${
+                activeNavSection === 'storybook-playground'
+                  ? 'text-[var(--zen-accent-primary)] font-semibold bg-[var(--zen-accent-subtle)]'
+                  : 'text-[var(--zen-ink-secondary)] hover:text-[var(--zen-ink-primary)]'
+              }`}
             >
               04. Storybook (51)
             </a>
@@ -642,7 +696,7 @@ export default function App() {
               </ZenHeading>
 
               <p className="text-base sm:text-lg text-[var(--zen-ink-secondary)] max-w-3xl leading-relaxed">
-                Import 51 zero-dependency UI components, 40 vector icons, and 8 dark/light themes into React 19, Angular 20+, Vue 3, or HTML (with the showcase avatar omitted in production apps)—and invoke Capri’s 5 subroutines (<code>guard</code>, <code>orion</code>, <code>architect</code>, <code>zen</code>, <code>docu</code>) directly in Claude Code, OpenAI Codex, Gemini, or via <code>npx capri</code>.
+                Ship one versioned package (<code>@zen-ui/system@v{ZEN_UI_VERSION}</code>) containing 51 React 19 TSX primitives, W3C Custom Elements for Angular 20+ / Vue 3 / HTML, 40 vector icons, 8 dark/light CSS token themes, and the zero-runtime <code>npx capri</code> CLI &amp; security guard.
               </p>
             </div>
 
@@ -650,9 +704,9 @@ export default function App() {
               <ZenMetricStrip
                 columns={4}
                 metrics={[
-                  { value: `v${ZEN_UI_VERSION}`, label: 'Latest NPM Release', accent: true },
-                  { value: '51 Modules', label: 'UI + Capri AI Core' },
-                  { value: '40 Icons', label: '<ZenIcon> & <zen-icon>' },
+                  { value: `v${ZEN_UI_VERSION}`, label: 'Unified NPM Package', accent: true },
+                  { value: '51 Modules', label: 'React + W3C Elements' },
+                  { value: '33.9 kB', label: 'Full ESM Bundle (Gzip)' },
                   { value: '0 any', label: 'Strict TypeScript' },
                 ]}
               />
@@ -1044,12 +1098,12 @@ export default function App() {
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex flex-wrap items-center gap-2">
                 <ZenBadge tone="gold" pulse>
-                  NEURAL SYNC ACTIVE
+                  v{ZEN_UI_VERSION} STABLE
                 </ZenBadge>
-                <ZenBadge tone="emerald">99.98% SLA</ZenBadge>
-                <ZenBadge tone="amber">HIGH MEMORY LOAD</ZenBadge>
-                <ZenBadge tone="coral">BREACH CONTAINED</ZenBadge>
-                <ZenBadge tone="cyan">EDGE REPLICA</ZenBadge>
+                <ZenBadge tone="emerald">BUILD PASSING</ZenBadge>
+                <ZenBadge tone="amber">33.9 KB GZIP</ZenBadge>
+                <ZenBadge tone="coral">SQLi / XSS GUARD</ZenBadge>
+                <ZenBadge tone="cyan">SSR READY</ZenBadge>
                 <ZenBadge tone="neutral">READ-ONLY</ZenBadge>
               </div>
 
@@ -1078,10 +1132,10 @@ export default function App() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <ZenInput
-                    label="Project Designation"
+                    label="Project Name"
                     value={projectName}
                     onChange={(e) => setProjectName(e.target.value)}
-                    hint="Used across telemetry headers"
+                    hint="Used in package.json & dossier header"
                     iconLeft={<FolderGit2 className="w-4 h-4" />}
                   />
 
@@ -1097,26 +1151,26 @@ export default function App() {
                 </div>
 
                 <ZenTextarea
-                  label="CAPRI // CAPRICORN System Directive"
+                  label="Capri Guard & Architect Rule"
                   value={systemPrompt}
                   onChange={(e) => setSystemPrompt(e.target.value)}
                   maxLengthCount={240}
-                  hint="Injected into autonomous design-system agents"
+                  hint="Validated by npx capri guard in CI/CD"
                 />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center pt-1">
                   <ZenNumberStepper
-                    label="Replica Worker Nodes"
+                    label="Parallel Test Workers"
                     value={workerCount}
                     min={1}
                     max={64}
                     step={1}
-                    unit="nodes"
+                    unit="workers"
                     onChange={setWorkerCount}
                   />
 
                   <ZenSlider
-                    label="GPU Compute Allocation"
+                    label="Coverage Threshold"
                     value={gpuAllocation}
                     min={10}
                     max={100}
@@ -1138,7 +1192,7 @@ export default function App() {
                 </div>
 
                 <ZenRadioGroup
-                  label="Primary Deployment Region"
+                  label="Package Consumption Strategy"
                   options={DEPLOY_REGION_OPTIONS}
                   value={selectedRegion}
                   onChange={(val) => {
@@ -1176,8 +1230,8 @@ export default function App() {
 
                   <div className="space-y-2.5 p-3 rounded-2xl border border-[var(--zen-border-subtle)] bg-[var(--zen-surface-subtle)]">
                     <ZenSwitch
-                      label="Edge Token Caching"
-                      description="Zero-latency CSS variable injection"
+                      label="CSS Token Persistence"
+                      description="Save theme in localStorage"
                       checked={edgeCacheEnabled}
                       onChange={setEdgeCacheEnabled}
                     />
@@ -1220,9 +1274,9 @@ export default function App() {
 
                 <ZenBreadcrumbs
                   items={[
-                    { id: 'root', label: 'zeN-UI Workspace', onClick: () => setActiveSidebarId('overview') },
-                    { id: 'cluster', label: 'Capri Core', onClick: () => setActiveSidebarId('deployments') },
-                    { id: 'node', label: `Node // ${activeSidebarId.toUpperCase()}` },
+                    { id: 'root', label: '@zen-ui/system', onClick: () => setActiveSidebarId('overview') },
+                    { id: 'cluster', label: `v${ZEN_UI_VERSION}`, onClick: () => setActiveSidebarId('deployments') },
+                    { id: 'node', label: activeSidebarId.toUpperCase() },
                   ]}
                 />
               </div>
@@ -1239,7 +1293,7 @@ export default function App() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch pt-2">
                 <div className="lg:col-span-4">
                   <ZenSidebar
-                    title="CAPRI NAVIGATION RAIL"
+                    title="WORKSPACE NAVIGATION"
                     items={SIDEBAR_ITEMS}
                     activeId={activeSidebarId}
                     onSelect={(id) => {
@@ -1256,14 +1310,14 @@ export default function App() {
                         ACTIVE VIEW // {activeSidebarId.toUpperCase()}
                       </span>
                       <h4 className="zen-font-display text-base font-bold text-[var(--zen-ink-primary)]">
-                        Synchronized Sidebar & Paginated Ledger Controls
+                        Synchronized Sidebar & Paginated Table Controls
                       </h4>
                     </div>
                     <ZenBadge tone="gold">PAGE {currentPage} OF 6</ZenBadge>
                   </div>
 
                   <p className="text-xs sm:text-sm text-[var(--zen-ink-secondary)] leading-relaxed">
-                    Every navigation primitive (<code className="zen-font-mono text-xs">&lt;ZenNavbar /&gt;</code>, <code className="zen-font-mono text-xs">&lt;ZenSidebar /&gt;</code>, <code className="zen-font-mono text-xs">&lt;ZenBreadcrumbs /&gt;</code>, <code className="zen-font-mono text-xs">&lt;ZenStepper /&gt;</code>, <code className="zen-font-mono text-xs">&lt;ZenTabs /&gt;</code>, and <code className="zen-font-mono text-xs">&lt;ZenPagination /&gt;</code>) uses semantic ARIA landmarks and tabular-nums counters so layout widths never jitter.
+                    Every navigation primitive (<code className="zen-font-mono text-xs">&lt;ZenNavbar /&gt;</code>, <code className="zen-font-mono text-xs">&lt;ZenSidebar /&gt;</code>, <code className="zen-font-mono text-xs">&lt;ZenBreadcrumbs /&gt;</code>, <code className="zen-font-mono text-xs">&lt;ZenStepper /&gt;</code>, <code className="zen-font-mono text-xs">&lt;ZenTabs /&gt;</code>, and <code className="zen-font-mono text-xs">&lt;ZenPagination /&gt;</code>) uses semantic ARIA landmarks and tabular-nums counters so layout widths never shift when numbers change.
                   </p>
 
                   <div className="pt-3 border-t border-[var(--zen-border-subtle)] flex flex-wrap items-center justify-between gap-4">
@@ -1293,7 +1347,7 @@ export default function App() {
                       SUITE 04A // ACCORDIONS, MODALS, DRAWERS & COMMAND PALETTE
                     </span>
                     <h3 className="zen-font-display text-lg font-bold text-[var(--zen-ink-primary)]">
-                      Collapsible Disclosure & Focus-Restoring Overlays
+                      Developer Architecture FAQ & Focus-Restoring Overlays
                     </h3>
                   </div>
 
@@ -1326,24 +1380,24 @@ export default function App() {
                 <div className="space-y-4">
                   <div className="space-y-1">
                     <span className="zen-telemetry-label text-[var(--zen-accent-primary)]">
-                      SUITE 04B // TIMELINE & PROCEDURAL WEB AUDIO
+                      SUITE 04B // RELEASE CHANGELOG & WEB AUDIO SYNTH
                     </span>
                     <h3 className="zen-font-display text-lg font-bold text-[var(--zen-ink-primary)]">
-                      Chronological Dossier & Synthesizer Deck
+                      Release Timeline Card & Zero-Asset Audio Deck
                     </h3>
                   </div>
 
                   <ZenTimelineCard
-                    period="RELEASE v2.4 // CAPRICORN"
-                    location="8 Themes · 44 Primitives"
-                    title="Universal Design System & Capri Mixed-Construct Suite"
+                    period={`RELEASE v${ZEN_UI_VERSION} // UNIFIED PACKAGE`}
+                    location="8 Themes · 51 Modules · 40 Icons"
+                    title="Unified @zen-ui/system NPM Package & Capri CLI"
                     institution="@zen-ui/system"
-                    summary="Expanded zeN-UI with 8 dark and light themes, <ZenAIConstruct /> featuring Capri from Cyberpunk: Edgerunners Season 2, <ZenAmbientBackground />, and 26 additional form, navigation, data, and overlay components."
+                    summary="Consolidated all 51 React 19 primitives, W3C Custom Elements, 40 vector icons, 8 CSS token themes, and the Capri AI CLI into one versioned npm tarball with zero external UI runtime dependencies."
                     bullets={[
-                      'Zero external UI dependencies; 100% strict TypeScript.',
-                      'Full WAI-ARIA keyboard navigation and reduced-motion compliance.',
+                      '33.9 kB gzipped ESM library bundle + 6.96 kB CSS token sheet.',
+                      'Includes SQLi, XSS, and prompt-injection scanners via npx capri guard.',
                     ]}
-                    tags={['React 19', 'CSS Tokens', 'WebGL / Canvas', 'Web Audio']}
+                    tags={['React 19', 'Angular 20+', 'W3C Custom Elements', 'Capri CLI']}
                   />
                 </div>
 
@@ -1356,20 +1410,20 @@ export default function App() {
             <div id="data-display" className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 <ZenKpiCard
-                  label="NEURAL INFERENCE THROUGHPUT"
-                  value="14,820 req/s"
-                  delta="+18.4%"
+                  label="ESM LIBRARY BUNDLE (GZIP)"
+                  value="33.9 kB"
+                  delta="0 UI Deps"
                   trend="up"
-                  subtitle="vs. previous 24h rolling window"
-                  sparkline={[42, 48, 45, 56, 62, 59, 71, 78, 84, 92]}
+                  subtitle="51 modules + 40 SVG icons + Capri core"
+                  sparkline={[48, 44, 41, 39, 37, 36, 35, 34.4, 34.1, 33.9]}
                 />
                 <ZenKpiCard
-                  label="P99 FRAME RENDER LATENCY"
-                  value="0.28 ms"
-                  delta="-42.0%"
+                  label="CAPRI GUARD SCAN LATENCY"
+                  value="0.12 ms"
+                  delta="Zero-Runtime"
                   trend="up"
-                  subtitle="16px optical glass blur cap active"
-                  sparkline={[0.9, 0.8, 0.7, 0.65, 0.5, 0.45, 0.38, 0.32, 0.3, 0.28]}
+                  subtitle="SQLi, XSS & prompt-injection static check"
+                  sparkline={[0.35, 0.28, 0.24, 0.2, 0.18, 0.16, 0.15, 0.14, 0.13, 0.12]}
                 />
                 <ZenKpiCard
                   label="ACTIVE THEME CONTRAST FLOOR"
@@ -1388,43 +1442,43 @@ export default function App() {
                       SUITE 05A // GAUGES, PROGRESS BARS & AVATARS
                     </span>
                     <h3 className="zen-font-display text-lg font-bold text-[var(--zen-ink-primary)]">
-                      Telemetry Gauges & Presence Indicators
+                      Quality Gate Gauges & Presence Indicators
                     </h3>
                   </div>
 
                   <div className="flex flex-wrap items-center justify-around gap-4 py-2">
                     <ZenCircularGauge
-                      value={96}
-                      label="WCAG Score"
+                      value={100}
+                      label="Strict TS"
                     />
                     <ZenCircularGauge
                       value={gpuAllocation}
-                      label="GPU Budget"
+                      label="Test Target"
                     />
                   </div>
 
                   <div className="space-y-3">
                     <ZenProgressBar
-                      label="Token Synchronization"
+                      label="WCAG 2.2 AA Contrast Verification (8/8 Themes)"
                       value={100}
                     />
                     <ZenProgressBar
-                      label="Blackwall Containment Integrity"
-                      value={88}
+                      label="Capri Guard Security & A11y Audit"
+                      value={100}
                     />
                     <ZenProgressBar
-                      label="Memory Buffer Utilization"
-                      value={64}
+                      label="Tree-Shaken Consumer Footprint (Portfolio App)"
+                      value={32}
                     />
                   </div>
 
                   <div className="pt-3 border-t border-[var(--zen-border-subtle)] flex items-center justify-between gap-3">
-                    <span className="zen-telemetry-label">ACTIVE OPERATORS:</span>
+                    <span className="zen-telemetry-label">MAINTAINERS & AGENTS:</span>
                     <div className="flex items-center gap-2.5">
-                      <ZenAvatar name="Capri Capricorn" status="online" size="md" />
-                      <ZenAvatar name="Lukas Architect" status="online" size="md" />
-                      <ZenAvatar name="Talia Host" status="busy" size="md" />
-                      <ZenAvatar name="Ghost Node" status="offline" size="md" />
+                      <ZenAvatar name="Lukas Pabst" status="online" size="md" />
+                      <ZenAvatar name="Capri Guard" status="online" size="md" />
+                      <ZenAvatar name="Capri Architect" status="busy" size="md" />
+                      <ZenAvatar name="CI Runner" status="offline" size="md" />
                     </div>
                   </div>
                 </ZenCard>
@@ -1460,7 +1514,7 @@ export default function App() {
                       SUITE 05B // SORTABLE GENERIC DATA TABLE
                     </span>
                     <h3 className="zen-font-display text-lg font-bold text-[var(--zen-ink-primary)]">
-                      Component Architecture & Frame Budget Registry
+                      Component Architecture & Accessibility Contract Registry
                     </h3>
                   </div>
                   <ZenBadge tone="gold">CLICK HEADERS TO SORT</ZenBadge>
@@ -1511,7 +1565,7 @@ export default function App() {
                 {alertVisible ? (
                   <ZenAlert
                     tone="info"
-                    title="CAPRI // CAPRICORN Mixed-Construct Active"
+                    title={`@zen-ui/system v${ZEN_UI_VERSION} Unified Package Ready`}
                     actionSlot={
                       <ZenButton
                         variant="ghost"
@@ -1523,7 +1577,7 @@ export default function App() {
                       </ZenButton>
                     }
                   >
-                    All 8 themes and 44 components are synchronized via CSS Custom Properties with zero runtime style overhead.
+                    All 8 themes and 51 modules share one CSS Custom Property sheet (<code>tokens.css</code>) with zero runtime style recalculation.
                   </ZenAlert>
                 ) : (
                   <ZenAlert
@@ -1545,15 +1599,15 @@ export default function App() {
                 )}
 
                 <ZenAlert tone="success" title="WCAG 2.2 AA Contrast Verified">
-                  All dark and light polarity themes maintain &gt;= 4.5:1 body contrast and &gt;= 5.1:1 button ink contrast.
+                  All 4 dark and 4 light themes maintain &gt;= 4.5:1 body contrast and &gt;= 5.1:1 primary button ink contrast.
                 </ZenAlert>
 
-                <ZenAlert tone="warning" title="High-Density Terminal Mode Available">
-                  Switch density to Compact in the Theme Matrix to reduce vertical padding for financial or log views.
+                <ZenAlert tone="warning" title="Compact Density Mode Available">
+                  Switch density to Compact in Section 02 to tighten vertical padding for data-heavy tables, logs, or financial views.
                 </ZenAlert>
 
-                <ZenAlert tone="danger" title="Blackwall Quarantine Protocol">
-                  Semantic danger tokens automatically adapt between crimson dark and daylight alert palettes.
+                <ZenAlert tone="danger" title="Capri Guard SQLi / XSS / Prompt Firewall">
+                  Run <code>npx capri guard</code> in CI or call <code>capri.scanSqlInjection()</code> / <code>capri.sanitizeForPrompt()</code> on untrusted inputs.
                 </ZenAlert>
               </div>
 
@@ -1570,8 +1624,8 @@ export default function App() {
 
                 <div className="lg:col-span-7">
                   <ZenEmptyState
-                    title="No Custom Telemetry Streams Provisioned"
-                    description="Create a new project blueprint or import a token manifest to populate live telemetry streams across your micro-frontends."
+                    title="No Custom Token Overrides Loaded"
+                    description="Upload a JSON token manifest or select one of the 8 built-in dark and light themes to preview live CSS variable overrides."
                     icon={<Database className="w-6 h-6" />}
                     actionSlot={
                       <ZenButton
@@ -1579,14 +1633,14 @@ export default function App() {
                         size="sm"
                         onClick={() =>
                           pushToast({
-                            title: 'Stream Initialized',
-                            detail: 'Connected to EU-Central Blackwall Node 01.',
+                            title: 'Default Tokens Verified',
+                            detail: `Loaded ${themeMeta.name} (${polarity} polarity) token defaults.`,
                             tone: 'success',
                           })
                         }
                         iconLeft={<Plus className="w-4 h-4" />}
                       >
-                        Provision Stream
+                        Load Defaults
                       </ZenButton>
                     }
                   />
