@@ -441,12 +441,15 @@ const IGNORED_DIRS = new Set([
   'dist',
   'build',
   'target',
+  'out-tsc',
   'coverage',
   'storybook-static',
+  'scratch',
   '.git',
   '.idea',
   '.angular',
   '.gradle',
+  '.mvn',
   '.pytest_cache',
   '__pycache__',
   'venv',
@@ -458,10 +461,14 @@ const IGNORED_DIRS = new Set([
   'lighthouse-fleet-results',
   'lighthouse-reports',
   'videos',
+  'smoke-output',
 ]);
 
+const SCRATCH_FILE_REGEX =
+  /^(?:fix[_-].*|apply_optimizations\.py|copy_models\.py|final_fix\.js|migrate-todos\.js|revert_tokens\.js|setup-.*\.js|update_.*\.(?:py|js)|generate_obsidian_vault\.py|obsidian_vault_templates\.py)$/i;
+
 function scanAllRepoFiles(dirPath, fileList = [], depth = 0) {
-  if (!fs.existsSync(dirPath) || depth > 5) return fileList;
+  if (!fs.existsSync(dirPath) || depth > 14) return fileList;
   let entries = [];
   try {
     entries = fs.readdirSync(dirPath, { withFileTypes: true });
@@ -472,6 +479,9 @@ function scanAllRepoFiles(dirPath, fileList = [], depth = 0) {
     if (entry.name.startsWith('.') || IGNORED_DIRS.has(entry.name)) {
       continue;
     }
+    if (depth === 0 && SCRATCH_FILE_REGEX.test(entry.name)) {
+      continue;
+    }
     const fullPath = path.join(dirPath, entry.name);
     if (entry.isDirectory()) {
       scanAllRepoFiles(fullPath, fileList, depth + 1);
@@ -480,7 +490,8 @@ function scanAllRepoFiles(dirPath, fileList = [], depth = 0) {
         entry.name
       ) &&
       !entry.name.endsWith('.min.js') &&
-      !entry.name.endsWith('.d.ts')
+      !entry.name.endsWith('.d.ts') &&
+      !entry.name.endsWith('.bundle.js')
     ) {
       fileList.push(fullPath);
     }
@@ -488,7 +499,110 @@ function scanAllRepoFiles(dirPath, fileList = [], depth = 0) {
   return fileList;
 }
 
-function generateStaticDocu(targetDir) {
+function discoverSubProjects(absDir) {
+  const subProjects = [];
+  const visit = (dir, depth) => {
+    if (depth > 3 || !fs.existsSync(dir)) return;
+    let entries = [];
+    try {
+      entries = fs.readdirSync(dir, { withFileTypes: true });
+    } catch {
+      return;
+    }
+    for (const entry of entries) {
+      if (
+        !entry.isDirectory() ||
+        entry.name.startsWith('.') ||
+        IGNORED_DIRS.has(entry.name) ||
+        entry.name === 'docs' ||
+        entry.name === 'public' ||
+        entry.name === 'assets'
+      ) {
+        continue;
+      }
+      const subPath = path.join(dir, entry.name);
+      const relPath = path.relative(absDir, subPath).replace(/\\/g, '/');
+      const pkgJson = path.join(subPath, 'package.json');
+      const pomXml = path.join(subPath, 'pom.xml');
+      const gradleKts = path.join(subPath, 'build.gradle.kts');
+      const gradleGroovy = path.join(subPath, 'build.gradle');
+      const goMod = path.join(subPath, 'go.mod');
+      const reqTxt = path.join(subPath, 'requirements.txt');
+      const pyProj = path.join(subPath, 'pyproject.toml');
+
+      const markers = [];
+      let pkgObj = null;
+      if (fs.existsSync(pkgJson)) {
+        pkgObj = JSON.parse(readSafe(pkgJson) || '{}');
+        const deps = {
+          ...(pkgObj.dependencies || {}),
+          ...(pkgObj.devDependencies || {}),
+        };
+        if (deps['@angular/core']) markers.push('Angular MFE');
+        else if (deps.vue) markers.push('Vue 3 SPA');
+        else if (deps.react && deps.next) markers.push('Next.js App');
+        else if (deps.react) markers.push('React SPA');
+        else if (deps.electron) markers.push('Electron Desktop');
+        else if (deps['@nestjs/core']) markers.push('NestJS API');
+        else if (deps.fastify) markers.push('Fastify API');
+        else if (deps.express) markers.push('Express API');
+        else markers.push('TypeScript / Node');
+      }
+      if (fs.existsSync(gradleKts) || fs.existsSync(gradleGroovy)) {
+        markers.push('Kotlin / Spring Boot');
+      }
+      if (fs.existsSync(pomXml)) {
+        markers.push('Java / Spring Boot (Maven)');
+      }
+      if (fs.existsSync(goMod)) {
+        markers.push('Go Microservice');
+      }
+      if (fs.existsSync(reqTxt) || fs.existsSync(pyProj)) {
+        markers.push('Python / FastAPI');
+      }
+
+      if (markers.length > 0) {
+        subProjects.push({
+          relPath,
+          name: pkgObj?.name || path.basename(subPath),
+          stack: markers.join(' + '),
+          pkgObj,
+          gradleTxt: readSafe(gradleKts) || readSafe(gradleGroovy),
+          pomTxt: readSafe(pomXml),
+          reqTxt: readSafe(reqTxt),
+        });
+      }
+      visit(subPath, depth + 1);
+    }
+  };
+  visit(absDir, 1);
+  return subProjects;
+}
+
+const REPO_EXECUTIVE_SUMMARIES = {
+  'zeN-UI':
+    'Universal Multi-Polarity Design System (`@zen-ui/system` v1.1.0), 51 UI modules, 40 vector icons, 8 Dark/Light themes, Three.js WebGL Cosmos, Web Audio Synth, W3C Custom Elements, and the `Capri` AI Co-Pilot CLI (`https://ui.lpabst.dev`).',
+  portfolio:
+    'Interactive 3D Creative Developer Portfolio (`https://lpabst.dev`) built with React 19, Three.js / R3F Three-Body orbital physics, GSAP ScrollTrigger, and `@zen-ui/system`.',
+  'zeN-Terminal':
+    'Local Windows Terminal / PowerShell / CMD cyber-shell overhaul (`install:terminal`) + interactive 3D terminal showcase web app (`https://terminal.lpabst.dev`) powered by `@zen-ui/system`.',
+  JourneyLink:
+    '22-SCS (Self-Contained System) Polyglot Travel & Group Coordination Platform using Angular 20 Native Federation MFEs, `@journey-link/ui`, Kotlin Spring Boot 4, Node/Express/Fastify/NestJS, Python FastAPI, Go, MongoDB-per-service, RabbitMQ AMQP events, and Redis.',
+  'Capri-Assistant':
+    'Personal AI Construct Assistant (Project Capricorn — Desktop Electron + Web PWA + Express API) with a strict 2-Zone Air-Gapped Sandbox (`capri-vault/`), Relic Engram memory/task/note store, Host PC telemetry, and hybrid Gemini / Ollama / Local Reflex inference.',
+  'dc-translation':
+    'Multi-Server Discord Live-Translation Bot (`Discord.js` + TypeScript + SQLite/Database) featuring automated live translation threads, flag reaction translation, onboarding setup wizards, and server-wide broadcast localization.',
+  SyncSound:
+    'Collaborative Real-Time Music Voting & Room Synchronization Platform combining a Java Spring Boot + WebSocket + Spotify Web API backend (`/backend`) with a Vue 3 + Vuex + Tailwind CSS frontend (`/frontend`).',
+  physioTherapie:
+    'Responsive Web Presence & Brand Identity System for Physiotherapie Pabst, including custom SVG/WebP anatomical spine/wave emblems, appointment & treatment sections, and GDPR-compliant legal pages (`impressum.html`, `datenschutz.html`).',
+  LiveTracker:
+    'Real-Time Livestream Countdown & Overlay Tracker combining a Python Tkinter/Canvas desktop tracker (`livestream_tracker.py`) with a Node.js synchronization server (`server.js`) and HTML5 browser overlay (`livetracker.html`).',
+  'File-Scanner':
+    'Containerized Malware & File Ingestion Scanner (`scanner.py` + ClamAV `clamd` + `supervisord`) that watches upload directories, scans files for threats, quarantines/moves files, and publishes scan results.',
+};
+
+function analyzeRepo(targetDir) {
   const absDir = path.resolve(targetDir);
   const repoName = path.basename(absDir);
   const pkgPath = path.join(absDir, 'package.json');
@@ -503,6 +617,7 @@ function generateStaticDocu(targetDir) {
     fs.existsSync(path.join(absDir, 'Dockerfile')) ||
     fs.existsSync(path.join(absDir, 'docker', 'Dockerfile'));
 
+  const subProjects = discoverSubProjects(absDir);
   const allFiles = scanAllRepoFiles(absDir);
   const extCounts = {};
   let totalLoc = 0;
@@ -519,44 +634,71 @@ function generateStaticDocu(targetDir) {
     const rel = path.relative(absDir, file).replace(/\\/g, '/');
     fileStats.push({ rel, lines, ext });
 
-    const symMatches = content.matchAll(
-      /\bexport\s+(?:async\s+)?(?:function|class|const|interface|type)\s+([A-Za-z0-9_]+)/g
-    );
-    for (const m of symMatches) {
-      if (!m[1].endsWith('Props') && exportedSymbols.size < 45) {
-        exportedSymbols.add(m[1]);
-      }
-    }
+    const isToolOrTest =
+      rel.includes('JourneyLink-Tools/') ||
+      rel.includes('.spec.') ||
+      rel.includes('.test.');
 
-    const pyMatches = content.matchAll(/^(?:async\s+)?(?:def|class)\s+([A-Za-z0-9_]+)/gm);
-    for (const m of pyMatches) {
-      if (!m[1].startsWith('_') && exportedSymbols.size < 45) {
-        exportedSymbols.add(m[1]);
+    if (!isToolOrTest) {
+      const symMatches = content.matchAll(
+        /\bexport\s+(?:async\s+)?(?:function|class|const|interface|type)\s+([A-Za-z0-9_]+)/g
+      );
+      for (const m of symMatches) {
+        if (!m[1].endsWith('Props') && exportedSymbols.size < 45) {
+          exportedSymbols.add(m[1]);
+        }
       }
-    }
 
-    const ktMatches = content.matchAll(
-      /\b(?:class|interface|fun|object)\s+([A-Za-z0-9_]+)/g
-    );
-    for (const m of ktMatches) {
-      if (exportedSymbols.size < 45) {
-        exportedSymbols.add(m[1]);
+      const ktJavaMatches = content.matchAll(
+        /\b(?:public\s+|open\s+|data\s+)?(?:class|interface|object)\s+([A-Z][A-Za-z0-9_]+)/g
+      );
+      for (const m of ktJavaMatches) {
+        if (
+          !m[1].endsWith('Test') &&
+          !m[1].endsWith('Tests') &&
+          exportedSymbols.size < 45
+        ) {
+          exportedSymbols.add(m[1]);
+        }
+      }
+
+      const pyMatches = content.matchAll(
+        /^(?:async\s+)?(?:def|class)\s+([A-Za-z0-9_]+)/gm
+      );
+      for (const m of pyMatches) {
+        if (!m[1].startsWith('_') && exportedSymbols.size < 45) {
+          exportedSymbols.add(m[1]);
+        }
       }
     }
 
     const routeMatches = content.matchAll(
-      /@(?:GetMapping|PostMapping|PutMapping|DeleteMapping|RequestMapping)\(\s*["']([^"']+)["']|\b(?:app|router)\.(?:get|post|put|delete)\(\s*["']([^"']+)["']/g
+      /@(?:GetMapping|PostMapping|PutMapping|DeleteMapping|RequestMapping|MessageMapping)\(\s*(?:value\s*=\s*)?["']([^"']+)["']|\b(?:app|router)\.(?:get|post|put|delete)\(\s*["']([^"']+)["']/g
     );
     for (const m of routeMatches) {
       const route = m[1] || m[2];
-      if (route && routesAndEndpoints.size < 25) {
+      if (route && route !== '*' && routesAndEndpoints.size < 35) {
         routesAndEndpoints.add(route);
       }
     }
   }
 
-  fileStats.sort((a, b) => b.lines - a.lines);
-  const topFiles = fileStats.slice(0, 12);
+  const domainFiles = fileStats.filter(
+    (f) =>
+      !f.rel.includes('JourneyLink-Tools/') &&
+      !f.rel.includes('JourneyLink-Monitoring/') &&
+      !f.rel.includes('/__tests__/') &&
+      !f.rel.includes('/src/test/') &&
+      !f.rel.endsWith('.spec.ts') &&
+      !f.rel.endsWith('.test.ts') &&
+      !f.rel.endsWith('Test.kt') &&
+      !f.rel.endsWith('.css') &&
+      !f.rel.endsWith('.scss')
+  );
+  const rankedFiles = (domainFiles.length >= 6 ? domainFiles : fileStats)
+    .slice()
+    .sort((a, b) => b.lines - a.lines);
+  const topFiles = rankedFiles.slice(0, 12);
 
   let topSubdirs = [];
   try {
@@ -566,37 +708,101 @@ function generateStaticDocu(targetDir) {
         (e) =>
           e.isDirectory() &&
           !e.name.startsWith('.') &&
-          !IGNORED_DIRS.has(e.name)
+          !IGNORED_DIRS.has(e.name) &&
+          e.name !== 'docs'
       )
       .map((e) => e.name);
   } catch {
     topSubdirs = [];
   }
 
-  const stackTags = [];
-  if (pkg) {
-    const allDeps = {
-      ...(pkg.dependencies || {}),
-      ...(pkg.devDependencies || {}),
-    };
-    if (allDeps.react) stackTags.push(`React ${allDeps.react}`);
-    if (allDeps['@angular/core']) stackTags.push(`Angular ${allDeps['@angular/core']}`);
-    if (allDeps.three) stackTags.push('Three.js / WebGL');
-    if (allDeps.gsap) stackTags.push('GSAP Motion');
-    if (allDeps.vite) stackTags.push('Vite');
-    if (allDeps.express) stackTags.push('Express / Node.js');
-    if (allDeps['discord.js']) stackTags.push('Discord.js');
-    if (allDeps['@zen-ui/system'] || pkg.name === '@zen-ui/system') {
-      stackTags.push('@zen-ui/system (CAPRI)');
+  const allDeps = {
+    ...(pkg?.dependencies || {}),
+    ...(pkg?.devDependencies || {}),
+  };
+  for (const sp of subProjects) {
+    if (sp.pkgObj) {
+      Object.assign(
+        allDeps,
+        sp.pkgObj.dependencies || {},
+        sp.pkgObj.devDependencies || {}
+      );
     }
-    if (allDeps.typescript) stackTags.push('TypeScript');
   }
-  if (reqTxt || extCounts['.py']) stackTags.push('Python');
-  if (extCounts['.kt']) stackTags.push('Kotlin / Spring Boot');
-  if (extCounts['.ps1']) stackTags.push('PowerShell');
-  if (extCounts['.html'] && !pkg) stackTags.push('Static HTML5 / CSS3 / JS');
-  if (hasDockerCompose || hasDockerfile) stackTags.push('Docker Containerized');
-  if (stackTags.length === 0) stackTags.push('Polyglot / Custom');
+
+  const stackSet = new Set();
+  if (allDeps['@angular/core']) stackSet.add('Angular 20+');
+  if (allDeps['@angular-architects/native-federation']) {
+    stackSet.add('Native Federation MFE');
+  }
+  if (allDeps.react) stackSet.add('React 19');
+  if (allDeps.vue) stackSet.add('Vue 3');
+  if (allDeps.electron) stackSet.add('Electron Desktop');
+  if (allDeps.three) stackSet.add('Three.js / WebGL');
+  if (allDeps.gsap) stackSet.add('GSAP Motion');
+  if (allDeps.vite) stackSet.add('Vite');
+  if (extCounts['.kt']) stackSet.add('Kotlin / Spring Boot');
+  if (extCounts['.java']) stackSet.add('Java / Spring Boot');
+  if (extCounts['.go']) stackSet.add('Go');
+  if (reqTxt || extCounts['.py']) stackSet.add('Python / FastAPI');
+  if (allDeps['@nestjs/core']) stackSet.add('NestJS');
+  if (allDeps.fastify) stackSet.add('Fastify');
+  if (allDeps.express) stackSet.add('Express / Node.js');
+  if (allDeps['discord.js']) stackSet.add('Discord.js');
+  if (allDeps.mongoose || allDeps.mongodb || extCounts['.kt']) {
+    if (repoName === 'JourneyLink') stackSet.add('MongoDB + RabbitMQ + Redis');
+  }
+  if (allDeps['@zen-ui/system'] || pkg?.name === '@zen-ui/system') {
+    stackSet.add('@zen-ui/system (CAPRI)');
+  }
+  if (extCounts['.ts'] || extCounts['.tsx']) stackSet.add('TypeScript');
+  if (extCounts['.ps1']) stackSet.add('PowerShell');
+  if (extCounts['.html'] && stackSet.size === 0) {
+    stackSet.add('Static HTML5 / CSS3 / JS');
+  }
+  if (hasDockerCompose || hasDockerfile) stackSet.add('Docker Containerized');
+  const stackTags = [...stackSet];
+
+  return {
+    absDir,
+    repoName,
+    pkg,
+    executiveSummary:
+      REPO_EXECUTIVE_SUMMARIES[repoName] ||
+      pkg?.description ||
+      `${repoName} software repository (${stackTags.join(', ')}).`,
+    hasDockerCompose,
+    hasDockerfile,
+    subProjects,
+    allFiles,
+    extCounts,
+    totalLoc,
+    topFiles,
+    topSubdirs,
+    stackTags,
+    exportedSymbols: [...exportedSymbols],
+    routesAndEndpoints: [...routesAndEndpoints],
+  };
+}
+
+function generateStaticDocu(targetDir) {
+  const info = analyzeRepo(targetDir);
+  const {
+    repoName,
+    pkg,
+    executiveSummary,
+    hasDockerCompose,
+    hasDockerfile,
+    subProjects,
+    allFiles,
+    extCounts,
+    totalLoc,
+    topFiles,
+    topSubdirs,
+    stackTags,
+    exportedSymbols,
+    routesAndEndpoints,
+  } = info;
 
   const extSummary = Object.entries(extCounts)
     .sort((a, b) => b[1] - a[1])
@@ -608,10 +814,16 @@ function generateStaticDocu(targetDir) {
   mermaidLines.push(
     `  Repo["${repoName}${pkg?.version ? ` v${pkg.version}` : ''}"]`
   );
-  mermaidLines.push(`  Stack["Stack: ${stackTags.slice(0, 4).join(' · ')}"]`);
+  mermaidLines.push(`  Stack["Stack: ${stackTags.slice(0, 5).join(' · ')}"]`);
   mermaidLines.push('  Repo --> Stack');
 
-  if (topSubdirs.length > 0) {
+  if (subProjects.length > 1) {
+    subProjects.slice(0, 12).forEach((sp, idx) => {
+      const nodeId = safeId(sp.relPath, idx);
+      mermaidLines.push(`  ${nodeId}["${sp.relPath} (${sp.stack})"]`);
+      mermaidLines.push(`  Stack --> ${nodeId}`);
+    });
+  } else if (topSubdirs.length > 0) {
     topSubdirs.slice(0, 8).forEach((dir, idx) => {
       const nodeId = safeId(dir, idx);
       mermaidLines.push(`  ${nodeId}["/${dir}"]`);
@@ -630,11 +842,28 @@ function generateStaticDocu(targetDir) {
     mermaidLines.push('  Repo -.->|"Containerized"| Docker');
   }
 
+  const subProjectsSection =
+    subProjects.length > 0
+      ? [
+          '',
+          `## 3. Monorepo Sub-Projects & Microservices (${subProjects.length} Detected)`,
+          '| Sub-Project Path | Package / Service Name | Detected Tech Stack |',
+          '| :--- | :--- | :--- |',
+          ...subProjects
+            .slice(0, 40)
+            .map(
+              (sp) => `| \`${sp.relPath}\` | \`${sp.name}\` | ${sp.stack} |`
+            ),
+          '',
+        ].join('\n')
+      : '';
+
   const scriptsList = pkg?.scripts
     ? Object.entries(pkg.scripts)
-        .map(([k, v]) => `- \`npm run ${k}\`: \`${v}\``)
+        .slice(0, 18)
+        .map(([k, v]) => `- \`npm run ${k}\`: \`${v.slice(0, 140)}${v.length > 140 ? '...' : ''}\``)
         .join('\n')
-    : '- Standalone / Non-NPM execution (`Dockerfile` / scripts / native)';
+    : '- Standalone / Sub-project execution (`Dockerfile`, Maven/Gradle, Python, or sub-folder `package.json`)';
 
   const topFilesTable = [
     '| Module Path | Lines | Extension |',
@@ -643,20 +872,29 @@ function generateStaticDocu(targetDir) {
   ].join('\n');
 
   const symbolsPreview =
-    exportedSymbols.size > 0
-      ? [...exportedSymbols].slice(0, 30).map((s) => `\`${s}\``).join(', ')
+    exportedSymbols.length > 0
+      ? exportedSymbols.slice(0, 32).map((s) => `\`${s}\``).join(', ')
       : 'Internal / Script-level entrypoints';
 
   const routesSection =
-    routesAndEndpoints.size > 0
-      ? `\n## 5. Detected HTTP / API Endpoints\n${[...routesAndEndpoints]
+    routesAndEndpoints.length > 0
+      ? `\n## 6. Detected HTTP / WebSocket / API Endpoints (${routesAndEndpoints.length})\n${routesAndEndpoints
           .map((r) => `- \`${r}\``)
           .join('\n')}\n`
       : '';
 
   return [
-    `# ${repoName} // CAPRI Automated Architecture & AI Context Dossier`,
-    '> Generated on demand via `npx capri docu` (Zero build or browser runtime overhead)',
+    '---',
+    `project: "${repoName}"`,
+    `version: "${pkg?.version || '1.0.0'}"`,
+    `files: ${allFiles.length}`,
+    `loc: ${totalLoc}`,
+    'tags: [capri-docu, architecture, ideaprojects]',
+    '---',
+    `# ${repoName} // CAPRI Architecture & AI Context Dossier`,
+    `> **Executive Summary:** ${executiveSummary}`,
+    '>',
+    '> *Generated automatically via `npx capri docu` (Zero build or browser runtime overhead) · Linked to [[000-Master-Workspace-Index]]*',
     '',
     '## 1. Project Identity & Stack Overview',
     `- **Repository:** \`${repoName}\`${pkg?.name ? ` (\`${pkg.name}\`)` : ''}`,
@@ -679,25 +917,104 @@ function generateStaticDocu(targetDir) {
     `- **Total Source Files Scanned:** ${allFiles.length}`,
     `- **Total Lines of Code (LOC):** ${totalLoc.toLocaleString('en-US')}`,
     `- **File Extensions:** ${extSummary || 'N/A'}`,
-    `- **Key Exported Symbols / Classes / Functions (${exportedSymbols.size}):** ${symbolsPreview}`,
-    '',
-    '## 3. Architecture & Subsystem Topology (`flowchart TD`)',
+    `- **Key Domain Symbols / Classes / Functions (${exportedSymbols.length}):** ${symbolsPreview}`,
+    subProjectsSection,
+    '## 4. Architecture & Subsystem Topology (`flowchart TD`)',
     '```mermaid',
     mermaidLines.join('\n'),
     '```',
     '',
-    '## 4. Largest Modules & Entrypoints Inventory',
+    '## 5. Key Domain Modules & Entrypoints Inventory',
     topFilesTable,
     routesSection,
-    '## 6. Available Build & Automation Scripts',
+    '## 7. Available Build & Automation Scripts',
     scriptsList,
     '',
-    '## 7. Capri AI Agent Protocol (Claude / Codex / Gemini / Antigravity)',
+    '## 8. Capri AI Agent Protocol (Claude / Codex / Gemini / Antigravity)',
     '- **Subroutine `orion` (`CAPRI // UNLEASHED`):** Use `@zen-ui/system` primitives and `<ZenIcon>` (40 vector glyphs) for UI views; keep action labels concise (`1-3 words`).',
     '- **Subroutine `architect` (`SCS // ARCHITECT`):** Enforce strict typing (zero `any`, `readonly T[]`), modular files (`< 900` lines), and `--zen-*` CSS tokens.',
     '- **Subroutine `guard` (`CYBERPSYCHOSIS // GUARD`):** Sanitize untrusted inputs (`capri.sanitizeForPrompt()`), prevent XSS/secret leaks, bind dropdowns to `onMouseDown`, and ensure zero horizontal overflow (`320px` to `4K`).',
     '- **Subroutine `zen` (`THEME // MATRIX`):** Maintain 4 Dark + 4 Light themes (`>= 4.5:1` AA contrast) and 60fps `--zen-ease-spring` tactile motion.',
-    '- **Subroutine `docu` (`CAPRI // AUTO-DOCU`):** Re-run `npx capri docu --write` whenever architectural boundaries or modules change.',
+    '- **Subroutine `docu` (`CAPRI // AUTO-DOCU`):** Re-run `npm run capri -- docu --workspace "C:\\Users\\Lukas\\IdeaProjects" --write` whenever architectural boundaries or modules change.',
+    '',
+  ].join('\n');
+}
+
+function generateMasterObsidianVaultIndex(repoInfos) {
+  const totalFiles = repoInfos.reduce((acc, r) => acc + r.allFiles.length, 0);
+  const totalLoc = repoInfos.reduce((acc, r) => acc + r.totalLoc, 0);
+
+  const tableRows = repoInfos.map((r) => {
+    const link = `[[repos-index/${r.repoName}|${r.repoName}]]`;
+    const stackShort = r.stackTags.slice(0, 4).join(' · ');
+    return `| ${link} | ${r.allFiles.length} | ${r.totalLoc.toLocaleString(
+      'en-US'
+    )} | ${stackShort} | ${r.executiveSummary} |`;
+  });
+
+  const detailBlocks = repoInfos.map((r) => {
+    const subCount =
+      r.subProjects.length > 0
+        ? ` (${r.subProjects.length} sub-projects/services)`
+        : '';
+    const topMods = r.topFiles
+      .slice(0, 4)
+      .map((f) => `\`${f.rel}\` (${f.lines}L)`)
+      .join(', ');
+    const endpointsPreview =
+      r.routesAndEndpoints.length > 0
+        ? `\n- **Key Endpoints:** ${r.routesAndEndpoints
+            .slice(0, 8)
+            .map((e) => `\`${e}\``)
+            .join(', ')}`
+        : '';
+    return [
+      `### [[repos-index/${r.repoName}|${r.repoName}]]${subCount}`,
+      `- **Summary:** ${r.executiveSummary}`,
+      `- **Stack:** ${r.stackTags.join(' · ')}`,
+      `- **Scale:** ${r.allFiles.length} files · ${r.totalLoc.toLocaleString(
+        'en-US'
+      )} LOC (${Object.entries(r.extCounts)
+        .map(([k, v]) => `${k}: ${v}`)
+        .join(', ')})`,
+      `- **Core Entrypoints:** ${topMods || 'N/A'}${endpointsPreview}`,
+    ].join('\n');
+  });
+
+  return [
+    '---',
+    'title: "Capri Master Workspace & Repository Index (IdeaProjects)"',
+    'tags: [capri-vault, moc, workspace-index, architecture]',
+    '---',
+    '# 000 — Capri Master Workspace & Repository Index (`IdeaProjects`)',
+    '> **Instant AI Context Map for Capri Personal Assistant & Coding Agents**',
+    `> Covers **${repoInfos.length} repositories**, **${totalFiles.toLocaleString(
+      'en-US'
+    )} source files**, and **${totalLoc.toLocaleString(
+      'en-US'
+    )} lines of code** across \`C:\\Users\\Lukas\\IdeaProjects\\\`.`,
+    '> When answering questions about any project below, read this index first (and the linked `[[repos-index/<Repo>]]` note if deeper file/endpoint detail is needed) — no full-disk repo crawling required.',
+    '',
+    '## 1. Live Production & Hetzner Deployment Topology (`2.31.32.227`)',
+    '- **`https://lpabst.dev` (`portfolio-web`):** Creative 3D Portfolio (`portfolio` repo · React 19 + Three.js + `@zen-ui/system`).',
+    '- **`https://ui.lpabst.dev` (`zen-ui-web`):** `@zen-ui/system // CAPRI v1.1.0` Design System Showcase & 51-Module Storybook (`zeN-UI` repo).',
+    '- **`https://terminal.lpabst.dev` (`zen-terminal-web`):** `zeN-Terminal` 3D Cyber-Shell Showcase (`zeN-Terminal` repo · also installed locally across Windows Terminal, PowerShell `$PROFILE`, and `cmd.exe`).',
+    '- **Reverse Proxy & Hardening:** `caddy-gateway` (`80/443`) routes to isolated internal Docker bridge networks (`portfolio-net`, `zen-ui-net`, `zen-terminal-net`). All web containers run rootless (`101:101`), `read_only: true`, `cap_drop: ALL`, `256M` RAM limit.',
+    '',
+    '## 2. Master Repository Matrix (`C:\\Users\\Lukas\\IdeaProjects`)',
+    '| Repository Note | Files | LOC | Primary Tech Stack | Executive Purpose |',
+    '| :--- | ---: | ---: | :--- | :--- |',
+    ...tableRows,
+    '',
+    '## 3. Per-Repository Instant Context Briefs',
+    ...detailBlocks,
+    '',
+    '## 4. Mandatory Auto-Docu Synchronization Rule',
+    'Whenever any repository in `C:\\Users\\Lukas\\IdeaProjects` adds/removes modules, changes APIs, or updates dependencies, run:',
+    '```powershell',
+    'npm --prefix "C:\\Users\\Lukas\\IdeaProjects\\zeN-UI" run capri -- docu --workspace "C:\\Users\\Lukas\\IdeaProjects" --write',
+    '```',
+    'This single command regenerates every repo\'s `docs/CAPRI-ARCHITECTURE.md` AND updates `capri-vault/000-Master-Workspace-Index.md` + `capri-vault/repos-index/*.md` in `< 2 seconds`.',
     '',
   ].join('\n');
 }
@@ -719,22 +1036,54 @@ if (command === 'docu') {
       .readdirSync(workspaceDir, { withFileTypes: true })
       .filter((e) => e.isDirectory() && !e.name.startsWith('.'));
     const summaryRows = [];
+    const repoInfos = [];
+    const capriVaultDir = path.join(
+      workspaceDir,
+      'Capri-Assistant',
+      'capri-vault'
+    );
+    const capriReposIndexDir = path.join(capriVaultDir, 'repos-index');
+    if (writeEnabled && fs.existsSync(path.join(workspaceDir, 'Capri-Assistant'))) {
+      fs.mkdirSync(capriReposIndexDir, { recursive: true });
+    }
+
     for (const entry of entries) {
       const repoPath = path.join(workspaceDir, entry.name);
+      const info = analyzeRepo(repoPath);
+      repoInfos.push(info);
       const docContent = generateStaticDocu(repoPath);
       const outDir = path.join(repoPath, 'docs');
       const outFile = path.join(outDir, 'CAPRI-ARCHITECTURE.md');
       if (writeEnabled) {
         fs.mkdirSync(outDir, { recursive: true });
         fs.writeFileSync(outFile, docContent, 'utf8');
+        if (fs.existsSync(capriReposIndexDir)) {
+          fs.writeFileSync(
+            path.join(capriReposIndexDir, `${entry.name}.md`),
+            docContent,
+            'utf8'
+          );
+        }
       }
-      const filesCount = scanAllRepoFiles(repoPath).length;
       summaryRows.push(
-        `- **${entry.name}**: \`${outFile}\` (${filesCount} source files analyzed)`
+        `- **${entry.name}**: \`${outFile}\` (${info.allFiles.length} source files · ${info.totalLoc.toLocaleString('en-US')} LOC · ${info.subProjects.length} sub-projects)`
       );
     }
+
+    if (writeEnabled && fs.existsSync(capriVaultDir)) {
+      const masterIndexContent = generateMasterObsidianVaultIndex(repoInfos);
+      const masterIndexPath = path.join(
+        capriVaultDir,
+        '000-Master-Workspace-Index.md'
+      );
+      fs.writeFileSync(masterIndexPath, masterIndexContent, 'utf8');
+      summaryRows.push(
+        `- **Master Obsidian Vault Index**: \`${masterIndexPath}\` (Synced ${repoInfos.length} repos into \`capri-vault/repos-index/\`)`
+      );
+    }
+
     console.log(
-      `# CAPRI // AUTO-DOCU — Workspace Batch Documentation Complete (${entries.length} Repositories)\n`
+      `# CAPRI // AUTO-DOCU — Workspace & Obsidian Vault Sync Complete (${entries.length} Repositories)\n`
     );
     console.log(summaryRows.join('\n'));
   } else {
