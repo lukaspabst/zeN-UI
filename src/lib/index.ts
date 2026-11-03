@@ -1,3 +1,6 @@
+export const ZEN_UI_VERSION = '1.1.0';
+export const ZEN_PACKAGE_NAME = '@zen-ui/system';
+
 export {
   ZenThemeProvider,
   useZenTheme,

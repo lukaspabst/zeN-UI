@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import {
   ZEN_THEMES,
+  ZEN_UI_VERSION,
   ZenAccordion,
   ZenAIConstruct,
   ZenAlert,
@@ -526,8 +527,15 @@ export default function App() {
       />
 
       <ZenNavbar
-        brandTitle="zeN-UI // CAPRI"
-        brandSubtitle={`${themeMeta.name.toUpperCase()} · ${polarity.toUpperCase()} POLARITY`}
+        brandTitle={
+          <span className="inline-flex items-center gap-2.5">
+            <span>zeN-UI // CAPRI</span>
+            <ZenBadge tone="gold" pulse>
+              v{ZEN_UI_VERSION}
+            </ZenBadge>
+          </span>
+        }
+        brandSubtitle={`${themeMeta.name.toUpperCase()} · ${polarity.toUpperCase()} POLARITY · LATEST v${ZEN_UI_VERSION}`}
         navSlot={
           <>
             <a
@@ -614,12 +622,14 @@ export default function App() {
             <div className="space-y-5">
               <div className="flex flex-wrap items-center gap-2.5">
                 <ZenBadge tone="gold" pulse>
-                  @ZEN-UI/SYSTEM v2.4 · CAPRI // CAPRICORN EDITION
+                  @ZEN-UI/SYSTEM v{ZEN_UI_VERSION} · LATEST NPM RELEASE
+                </ZenBadge>
+                <ZenBadge tone="emerald">
+                  1 UNIFIED PACKAGE (UI + CAPRI AI CORE + CLI)
                 </ZenBadge>
                 <ZenBadge tone="neutral">51 UNIVERSAL MODULES</ZenBadge>
                 <ZenBadge tone="neutral">40 VECTOR ICONS</ZenBadge>
                 <ZenBadge tone="neutral">4 DARK + 4 LIGHT THEMES</ZenBadge>
-                <ZenBadge tone="emerald">5 CLAUDE / CODEX / GEMINI SUBROUTINES</ZenBadge>
               </div>
 
               <ZenHeading
@@ -640,12 +650,29 @@ export default function App() {
               <ZenMetricStrip
                 columns={4}
                 metrics={[
-                  { value: '51', label: 'Universal Modules', accent: true },
+                  { value: `v${ZEN_UI_VERSION}`, label: 'Latest NPM Release', accent: true },
+                  { value: '51 Modules', label: 'UI + Capri AI Core' },
                   { value: '40 Icons', label: '<ZenIcon> & <zen-icon>' },
-                  { value: '5 Skills', label: 'Claude · Codex · Gemini' },
                   { value: '0 any', label: 'Strict TypeScript' },
                 ]}
               />
+
+              <div className="p-3.5 rounded-2xl bg-[var(--zen-surface-subtle)] border border-[var(--zen-border-default)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="zen-telemetry-label text-[var(--zen-accent-primary)]">
+                    SINGLE VERSIONED NPM PACKAGE (UI COMPONENTS + CAPRI AI CORE + CLI)
+                  </div>
+                  <code className="block zen-font-mono text-xs text-[var(--zen-ink-primary)] truncate mt-0.5">
+                    {`npm install "@zen-ui/system@https://github.com/lukaspabst/zeN-UI/releases/download/v${ZEN_UI_VERSION}/zen-ui-system-${ZEN_UI_VERSION}.tgz"`}
+                  </code>
+                </div>
+                <ZenCopyButton
+                  value={`npm install "@zen-ui/system@https://github.com/lukaspabst/zeN-UI/releases/download/v${ZEN_UI_VERSION}/zen-ui-system-${ZEN_UI_VERSION}.tgz"`}
+                  label={`COPY v${ZEN_UI_VERSION} INSTALL`}
+                  copiedLabel="COPIED"
+                  size="sm"
+                />
+              </div>
 
               <div className="pt-4 border-t border-[var(--zen-border-subtle)] flex flex-wrap items-center justify-between gap-4">
                 <div className="flex flex-wrap items-center gap-2.5">

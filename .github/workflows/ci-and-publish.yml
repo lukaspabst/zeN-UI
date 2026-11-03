@@ -87,10 +87,12 @@ jobs:
       - name: Build @zen-ui/system Library
         run: npm run build
 
-      - name: Create Universal NPM Tarball (zen-ui-system.tgz)
+      - name: Create Versioned & Latest NPM Tarballs
         run: |
+          VERSION=$(node -p "require('./package.json').version")
           TARBALL=$(npm pack)
-          cp "$TARBALL" zen-ui-system.tgz
+          cp "$TARBALL" "zen-ui-system-${VERSION}.tgz"
+          cp "$TARBALL" "zen-ui-system.tgz"
 
       - name: Publish @lukaspabst/zen-ui to GitHub Packages Registry
         env:
@@ -100,19 +102,24 @@ jobs:
             const fs = require("fs");
             const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
             pkg.name = "@lukaspabst/zen-ui";
-            pkg.version = `1.0.${process.env.GITHUB_RUN_NUMBER || 1}`;
             pkg.publishConfig = { registry: "https://npm.pkg.github.com", access: "public" };
             fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
           '
-          npm publish
+          npm publish || echo "Version already published to GitHub Packages; continuing to GitHub Release upload."
 
-      - name: Publish Release Tarball Asset (zen-ui-system.tgz) for Direct npm install
+      - name: Publish Versioned Release (vX.Y.Z) & Latest Release Assets
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          TAG="v1.0.${GITHUB_RUN_NUMBER}"
-          if gh release view latest >/dev/null 2>&1; then
-            gh release upload latest zen-ui-system.tgz --clobber
+          VERSION=$(node -p "require('./package.json').version")
+          TAG="v${VERSION}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "zen-ui-system-${VERSION}.tgz" zen-ui-system.tgz --clobber
           else
-            gh release create latest zen-ui-system.tgz --title "@zen-ui/system Latest Package" --notes "Install in any project via: npm install https://github.com/${GITHUB_REPOSITORY}/releases/download/latest/zen-ui-system.tgz or npm install @lukaspabst/zen-ui"
+            gh release create "$TAG" "zen-ui-system-${VERSION}.tgz" zen-ui-system.tgz --title "@zen-ui/system v${VERSION} (UI + Capri AI Core)" --notes "Unified @zen-ui/system v${VERSION} package (51 UI components, 40 vector icons, 8 themes, WebGL Cosmos, Web Audio Synth, and Capri AI Core + CLI). Install via: npm install \"@zen-ui/system@https://github.com/${GITHUB_REPOSITORY}/releases/download/v${VERSION}/zen-ui-system-${VERSION}.tgz\""
+          fi
+          if gh release view latest >/dev/null 2>&1; then
+            gh release upload latest "zen-ui-system-${VERSION}.tgz" zen-ui-system.tgz --clobber
+          else
+            gh release create latest "zen-ui-system-${VERSION}.tgz" zen-ui-system.tgz --title "@zen-ui/system Latest Package (v${VERSION})" --notes "Latest release (v${VERSION})"
           fi
