@@ -1,4 +1,188 @@
-import type { ZenAccordionItem, ZenDossierItem, ZenStepItem } from '../lib';
+import type {
+  ZenAccordionItem,
+  ZenChipOption,
+  ZenDossierItem,
+  ZenDropdownOption,
+  ZenSegmentItem,
+  ZenStepItem,
+  ZenTabItem,
+} from '../lib';
+
+export type CatalogSectionTab = 'all' | 'forms' | 'navigation' | 'overlays' | 'data' | 'feedback';
+export type InstallStackId = 'react' | 'angular' | 'vue' | 'vanilla';
+
+export const CATALOG_TABS: readonly ZenTabItem<CatalogSectionTab>[] = [
+  { id: 'all', label: 'All Suites', badge: '51' },
+  { id: 'forms', label: 'Forms & Inputs', badge: '11' },
+  { id: 'navigation', label: 'Navigation', badge: '7' },
+  { id: 'overlays', label: 'Surfaces & Overlays', badge: '8' },
+  { id: 'data', label: 'Data & Telemetry', badge: '16' },
+  { id: 'feedback', label: 'Feedback & States', badge: '9' },
+];
+
+export const FRAMEWORK_OPTIONS: readonly ZenDropdownOption<string>[] = [
+  {
+    value: 'react-19',
+    label: 'React 19 + Next.js / Vite',
+    description: 'Native TSX primitives, hooks & 3D WebGL canvas',
+  },
+  {
+    value: 'angular-20',
+    label: 'Angular 20+ (Standalone + Signals)',
+    description: 'CUSTOM_ELEMENTS_SCHEMA + ZenThemeController + tokens.css',
+  },
+  {
+    value: 'vue-svelte',
+    label: 'Vue 3 / Nuxt / Svelte 5',
+    description: 'Native W3C Custom Elements + reactive theme controller',
+  },
+  {
+    value: 'vanilla-html',
+    label: 'Vanilla HTML / TypeScript / Astro',
+    description: 'Zero-framework W3C Web Components + semantic CSS classes',
+  },
+];
+
+export const DEPLOY_REGION_OPTIONS = [
+  {
+    value: 'eu-central',
+    label: 'Vite / Rollup ESM Bundle (Tree-Shaken)',
+    description: 'Import only the React primitives and CSS tokens your app uses (33.9 kB gzip full bundle).',
+    badge: 'DEFAULT',
+  },
+  {
+    value: 'us-east',
+    label: 'Angular 20+ Native Federation Singleton',
+    description: 'Share @zen-ui/system/universal and tokens.css across micro-frontend remotes.',
+    badge: 'MFE',
+  },
+  {
+    value: 'ap-northeast',
+    label: 'SSR / Static HTML Custom Elements',
+    description: 'Zero-hydration CSS utility classes (.zen-card, .zen-btn) + W3C Web Components.',
+    badge: 'SSR',
+  },
+] as const;
+
+export const FILTER_CHIPS: readonly ZenChipOption<string>[] = [
+  { value: 'wcag-aa', label: 'WCAG 2.2 AA (51)' },
+  { value: 'roving-tab', label: 'Roving TabIndex (14)' },
+  { value: 'tabular-nums', label: 'Tabular Nums (19)' },
+  { value: 'zero-dep', label: 'Zero UI Runtime Deps (51)' },
+  { value: 'reduced-motion', label: 'Reduced Motion Safe (51)' },
+];
+
+export const INSTALL_STACK_SEGMENTS: readonly ZenSegmentItem<InstallStackId>[] = [
+  { value: 'react', label: 'React 19' },
+  { value: 'angular', label: 'Angular 20+' },
+  { value: 'vue', label: 'Vue / Svelte' },
+  { value: 'vanilla', label: 'Vanilla / HTML' },
+];
+
+export const INSTALL_SNIPPETS: Record<
+  InstallStackId,
+  { readonly title: string; readonly lang: string; readonly code: string }
+> = {
+  react: {
+    title: 'src/App.tsx (React 19 / Next.js)',
+    lang: 'TSX',
+    code: `import '@zen-ui/system/tokens.css';
+import {
+  ZenThemeProvider,
+  ZenAmbientBackground,
+  ZenAIConstruct,
+  ZenButton,
+} from '@zen-ui/system';
+
+export function AppShell() {
+  return (
+    <ZenThemeProvider defaultTheme="blackwall-crimson">
+      <ZenAmbientBackground variant="blackwall-lattice" />
+      <ZenAIConstruct constructName="CAPRI // CAPRICORN" />
+      <ZenButton variant="primary">Initialize Node</ZenButton>
+    </ZenThemeProvider>
+  );
+}`,
+  },
+  angular: {
+    title: 'app.component.ts (Angular 20+ Standalone + Signals)',
+    lang: 'TS',
+    code: `import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, signal } from '@angular/core';
+import { registerZenElements, zenTheme } from '@zen-ui/system/universal';
+
+registerZenElements();
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  template: \`
+    <zen-ambient-background variant="blackwall-lattice"></zen-ambient-background>
+    <main class="zen-card">
+      <zen-theme-switcher></zen-theme-switcher>
+      <zen-ai-construct framing="portrait" title="CAPRI // CONSTRUCT"></zen-ai-construct>
+      <button class="zen-btn-base zen-btn-primary zen-btn-md" (click)="toggleMode()">
+        Active Theme: {{ activeTheme() }}
+      </button>
+    </main>
+  \`,
+})
+export class AppComponent implements OnInit {
+  readonly activeTheme = signal(zenTheme.getState().theme);
+  ngOnInit(): void {
+    zenTheme.subscribe((s) => this.activeTheme.set(s.theme));
+  }
+  toggleMode(): void {
+    zenTheme.togglePolarity();
+  }
+}`,
+  },
+  vue: {
+    title: 'App.vue (Vue 3 / Nuxt / Svelte 5)',
+    lang: 'VUE',
+    code: `<script setup lang="ts">
+import '@zen-ui/system/tokens.css';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { registerZenElements, zenTheme } from '@zen-ui/system/universal';
+
+registerZenElements();
+const theme = ref(zenTheme.getState().theme);
+let unsub: (() => void) | null = null;
+onMounted(() => { unsub = zenTheme.subscribe((s) => (theme.value = s.theme)); });
+onUnmounted(() => unsub?.());
+</script>
+
+<template>
+  <zen-ambient-background variant="blackwall-lattice" />
+  <section class="zen-card">
+    <zen-theme-switcher />
+    <zen-ai-construct framing="portrait" />
+    <button class="zen-btn-base zen-btn-primary zen-btn-md" @click="zenTheme.togglePolarity()">
+      Switch Polarity ({{ theme }})
+    </button>
+  </section>
+</template>`,
+  },
+  vanilla: {
+    title: 'index.html (Vanilla HTML / Astro / HTMX)',
+    lang: 'HTML',
+    code: `<link rel="stylesheet" href="/node_modules/@zen-ui/system/src/lib/styles/zen-tokens.css" />
+<script type="module">
+  import { registerZenElements, zenTheme } from '@zen-ui/system/universal';
+  registerZenElements();
+  zenTheme.setTheme('blackwall-crimson');
+</script>
+
+<zen-ambient-background variant="blackwall-lattice"></zen-ambient-background>
+<div class="zen-card">
+  <span class="zen-badge zen-badge-accent">STACK AGNOSTIC</span>
+  <zen-theme-switcher></zen-theme-switcher>
+  <zen-ai-construct framing="portrait" title="CAPRI // CONSTRUCT"></zen-ai-construct>
+  <input class="zen-input" placeholder="Enter neural coordinate..." />
+  <button class="zen-btn-base zen-btn-primary zen-btn-md">Execute Subroutine</button>
+</div>`,
+  },
+};
 
 export interface TokenSwatch {
   readonly name: string;

@@ -113,9 +113,9 @@ function runOrionAudit(rootDir, voiceEnabled) {
   printHeader('orion', sub, voiceEnabled);
 
   const iconFile = readSafe(path.join(rootDir, 'src/lib/components/ZenIcon.tsx'));
-  const storybookFile = readSafe(
-    path.join(rootDir, 'src/components/ZenStorybookPlayground.tsx')
-  );
+  const storybookFile =
+    readSafe(path.join(rootDir, 'src/components/storybook/storybookCatalog.ts')) ||
+    readSafe(path.join(rootDir, 'src/components/ZenStorybookPlayground.tsx'));
   const universalFile = readSafe(
     path.join(rootDir, 'src/lib/universal/zen-universal.ts')
   );
