@@ -15,11 +15,11 @@
   --zen-surface-active: rgba(16, 17, 23, 0.95);
   --zen-surface-subtle: rgba(255, 243, 209, 0.04);
   --zen-surface-subtle-hover: rgba(255, 243, 209, 0.08);
-  --zen-surface-header: rgba(7, 7, 9, 0.84);
+  --zen-surface-header: rgba(7, 7, 9, 0.75);
 
   --zen-ink-primary: #f6f2e9;
   --zen-ink-secondary: #d6cfc2;
-  --zen-ink-muted: #b5aea0;
+  --zen-ink-muted: #a69f91;
   --zen-ink-on-accent: #070709;
 
   --zen-accent-primary: #f5b841;
@@ -38,10 +38,10 @@
   --zen-status-danger: #f87171;
   --zen-status-info: #60a5fa;
 
-  --zen-border-subtle: rgba(255, 243, 209, 0.13);
+  --zen-border-subtle: rgba(255, 243, 209, 0.12);
   --zen-border-default: rgba(255, 243, 209, 0.18);
   --zen-border-strong: rgba(255, 243, 209, 0.30);
-  --zen-border-control: rgba(246, 242, 233, 0.26);
+  --zen-border-control: rgba(246, 242, 233, 0.32);
 
   --zen-shadow-resting: inset 0 1px 0 0 rgba(255, 243, 209, 0.12), 0 8px 24px -6px rgba(0, 0, 0, 0.55);
   --zen-shadow-hover: inset 0 1px 0 0 rgba(255, 243, 209, 0.22), 0 14px 32px -8px rgba(0, 0, 0, 0.70);
@@ -611,14 +611,15 @@
 }
 
 .zen-btn-secondary {
-  background-color: var(--zen-surface-subtle);
+  background-color: transparent;
   color: var(--zen-ink-primary);
   border: 1px solid var(--zen-border-control);
+  font-weight: 400;
 }
 
 .zen-btn-secondary:hover:not(:disabled) {
-  background-color: var(--zen-accent-subtle);
-  border-color: var(--zen-accent-border);
+  background-color: transparent;
+  border-color: rgba(var(--zen-accent-rgb), 0.6);
 }
 
 .zen-btn-ghost {
