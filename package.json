@@ -1,0 +1,74 @@
+{
+  "name": "@zen-ui/system",
+  "version": "1.0.0",
+  "description": "zeN-UI // CAPRI — Universal Multi-Framework Design System (51 Primitives, 40 Vector Icons, 8 Dark/Light Themes & Capri 5-Subroutine AI Co-Pilot)",
+  "type": "module",
+  "license": "MIT",
+  "main": "./dist/lib/index.js",
+  "module": "./dist/lib/index.js",
+  "types": "./dist/lib/index.d.ts",
+  "bin": {
+    "capri": "./bin/capri.mjs"
+  },
+  "files": [
+    "dist/lib",
+    "src/lib",
+    "bin",
+    "AGENTS.md",
+    "CLAUDE.md",
+    ".agents/skills/capri-zen-ui",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/lib/index.d.ts",
+      "import": "./dist/lib/index.js",
+      "default": "./src/lib/index.ts"
+    },
+    "./universal": {
+      "types": "./dist/lib/universal/zen-universal.d.ts",
+      "import": "./dist/lib/universal/zen-universal.js",
+      "default": "./src/lib/universal/zen-universal.ts"
+    },
+    "./tokens.css": "./src/lib/styles/zen-tokens.css"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "vite --port 5180",
+    "build": "tsc --noEmit && vite build && npm run build:lib",
+    "build:lib": "tsc -p tsconfig.lib.json && vite build --config vite.lib.config.ts",
+    "typecheck": "tsc --noEmit",
+    "preview": "vite preview --port 5180",
+    "test:e2e": "playwright test",
+    "capri": "node bin/capri.mjs",
+    "prepublishOnly": "npm run capri -- all && npm run build"
+  },
+  "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "@react-three/fiber": "^9.5.0",
+    "@react-three/postprocessing": "^3.2.2",
+    "@tailwindcss/vite": "^4.1.0",
+    "gsap": "^3.13.0",
+    "lucide-react": "^0.562.0",
+    "postprocessing": "^6.39.6",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "tailwindcss": "^4.1.0",
+    "three": "^0.182.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.0",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@types/three": "^0.182.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}

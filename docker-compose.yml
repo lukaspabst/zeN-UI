@@ -1,0 +1,20 @@
+services:
+  zen-ui-capri:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: zen-ui-capri
+    ports:
+      - "5180:5180"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    deploy:
+      resources:
+        limits:
+          memory: 384M
+    networks:
+      - journeylink-net
+
+networks:
+  journeylink-net:
+    external: true
