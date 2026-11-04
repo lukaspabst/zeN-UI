@@ -1134,15 +1134,17 @@ if (command === 'docu') {
     console.log(`  * [${t.category}] ${t.patternName}: "${t.snippet}"`);
   }
   console.log(`- Sanitized Output: ${res.sanitized}`);
-} else if (command === 'publish-npm') {
+} else if (command === 'pack-npm' || command === 'publish-npm') {
   const pkgPath = path.join(rootDir, 'package.json');
   const originalContent = fs.readFileSync(pkgPath, 'utf8');
   try {
-    console.log('Running Capri all-subroutine audit & production build...');
-    execSync('npm run capri -- all && npm run build', {
-      cwd: rootDir,
-      stdio: 'inherit',
-    });
+    if (command === 'publish-npm') {
+      console.log('Running Capri all-subroutine audit & production build...');
+      execSync('npm run capri -- all && npm run build', {
+        cwd: rootDir,
+        stdio: 'inherit',
+      });
+    }
     const pkg = JSON.parse(originalContent);
     pkg.name = '@zen-ui-capri/system';
     pkg.publishConfig = {
@@ -1150,11 +1152,18 @@ if (command === 'docu') {
       access: 'public',
     };
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf8');
-    console.log('Publishing @zen-ui-capri/system to https://registry.npmjs.org...');
-    execSync('npm publish --access public --ignore-scripts', {
-      cwd: rootDir,
-      stdio: 'inherit',
-    });
+    if (command === 'pack-npm') {
+      execSync('npm pack --ignore-scripts', {
+        cwd: rootDir,
+        stdio: 'inherit',
+      });
+    } else {
+      console.log('Publishing @zen-ui-capri/system to https://registry.npmjs.org...');
+      execSync('npm publish --access public --ignore-scripts --auth-type=web', {
+        cwd: rootDir,
+        stdio: 'inherit',
+      });
+    }
   } finally {
     fs.writeFileSync(pkgPath, originalContent, 'utf8');
   }
