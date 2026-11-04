@@ -753,8 +753,13 @@ function analyzeRepo(targetDir) {
   if (allDeps.mongoose || allDeps.mongodb || extCounts['.kt']) {
     if (repoName === 'JourneyLink') stackSet.add('MongoDB + RabbitMQ + Redis');
   }
-  if (allDeps['@zen-ui/system'] || pkg?.name === '@zen-ui/system') {
-    stackSet.add('@zen-ui/system (CAPRI)');
+  if (
+    allDeps['@zen-ui/system'] ||
+    allDeps['@zen-ui-capri/system'] ||
+    pkg?.name === '@zen-ui/system' ||
+    pkg?.name === '@zen-ui-capri/system'
+  ) {
+    stackSet.add('@zen-ui-capri/system (CAPRI)');
   }
   if (extCounts['.ts'] || extCounts['.tsx']) stackSet.add('TypeScript');
   if (extCounts['.ps1']) stackSet.add('PowerShell');
