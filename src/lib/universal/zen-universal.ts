@@ -696,7 +696,8 @@ export function escapeZenHtml(raw: string): string {
 
 export function sanitizeZenAssetUrl(raw: string): string {
   const trimmed = raw.trim();
-  if (/^(?:javascript|data|vbscript)\s*:/i.test(trimmed)) {
+  const normalizedSchemeCheck = trimmed.replace(/[\u0000-\u0020]+/g, '');
+  if (/^(?:javascript|data|vbscript|file):/i.test(normalizedSchemeCheck)) {
     return '/capri-construct-base.png';
   }
   return escapeZenHtml(trimmed);

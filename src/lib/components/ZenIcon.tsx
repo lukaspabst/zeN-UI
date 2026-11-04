@@ -167,10 +167,21 @@ export function renderZenIconSvgMarkup(options: {
   readonly strokeWidth?: number;
   readonly spin?: boolean;
 }): string {
-  const px = ZEN_ICON_SIZE_PX[options.size ?? 'md'];
-  const color = TONE_COLOR_MAP[options.tone ?? 'inherit'];
-  const sw = options.strokeWidth ?? 2;
-  const inner = ZEN_ICON_SVG_INNER[options.name] ?? ZEN_ICON_SVG_INNER.sparkles;
+  const sizeKey = options.size ?? 'md';
+  const px = Object.prototype.hasOwnProperty.call(ZEN_ICON_SIZE_PX, sizeKey)
+    ? ZEN_ICON_SIZE_PX[sizeKey]
+    : ZEN_ICON_SIZE_PX.md;
+  const toneKey = options.tone ?? 'inherit';
+  const color = Object.prototype.hasOwnProperty.call(TONE_COLOR_MAP, toneKey)
+    ? TONE_COLOR_MAP[toneKey]
+    : TONE_COLOR_MAP.inherit;
+  const sw =
+    typeof options.strokeWidth === 'number' && Number.isFinite(options.strokeWidth)
+      ? Math.min(Math.max(options.strokeWidth, 0.5), 4)
+      : 2;
+  const inner = Object.prototype.hasOwnProperty.call(ZEN_ICON_SVG_INNER, options.name)
+    ? ZEN_ICON_SVG_INNER[options.name]
+    : ZEN_ICON_SVG_INNER.sparkles;
   const spinStyle = options.spin ? 'animation: spin 1s linear infinite;' : '';
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${px}" height="${px}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0;${spinStyle}">${inner}</svg>`;
 }
@@ -194,9 +205,15 @@ export function ZenIcon({
   className = '',
   ...rest
 }: ZenIconProps) {
-  const px = ZEN_ICON_SIZE_PX[size];
-  const strokeColor = TONE_COLOR_MAP[tone];
-  const innerMarkup = ZEN_ICON_SVG_INNER[name] ?? ZEN_ICON_SVG_INNER.sparkles;
+  const px = Object.prototype.hasOwnProperty.call(ZEN_ICON_SIZE_PX, size)
+    ? ZEN_ICON_SIZE_PX[size]
+    : ZEN_ICON_SIZE_PX.md;
+  const strokeColor = Object.prototype.hasOwnProperty.call(TONE_COLOR_MAP, tone)
+    ? TONE_COLOR_MAP[tone]
+    : TONE_COLOR_MAP.inherit;
+  const innerMarkup = Object.prototype.hasOwnProperty.call(ZEN_ICON_SVG_INNER, name)
+    ? ZEN_ICON_SVG_INNER[name]
+    : ZEN_ICON_SVG_INNER.sparkles;
 
   return (
     <svg
