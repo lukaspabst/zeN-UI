@@ -136,7 +136,16 @@ export interface ZenThemeContextValue {
   readonly setRadius: (next: ZenRadiusMode) => void;
 }
 
-const ZenThemeContext = createContext<ZenThemeContextValue | null>(null);
+let zenThemeContextInstance: ReturnType<
+  typeof createContext<ZenThemeContextValue | null>
+> | null = null;
+
+function getZenThemeContext() {
+  if (!zenThemeContextInstance) {
+    zenThemeContextInstance = createContext<ZenThemeContextValue | null>(null);
+  }
+  return zenThemeContextInstance;
+}
 
 export interface ZenThemeProviderProps {
   readonly defaultTheme?: ZenThemeId;
@@ -312,15 +321,17 @@ export function ZenThemeProvider({
     [theme, themeMeta, density, radius, reducedMotion]
   );
 
+  const ThemeCtx = getZenThemeContext();
+
   return (
-    <ZenThemeContext.Provider value={value}>
+    <ThemeCtx.Provider value={value}>
       {children}
-    </ZenThemeContext.Provider>
+    </ThemeCtx.Provider>
   );
 }
 
 export function useZenTheme(): ZenThemeContextValue {
-  const ctx = useContext(ZenThemeContext);
+  const ctx = useContext(getZenThemeContext());
   if (!ctx) {
     throw new Error('useZenTheme must be used within a ZenThemeProvider');
   }
