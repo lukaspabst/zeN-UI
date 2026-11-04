@@ -11,10 +11,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
-  pages: write
-  id-token: write
-  packages: write
+  contents: read
 
 jobs:
   verify-and-audit:
@@ -56,6 +53,10 @@ jobs:
     needs: verify-and-audit
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -65,10 +66,15 @@ jobs:
         uses: actions/deploy-pages@v4
 
   publish-package:
-    name: Publish Package to GitHub Packages & GitHub Releases
+    name: Publish Package to NPM (@zen-ui-capri/system), GitHub Packages & Releases
     needs: verify-and-audit
-    if: github.event_name == 'push' || github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    if: github.repository == 'lukaspabst/zeN-UI' && (github.event_name == 'push' || github.event_name == 'release' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
+      attestations: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -93,11 +99,18 @@ jobs:
           TARBALL=$(npm pack)
           cp "$TARBALL" "zen-ui-system-${VERSION}.tgz"
           cp "$TARBALL" "zen-ui-system.tgz"
+          sha256sum "zen-ui-system-${VERSION}.tgz" > "zen-ui-system-${VERSION}.tgz.sha256"
+
+      - name: Attest Cryptographic Build Provenance (SLSA)
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: 'zen-ui-system-*.tgz'
 
       - name: Publish @lukaspabst/zen-ui to GitHub Packages Registry
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          cp package.json package.json.bak
           node -e '
             const fs = require("fs");
             const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
@@ -105,21 +118,43 @@ jobs:
             pkg.publishConfig = { registry: "https://npm.pkg.github.com", access: "public" };
             fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
           '
-          npm publish || echo "Version already published to GitHub Packages; continuing to GitHub Release upload."
+          npm publish --ignore-scripts || echo "Version already published to GitHub Packages."
+          mv package.json.bak package.json
 
-      - name: Publish Versioned Release (vX.Y.Z) & Latest Release Assets
+      - name: Setup Node.js 22 for Public NPM Registry (OIDC Provenance)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Publish @zen-ui-capri/system to Public NPM Registry with Provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          cp package.json package.json.bak
+          node -e '
+            const fs = require("fs");
+            const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+            pkg.name = "@zen-ui-capri/system";
+            pkg.publishConfig = { registry: "https://registry.npmjs.org", access: "public" };
+            fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
+          '
+          npm publish --provenance --access public --ignore-scripts || echo "NPM publish skipped (configure Trusted Publisher on npmjs.com or already published)."
+          mv package.json.bak package.json
+
+      - name: Publish Immutable Versioned Release (vX.Y.Z) & Rolling Latest Assets
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           VERSION=$(node -p "require('./package.json').version")
           TAG="v${VERSION}"
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" "zen-ui-system-${VERSION}.tgz" zen-ui-system.tgz --clobber
+            echo "Release $TAG already exists; preserving immutable versioned tarball."
           else
-            gh release create "$TAG" "zen-ui-system-${VERSION}.tgz" zen-ui-system.tgz --title "@zen-ui/system v${VERSION} (UI + Capri AI Core)" --notes "Unified @zen-ui/system v${VERSION} package (51 UI components, 40 vector icons, 8 themes, WebGL Cosmos, Web Audio Synth, and Capri AI Core + CLI). Install via: npm install \"@zen-ui/system@https://github.com/${GITHUB_REPOSITORY}/releases/download/v${VERSION}/zen-ui-system-${VERSION}.tgz\""
+            gh release create "$TAG" "zen-ui-system-${VERSION}.tgz" "zen-ui-system-${VERSION}.tgz.sha256" zen-ui-system.tgz --title "@zen-ui/system v${VERSION} (UI + Capri AI Core)" --notes "Unified @zen-ui/system v${VERSION} package (51 UI components, 40 vector icons, 8 themes, WebGL Cosmos, Web Audio Synth, and Capri AI Core + CLI). Install via: npm install \"@zen-ui/system@https://github.com/${GITHUB_REPOSITORY}/releases/download/v${VERSION}/zen-ui-system-${VERSION}.tgz\" or npm install @zen-ui-capri/system"
           fi
           if gh release view latest >/dev/null 2>&1; then
-            gh release upload latest "zen-ui-system-${VERSION}.tgz" zen-ui-system.tgz --clobber
+            gh release upload latest "zen-ui-system-${VERSION}.tgz" "zen-ui-system-${VERSION}.tgz.sha256" zen-ui-system.tgz --clobber
           else
-            gh release create latest "zen-ui-system-${VERSION}.tgz" zen-ui-system.tgz --title "@zen-ui/system Latest Package (v${VERSION})" --notes "Latest release (v${VERSION})"
+            gh release create latest "zen-ui-system-${VERSION}.tgz" "zen-ui-system-${VERSION}.tgz.sha256" zen-ui-system.tgz --title "@zen-ui/system Latest Package (v${VERSION})" --notes "Latest release (v${VERSION})"
           fi

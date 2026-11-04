@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
+import { execSync } from 'node:child_process';
 
 const SUBROUTINES = {
   orion: {
@@ -1133,6 +1134,30 @@ if (command === 'docu') {
     console.log(`  * [${t.category}] ${t.patternName}: "${t.snippet}"`);
   }
   console.log(`- Sanitized Output: ${res.sanitized}`);
+} else if (command === 'publish-npm') {
+  const pkgPath = path.join(rootDir, 'package.json');
+  const originalContent = fs.readFileSync(pkgPath, 'utf8');
+  try {
+    console.log('Running Capri all-subroutine audit & production build...');
+    execSync('npm run capri -- all && npm run build', {
+      cwd: rootDir,
+      stdio: 'inherit',
+    });
+    const pkg = JSON.parse(originalContent);
+    pkg.name = '@zen-ui-capri/system';
+    pkg.publishConfig = {
+      registry: 'https://registry.npmjs.org',
+      access: 'public',
+    };
+    fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf8');
+    console.log('Publishing @zen-ui-capri/system to https://registry.npmjs.org...');
+    execSync('npm publish --access public --ignore-scripts', {
+      cwd: rootDir,
+      stdio: 'inherit',
+    });
+  } finally {
+    fs.writeFileSync(pkgPath, originalContent, 'utf8');
+  }
 } else if (command === 'skill') {
   const rawKey = rawArg.toLowerCase();
   const key = rawKey === 'guard' ? 'sentinel' : rawKey;
