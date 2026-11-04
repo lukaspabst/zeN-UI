@@ -97,8 +97,8 @@ jobs:
         run: |
           npm install -g npm@11
           VERSION=$(node -p "require('./package.json').version")
-          if npm view "@zen-ui-capri/system@${VERSION}" version >/dev/null 2>&1; then
-            echo "@zen-ui-capri/system@${VERSION} is already published on npmjs.org."
+          if npm view "@zen-ui-capri/system@${VERSION}" version >/dev/null 2>&1 || npm stage list "@zen-ui-capri/system" 2>/dev/null | grep -Fq "version: ${VERSION}"; then
+            echo "@zen-ui-capri/system@${VERSION} is already published or staged on npmjs.org."
           else
             cp package.json package.json.bak
             node -e '
