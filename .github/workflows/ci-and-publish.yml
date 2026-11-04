@@ -13,6 +13,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-and-publish-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   verify-and-audit:
     name: Capri All-Subroutine Audit, Build & Playwright E2E
@@ -37,7 +41,7 @@ jobs:
         run: npm run build
 
       - name: Install Playwright Chromium
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
 
       - name: Run Playwright Multi-Viewport & Security E2E Suite
         run: npm run test:e2e
