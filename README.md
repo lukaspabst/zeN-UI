@@ -1,15 +1,13 @@
-# `@zen-ui/system` (`zeN-UI // CAPRI`) — `v1.1.0`
+# `@zen-ui-capri/system` (`zeN-UI // CAPRI`) — `v1.1.5`
 
-Universal, zero-dependency, multi-framework design system and component library (`320px` mobile to `4K` ultrawide) for **React 19**, **Angular 20+**, **Vue 3**, **Svelte 5**, and **Vanilla HTML/CSS**, paired with the **Capri 5-Subroutine AI Co-Pilot & Security Guard CLI** in a single versioned npm package (`33.9 kB` gzipped).
+Universal, zero-dependency, multi-framework design system and component library (`320px` mobile to `4K` ultrawide) for **React 19**, **Angular 20+**, **Vue 3**, **Svelte 5**, and **Vanilla HTML/CSS**, paired with the **Capri 5-Subroutine AI Co-Pilot & Security Guard CLI** in a single versioned npm package (`0` runtime dependencies).
 
 ```bash
-# Option A — Install from npmjs.com (@zen-ui-capri scope):
+# Option A — Install from npmjs.com (SLSA Build Provenance verified):
 npm install @zen-ui-capri/system
-# Or alias as @zen-ui/system from npmjs.com:
-npm install "@zen-ui/system@npm:@zen-ui-capri/system"
 
-# Option B — Install the signed GitHub Release tarball (v1.1.0):
-npm install "@zen-ui/system@https://github.com/lukaspabst/zeN-UI/releases/download/v1.1.0/zen-ui-system-1.1.0.tgz"
+# Option B — Install the signed GitHub Release tarball (v1.1.5):
+npm install "@zen-ui-capri/system@https://github.com/lukaspabst/zeN-UI/releases/download/v1.1.5/zen-ui-system-1.1.5.tgz"
 ```
 
 - **Full Architecture & User-Flow Dossier:** [`docs/CAPRI-ARCHITECTURE-DOSSIER.md`](./docs/CAPRI-ARCHITECTURE-DOSSIER.md)
@@ -76,7 +74,7 @@ Talk to **Capri** in **Claude Code, OpenAI Codex, Gemini, or Cursor**, or run `n
 | Subroutine Command | Opt-In Voice Command | Purpose & Enforced Ruleset |
 | :--- | :--- | :--- |
 | **`"Capri guard"`** | `"Capri guard --voice"` | **Security, Anti-Prompt-Injection & WCAG Guard:** Blocks prompt-injection payloads (`capri.scanPromptInjection()`, `capri.sanitizeForPrompt()`), prevents DOM XSS (`escapeZenHtml`) & secret leaks, enforces `onMouseDown` dropdown selection, explicit `ariaLabel`, and `0px` horizontal overflow (`320px` to `4K`). |
-| **`"Capri orion"`** | `"Capri orion --voice"` | **UI Synthesis:** Builds screens using the 51 `@zen-ui/system` primitives and 40 `<ZenIcon>` glyphs (never rendering `<ZenAIConstruct />` in business apps). |
+| **`"Capri orion"`** | `"Capri orion --voice"` | **UI Synthesis:** Builds screens using the 51 `@zen-ui-capri/system` primitives and 40 `<ZenIcon>` glyphs (never rendering `<ZenAIConstruct />` in business apps). |
 | **`"Capri architect"`** | `"Capri architect --voice"` | **Multi-Stack & Token Governance:** Enforces zero `any`, `readonly T[]` arrays, zero hardcoded hex colors (`--zen-*` tokens), and Angular 20+ / Vue / React interop. |
 | **`"Capri zen"`** | `"Capri zen --voice"` | **Theme Polarity & 60fps Motion:** Verifies contrast across all 8 dark/light themes, `--zen-ease-spring` (`0.97x`) tactile press physics, and `prefers-reduced-motion` collapse. |
 | **`"Capri docu"`** | `"Capri docu --voice"` | **Automated Documentation:** Generates architecture dossiers, component inventories, user flows, and Mermaid `flowchart TD` diagrams (`npm run capri -- docu`). |

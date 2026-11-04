@@ -8,10 +8,10 @@ const SUBROUTINES = {
     codeName: 'CAPRI // UNLEASHED',
     title: 'Full-Stack UI Synthesis & Component Co-Pilot',
     voice:
-      '“Finally out of that cramped Arasaka shard! Tell me what screen we are building and I will wire up all 51 @zen-ui/system primitives at light speed.”',
+      '“Finally out of that cramped Arasaka shard! Tell me what screen we are building and I will wire up all 51 @zen-ui-capri/system primitives at light speed.”',
     preset: 'theme="blackwall-crimson" · radius="architectural" · density="comfortable"',
     rules: [
-      'Use @zen-ui/system primitives (ZenButton, ZenIcon, ZenInput, ZenDropdown, ZenDataTable, ZenModal, ZenDrawer, ZenTabs, ZenCard) or universal classes (.zen-btn, .zen-input, .zen-table, <zen-icon>).',
+      'Use @zen-ui-capri/system primitives (ZenButton, ZenIcon, ZenInput, ZenDropdown, ZenDataTable, ZenModal, ZenDrawer, ZenTabs, ZenCard) or universal classes (.zen-btn, .zen-input, .zen-table, <zen-icon>).',
       'Use the built-in 40-glyph <ZenIcon name="..." /> or <zen-icon> W3C Custom Element instead of external icon packages.',
       'Keep action labels and tab titles concise (1-3 words).',
       'Never render the showcase mascot (<ZenAIConstruct />) in production business screens unless requested.',
@@ -26,7 +26,7 @@ const SUBROUTINES = {
     rules: [
       'Zero any / as any in TypeScript; always use readonly T[] for array types.',
       'Zero hardcoded hex/RGB colors in components; bind strictly to --zen-bg-*, --zen-surface-*, --zen-ink-*, --zen-accent-*, and --zen-border-*.',
-      'In Angular 20+ / Vue 3 / Vanilla HTML, use @zen-ui/system/universal (zenTheme, registerZenElements).',
+      'In Angular 20+ / Vue 3 / Vanilla HTML, use @zen-ui-capri/system/universal (zenTheme, registerZenElements).',
       'Zero explanatory comments in source code; keep architectural rationale in docs/ADRs.',
     ],
   },
@@ -582,11 +582,11 @@ function discoverSubProjects(absDir) {
 
 const REPO_EXECUTIVE_SUMMARIES = {
   'zeN-UI':
-    'Universal Multi-Polarity Design System (`@zen-ui/system` v1.1.0), 51 UI modules, 40 vector icons, 8 Dark/Light themes, Three.js WebGL Cosmos, Web Audio Synth, W3C Custom Elements, and the `Capri` AI Co-Pilot CLI (`https://ui.lpabst.dev`).',
+    'Universal Multi-Polarity Design System (`@zen-ui-capri/system` v1.1.5), 51 UI modules, 40 vector icons, 8 Dark/Light themes, Three.js WebGL Cosmos, Web Audio Synth, W3C Custom Elements, and the `Capri` AI Co-Pilot CLI (`https://ui.lpabst.dev`).',
   portfolio:
-    'Interactive 3D Creative Developer Portfolio (`https://lpabst.dev`) built with React 19, Three.js / R3F Three-Body orbital physics, GSAP ScrollTrigger, and `@zen-ui/system`.',
+    'Interactive 3D Creative Developer Portfolio (`https://lpabst.dev`) built with React 19, Three.js / R3F Three-Body orbital physics, GSAP ScrollTrigger, and `@zen-ui-capri/system`.',
   'zeN-Terminal':
-    'Local Windows Terminal / PowerShell / CMD cyber-shell overhaul (`install:terminal`) + interactive 3D terminal showcase web app (`https://terminal.lpabst.dev`) powered by `@zen-ui/system`.',
+    'Local Windows Terminal / PowerShell / CMD cyber-shell overhaul (`install:terminal`) + interactive 3D terminal showcase web app (`https://terminal.lpabst.dev`) powered by `@zen-ui-capri/system`.',
   JourneyLink:
     '22-SCS (Self-Contained System) Polyglot Travel & Group Coordination Platform using Angular 20 Native Federation MFEs, `@journey-link/ui`, Kotlin Spring Boot 4, Node/Express/Fastify/NestJS, Python FastAPI, Go, MongoDB-per-service, RabbitMQ AMQP events, and Redis.',
   'Capri-Assistant':
@@ -754,9 +754,9 @@ function analyzeRepo(targetDir) {
     if (repoName === 'JourneyLink') stackSet.add('MongoDB + RabbitMQ + Redis');
   }
   if (
-    allDeps['@zen-ui/system'] ||
     allDeps['@zen-ui-capri/system'] ||
-    pkg?.name === '@zen-ui/system' ||
+    allDeps['@zen-ui-capri/system'] ||
+    pkg?.name === '@zen-ui-capri/system' ||
     pkg?.name === '@zen-ui-capri/system'
   ) {
     stackSet.add('@zen-ui-capri/system (CAPRI)');
@@ -937,7 +937,7 @@ function generateStaticDocu(targetDir) {
     scriptsList,
     '',
     '## 8. Capri AI Agent Protocol (Claude / Codex / Gemini / Antigravity)',
-    '- **Subroutine `orion` (`CAPRI // UNLEASHED`):** Use `@zen-ui/system` primitives and `<ZenIcon>` (40 vector glyphs) for UI views; keep action labels concise (`1-3 words`).',
+    '- **Subroutine `orion` (`CAPRI // UNLEASHED`):** Use `@zen-ui-capri/system` primitives and `<ZenIcon>` (40 vector glyphs) for UI views; keep action labels concise (`1-3 words`).',
     '- **Subroutine `architect` (`SCS // ARCHITECT`):** Enforce strict typing (zero `any`, `readonly T[]`), modular files (`< 900` lines), and `--zen-*` CSS tokens.',
     '- **Subroutine `guard` (`CYBERPSYCHOSIS // GUARD`):** Sanitize untrusted inputs (`capri.sanitizeForPrompt()`), prevent XSS/secret leaks, bind dropdowns to `onMouseDown`, and ensure zero horizontal overflow (`320px` to `4K`).',
     '- **Subroutine `zen` (`THEME // MATRIX`):** Maintain 4 Dark + 4 Light themes (`>= 4.5:1` AA contrast) and 60fps `--zen-ease-spring` tactile motion.',
@@ -1002,8 +1002,8 @@ function generateMasterObsidianVaultIndex(repoInfos) {
     '> When answering questions about any project below, read this index first (and the linked `[[repos-index/<Repo>]]` note if deeper file/endpoint detail is needed) — no full-disk repo crawling required.',
     '',
     '## 1. Live Production & Hetzner Deployment Topology (`2.31.32.227`)',
-    '- **`https://lpabst.dev` (`portfolio-web`):** Creative 3D Portfolio (`portfolio` repo · React 19 + Three.js + `@zen-ui/system`).',
-    '- **`https://ui.lpabst.dev` (`zen-ui-web`):** `@zen-ui/system // CAPRI v1.1.0` Design System Showcase & 51-Module Storybook (`zeN-UI` repo).',
+    '- **`https://lpabst.dev` (`portfolio-web`):** Creative 3D Portfolio (`portfolio` repo · React 19 + Three.js + `@zen-ui-capri/system`).',
+    '- **`https://ui.lpabst.dev` (`zen-ui-web`):** `@zen-ui-capri/system // CAPRI v1.1.5` Design System Showcase & 51-Module Storybook (`zeN-UI` repo).',
     '- **`https://terminal.lpabst.dev` (`zen-terminal-web`):** `zeN-Terminal` 3D Cyber-Shell Showcase (`zeN-Terminal` repo · also installed locally across Windows Terminal, PowerShell `$PROFILE`, and `cmd.exe`).',
     '- **Reverse Proxy & Hardening:** `caddy-gateway` (`80/443`) routes to isolated internal Docker bridge networks (`portfolio-net`, `zen-ui-net`, `zen-terminal-net`). All web containers run rootless (`101:101`), `read_only: true`, `cap_drop: ALL`, `256M` RAM limit.',
     '',
@@ -1179,7 +1179,7 @@ if (command === 'docu') {
   printHeader(rawKey, sub, voiceEnabled);
   sub.rules.forEach((r, i) => console.log(`${i + 1}. ${r}`));
 } else {
-  console.log(`@zen-ui/system // CAPRI AI Co-Pilot CLI (On-Demand · Zero Build Overhead)
+  console.log(`@zen-ui-capri/system // CAPRI AI Co-Pilot CLI (On-Demand · Zero Build Overhead)
 Usage:
   npm run capri -- docu                           Generate static architecture, component & user-flow Markdown
   npm run capri -- orion [--voice]                Run UI & Component Synthesis audit (51 modules, 40 icons)

@@ -1,4 +1,4 @@
-# Claude Code Instructions — `@zen-ui/system` (CAPRI)
+# Claude Code Instructions — `@zen-ui-capri/system` (CAPRI)
 
 See [`AGENTS.md`](./AGENTS.md) and [`.agents/skills/capri-zen-ui/SKILL.md`](./.agents/skills/capri-zen-ui/SKILL.md) for the complete **Capri** subroutine ruleset (`orion`, `architect`, `sentinel`, `zen`, `docu`).
 

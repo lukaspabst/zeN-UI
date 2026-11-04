@@ -161,7 +161,7 @@ export function ZenStorybookPlayground() {
       : '';
 
     return {
-      react: `import { ${activeStory.name.split(' ')[0]} } from '@zen-ui/system';
+      react: `import { ${activeStory.name.split(' ')[0]} } from '@zen-ui-capri/system';
 
 export function ${activeStory.name.split(' ')[0]}Story() {
   return (

@@ -1,11 +1,12 @@
-import type {
-  ZenAccordionItem,
-  ZenChipOption,
-  ZenDossierItem,
-  ZenDropdownOption,
-  ZenSegmentItem,
-  ZenStepItem,
-  ZenTabItem,
+import {
+  ZEN_UI_VERSION,
+  type ZenAccordionItem,
+  type ZenChipOption,
+  type ZenDossierItem,
+  type ZenDropdownOption,
+  type ZenSegmentItem,
+  type ZenStepItem,
+  type ZenTabItem,
 } from '../lib';
 
 export type CatalogSectionTab = 'all' | 'forms' | 'navigation' | 'overlays' | 'data' | 'feedback';
@@ -53,7 +54,7 @@ export const DEPLOY_REGION_OPTIONS = [
   {
     value: 'us-east',
     label: 'Angular 20+ Native Federation Singleton',
-    description: 'Share @zen-ui/system/universal and tokens.css across micro-frontend remotes.',
+    description: 'Share @zen-ui-capri/system/universal and tokens.css across micro-frontend remotes.',
     badge: 'MFE',
   },
   {
@@ -86,13 +87,13 @@ export const INSTALL_SNIPPETS: Record<
   react: {
     title: 'src/App.tsx (React 19 / Next.js)',
     lang: 'TSX',
-    code: `import '@zen-ui/system/tokens.css';
+    code: `import '@zen-ui-capri/system/tokens.css';
 import {
   ZenThemeProvider,
   ZenAmbientBackground,
   ZenAIConstruct,
   ZenButton,
-} from '@zen-ui/system';
+} from '@zen-ui-capri/system';
 
 export function AppShell() {
   return (
@@ -108,7 +109,7 @@ export function AppShell() {
     title: 'app.component.ts (Angular 20+ Standalone + Signals)',
     lang: 'TS',
     code: `import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, signal } from '@angular/core';
-import { registerZenElements, zenTheme } from '@zen-ui/system/universal';
+import { registerZenElements, zenTheme } from '@zen-ui-capri/system/universal';
 
 registerZenElements();
 
@@ -141,9 +142,9 @@ export class AppComponent implements OnInit {
     title: 'App.vue (Vue 3 / Nuxt / Svelte 5)',
     lang: 'VUE',
     code: `<script setup lang="ts">
-import '@zen-ui/system/tokens.css';
+import '@zen-ui-capri/system/tokens.css';
 import { ref, onMounted, onUnmounted } from 'vue';
-import { registerZenElements, zenTheme } from '@zen-ui/system/universal';
+import { registerZenElements, zenTheme } from '@zen-ui-capri/system/universal';
 
 registerZenElements();
 const theme = ref(zenTheme.getState().theme);
@@ -166,9 +167,9 @@ onUnmounted(() => unsub?.());
   vanilla: {
     title: 'index.html (Vanilla HTML / Astro / HTMX)',
     lang: 'HTML',
-    code: `<link rel="stylesheet" href="/node_modules/@zen-ui/system/src/lib/styles/zen-tokens.css" />
+    code: `<link rel="stylesheet" href="/node_modules/@zen-ui-capri/system/src/lib/styles/zen-tokens.css" />
 <script type="module">
-  import { registerZenElements, zenTheme } from '@zen-ui/system/universal';
+  import { registerZenElements, zenTheme } from '@zen-ui-capri/system/universal';
   registerZenElements();
   zenTheme.setTheme('blackwall-crimson');
 </script>
@@ -257,7 +258,7 @@ export const COMPONENT_BENCHMARKS: readonly ComponentBenchmarkRow[] = [
   },
   {
     id: 'theme-engine',
-    component: '<ZenThemeProvider /> + @zen-ui/system/tokens.css',
+    component: '<ZenThemeProvider /> + @zen-ui-capri/system/tokens.css',
     category: '02 // 8-Theme CSS Variable Engine',
     a11yPattern: '4 Dark + 4 Light Themes · 3 Radii · 2 Densities · WCAG 2.2 AA',
     renderCostMs: 0.1,
@@ -305,7 +306,7 @@ export const COMPONENT_BENCHMARKS: readonly ComponentBenchmarkRow[] = [
   },
   {
     id: 'cosmos-audio-universal',
-    component: '<ZenCosmosCanvas />, useZenAudioSynth(), @zen-ui/system/universal',
+    component: '<ZenCosmosCanvas />, useZenAudioSynth(), @zen-ui-capri/system/universal',
     category: '08 // WebGL, Web Audio & Custom Elements',
     a11yPattern: 'RK4 3-Body shader canvas · Web Components for Angular 20+ & Vue',
     renderCostMs: 0.4,
@@ -319,7 +320,7 @@ export const ORION_ACCORDION_ITEMS: readonly ZenAccordionItem[] = [
     badge: 'SINGLE PACKAGE',
     title: 'Why are the UI components, Capri security firewall, and CLI bundled in one npm package?',
     content:
-      'Instead of maintaining separate packages that drift out of sync, @zen-ui/system v1.1.0 ships everything in one tree-shakeable ESM package (33.9 kB gzipped): 51 React primitives, W3C Custom Elements (@zen-ui/system/universal) for Angular 20+ and Vue 3, zen-tokens.css, and the npx capri CLI for static architecture docs and security audits.',
+      `Instead of maintaining separate packages that drift out of sync, @zen-ui-capri/system v${ZEN_UI_VERSION} ships everything in one tree-shakeable ESM package (0 runtime dependencies): 51 React primitives, W3C Custom Elements (@zen-ui-capri/system/universal) for Angular 20+ and Vue 3, zen-tokens.css, and the npx capri CLI for static architecture docs and security audits.`,
   },
   {
     id: 'arch-2',
@@ -333,7 +334,7 @@ export const ORION_ACCORDION_ITEMS: readonly ZenAccordionItem[] = [
     badge: 'INTERACTION',
     title: 'Why do Dropdowns and Command Palettes bind selection to onMouseDown instead of onClick?',
     content:
-      'In browser DOM event order, mousedown fires before blur, whereas click fires after mouseup. By committing option selection on onMouseDown with event.preventDefault(), @zen-ui/system eliminates the blur race condition where an input blur unmounts the dropdown menu before onClick can fire.',
+      'In browser DOM event order, mousedown fires before blur, whereas click fires after mouseup. By committing option selection on onMouseDown with event.preventDefault(), @zen-ui-capri/system eliminates the blur race condition where an input blur unmounts the dropdown menu before onClick can fire.',
   },
 ];
 
@@ -364,9 +365,9 @@ export const SHOWCASE_DOSSIERS: readonly ZenDossierItem[] = [
   {
     id: 'zen-package-dossier',
     index: '01',
-    categoryLabel: 'DESIGN SYSTEM // v1.1.0',
+    categoryLabel: `DESIGN SYSTEM // v${ZEN_UI_VERSION}`,
     year: '2026',
-    title: '@zen-ui/system Unified Package',
+    title: '@zen-ui-capri/system Unified Package',
     role: 'React 19 · Angular 20+ · W3C Custom Elements',
     subtitle:
       'Single versioned npm tarball combining 51 UI primitives, 40 vector icons, 8 CSS token themes, and the zero-runtime Capri CLI.',
@@ -378,7 +379,7 @@ export const SHOWCASE_DOSSIERS: readonly ZenDossierItem[] = [
       'Client-side SQLi, XSS, and prompt-injection guards via capri.scanPromptInjection().',
     ],
     metrics: [
-      { value: 'v1.1.0', label: 'NPM Release', accent: true },
+      { value: `v${ZEN_UI_VERSION}`, label: 'NPM Release', accent: true },
       { value: '33.9 kB', label: 'ESM Gzip' },
       { value: '51', label: 'UI Modules' },
       { value: '0 any', label: 'Strict TS' },

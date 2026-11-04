@@ -1,4 +1,4 @@
-name: CI, Pages Deploy & Package Publish (@zen-ui/system)
+name: CI, Pages Deploy & Package Publish (@zen-ui-capri/system)
 
 on:
   push:
@@ -90,7 +90,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build @zen-ui/system Library
+      - name: Build @zen-ui-capri/system Library
         run: npm run build
 
       - name: Publish @zen-ui-capri/system to NPM Registry via OIDC Provenance
@@ -100,16 +100,7 @@ jobs:
           if npm view "@zen-ui-capri/system@${VERSION}" version >/dev/null 2>&1; then
             echo "@zen-ui-capri/system@${VERSION} is already published on npmjs.org."
           else
-            cp package.json package.json.bak
-            node -e '
-              const fs = require("fs");
-              const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
-              pkg.name = "@zen-ui-capri/system";
-              pkg.publishConfig = { registry: "https://registry.npmjs.org", access: "public" };
-              fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
-            '
             npm publish --provenance --access public --ignore-scripts || npm stage publish --provenance --access public --ignore-scripts || echo "@zen-ui-capri/system@${VERSION} is already staged on npmjs.org."
-            mv package.json.bak package.json
           fi
 
       - name: Publish GitHub Release Assets

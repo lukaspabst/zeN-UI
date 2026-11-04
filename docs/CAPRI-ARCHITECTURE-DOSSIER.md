@@ -1,7 +1,7 @@
-# `@zen-ui/system` — CAPRI Automated Architecture, User-Flow & AI Context Dossier
+# `@zen-ui-capri/system` — CAPRI Automated Architecture, User-Flow & AI Context Dossier
 
 - **Subroutine:** `CAPRI // AUTO-DOCU` (`docu`) — Persona Voice: `OFF (Default)`
-- **Package:** `@zen-ui/system` v1.1.0 (`https://github.com/lukaspabst/zeN-UI`)
+- **Package:** `@zen-ui-capri/system` v1.1.5 (`https://github.com/lukaspabst/zeN-UI`)
 - **Total Source Modules Scanned:** 36 files (`32` core library modules in `src/lib/`, `24` UI component modules, `132` exported public symbols & types)
 - **Verification Status:** `tsc --noEmit && vite build` (`0` errors) · Playwright E2E (`3/3` passed across `375x812` Mobile, `768x1024` Tablet, `1440x900` Desktop, `2560x1440` Ultrawide) · `capri.guard()` DOM Audit Score: **`100/100` (`0px` overflow)**
 
@@ -9,7 +9,7 @@
 
 ## 1. Three-Layer Multi-Stack Architecture
 
-`@zen-ui/system` is engineered so any frontend stack can consume the exact same design tokens, icons, and accessibility contracts without visual drift or runtime bloat:
+`@zen-ui-capri/system` is engineered so any frontend stack can consume the exact same design tokens, icons, and accessibility contracts without visual drift or runtime bloat:
 
 ```mermaid
 flowchart TD
@@ -35,9 +35,9 @@ flowchart TD
 ### Package Entry Points (`package.json`)
 | Import Path | Target Stack | Exports & Responsibility |
 | :--- | :--- | :--- |
-| **`@zen-ui/system/tokens.css`** | All Stacks | 8 Dark/Light themes, 3 corner radii (`2px`, `12px`, `20px`), 2 densities (`comfortable`, `compact`), and zero-Tailwind semantic classes (`.zen-btn`, `.zen-input`, `.zen-select`, `.zen-table`, `.zen-card`, `.zen-badge`). |
-| **`@zen-ui/system`** | React 19 | All 51 typed React primitives, `ZenThemeProvider`, `useZenTheme`, `ZenIcon` (40 glyphs), `useZenToast`, `useZenAudioSynth`, and headless `capri` engine. |
-| **`@zen-ui/system/universal`** | Angular 20+, Vue 3, Svelte 5, HTML | Framework-agnostic `zenTheme` (`ZenThemeController`), `zenAudio`, `capri`, and `registerZenElements()` defining `<zen-icon>`, `<zen-theme-switcher>`, `<zen-ambient-background>`, and `<zen-ai-construct>`. |
+| **`@zen-ui-capri/system/tokens.css`** | All Stacks | 8 Dark/Light themes, 3 corner radii (`2px`, `12px`, `20px`), 2 densities (`comfortable`, `compact`), and zero-Tailwind semantic classes (`.zen-btn`, `.zen-input`, `.zen-select`, `.zen-table`, `.zen-card`, `.zen-badge`). |
+| **`@zen-ui-capri/system`** | React 19 | All 51 typed React primitives, `ZenThemeProvider`, `useZenTheme`, `ZenIcon` (40 glyphs), `useZenToast`, `useZenAudioSynth`, and headless `capri` engine. |
+| **`@zen-ui-capri/system/universal`** | Angular 20+, Vue 3, Svelte 5, HTML | Framework-agnostic `zenTheme` (`ZenThemeController`), `zenAudio`, `capri`, and `registerZenElements()` defining `<zen-icon>`, `<zen-theme-switcher>`, `<zen-ambient-background>`, and `<zen-ai-construct>`. |
 | **`npx capri`** (`bin/capri.mjs`) | CLI / Claude / Codex / Gemini | On-demand static architecture scanner (`npx capri docu`) and subroutine ruleset printer (`npx capri skill <guard\|orion\|architect\|zen\|docu> [--voice]`). |
 
 ---

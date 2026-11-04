@@ -322,7 +322,7 @@ export function ComponentWorkbenchSection({
           </ZenButton>
 
           <ZenCopyButton
-            value="npm install @zen-ui/system"
+            value="npm install @zen-ui-capri/system"
             label="COPY INSTALL CMD"
             copiedLabel="COPIED TO CLIPBOARD"
           />
@@ -540,7 +540,7 @@ export function ComponentWorkbenchSection({
 
             <ZenBreadcrumbs
               items={[
-                { id: 'root', label: '@zen-ui/system', onClick: () => setActiveSidebarId('overview') },
+                { id: 'root', label: '@zen-ui-capri/system', onClick: () => setActiveSidebarId('overview') },
                 { id: 'cluster', label: `v${ZEN_UI_VERSION}`, onClick: () => setActiveSidebarId('deployments') },
                 { id: 'node', label: activeSidebarId.toUpperCase() },
               ]}
@@ -656,8 +656,8 @@ export function ComponentWorkbenchSection({
               <ZenTimelineCard
                 period={`RELEASE v${ZEN_UI_VERSION} // UNIFIED PACKAGE`}
                 location="8 Themes · 51 Modules · 40 Icons"
-                title="Unified @zen-ui/system NPM Package & Capri CLI"
-                institution="@zen-ui/system"
+                title="Unified @zen-ui-capri/system NPM Package & Capri CLI"
+                institution="@zen-ui-capri/system"
                 summary="Consolidated all 51 React 19 primitives, W3C Custom Elements, 40 vector icons, 8 CSS token themes, and the Capri AI CLI into one versioned npm tarball with zero external UI runtime dependencies."
                 bullets={[
                   '33.9 kB gzipped ESM library bundle + 6.96 kB CSS token sheet.',
@@ -831,7 +831,7 @@ export function ComponentWorkbenchSection({
             {alertVisible ? (
               <ZenAlert
                 tone="info"
-                title={`@zen-ui/system v${ZEN_UI_VERSION} Unified Package Ready`}
+                title={`@zen-ui-capri/system v${ZEN_UI_VERSION} Unified Package Ready`}
                 actionSlot={
                   <ZenButton
                     variant="ghost"

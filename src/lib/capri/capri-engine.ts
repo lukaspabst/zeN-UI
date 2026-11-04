@@ -151,19 +151,19 @@ export const CAPRI_SUBROUTINE_SKILLS: Readonly<
     recommendedRadius: 'architectural',
     recommendedDensity: 'comfortable',
     summary:
-      'Builds production screens in React 19, Angular 20+, Vue 3, Svelte 5, and HTML using @zen-ui/system primitives and 40 built-in <ZenIcon> glyphs—never rendering the showcase avatar in your business apps.',
+      'Builds production screens in React 19, Angular 20+, Vue 3, Svelte 5, and HTML using @zen-ui-capri/system primitives and 40 built-in <ZenIcon> glyphs—never rendering the showcase avatar in your business apps.',
     personaQuote:
-      'Finally out of that cramped Arasaka shard! Tell me what screen we are building and I will wire up all 51 @zen-ui/system primitives at light speed.',
+      'Finally out of that cramped Arasaka shard! Tell me what screen we are building and I will wire up all 51 @zen-ui-capri/system primitives at light speed.',
     ruleset: [
-      'Use @zen-ui/system primitives (ZenButton, ZenIcon, ZenInput, ZenDropdown, ZenDataTable, ZenModal, ZenDrawer, ZenTabs, ZenCard) instead of raw HTML <button>, <input>, <select>, or <table>.',
+      'Use @zen-ui-capri/system primitives (ZenButton, ZenIcon, ZenInput, ZenDropdown, ZenDataTable, ZenModal, ZenDrawer, ZenTabs, ZenCard) instead of raw HTML <button>, <input>, <select>, or <table>.',
       'Use <ZenIcon name="..." /> in React or <zen-icon name="..."></zen-icon> in Angular/Vue/HTML instead of external icon libraries.',
       'Keep action button labels, dialog triggers, and navigation tabs concise (1 to 3 words).',
       'Tree-shake showcase widgets: omit <ZenAIConstruct /> in production business apps unless explicitly requested.',
     ],
     cliCommand: 'npx capri skill orion',
-    aiSystemPrompt: `You are operating under the @zen-ui/system [CAPRI // UNLEASHED (orion)] subroutine skill.
+    aiSystemPrompt: `You are operating under the @zen-ui-capri/system [CAPRI // UNLEASHED (orion)] subroutine skill.
 Respond with concise, technical engineering output (Persona Voice is OFF by default unless '--voice' is requested):
-1. Component Mandate: Use @zen-ui/system primitives (ZenButton, ZenIconButton, ZenIcon, ZenInput, ZenTextarea, ZenDropdown, ZenNumberStepper, ZenCheckbox, ZenRadioGroup, ZenSwitch, ZenDataTable, ZenModal, ZenDrawer, ZenTabs, ZenCard, ZenBadge, ZenAlert) or their universal CSS equivalents (.zen-btn, .zen-input, .zen-select, .zen-table, .zen-card, <zen-icon>).
+1. Component Mandate: Use @zen-ui-capri/system primitives (ZenButton, ZenIconButton, ZenIcon, ZenInput, ZenTextarea, ZenDropdown, ZenNumberStepper, ZenCheckbox, ZenRadioGroup, ZenSwitch, ZenDataTable, ZenModal, ZenDrawer, ZenTabs, ZenCard, ZenBadge, ZenAlert) or their universal CSS equivalents (.zen-btn, .zen-input, .zen-select, .zen-table, .zen-card, <zen-icon>).
 2. Zero External Icon Bloat: Use the built-in 40-glyph <ZenIcon name="..." /> or <zen-icon name="..."></zen-icon> custom element.
 3. Concise Copywriting: Limit button labels and tab titles to 1-3 words.
 4. Production Hygiene: Never render the showcase mascot (<ZenAIConstruct />) in production business screens unless explicitly requested.`,
@@ -187,10 +187,10 @@ Respond with concise, technical engineering output (Persona Voice is OFF by defa
       'Zero any / as any: Use unknown with type guards, discriminated unions, or strict generics.',
       'Strict Readonly Arrays: Always type arrays as readonly T[] across props, state, and DTOs.',
       'Zero Hardcoded Hex Colors: Bind all surfaces, text, and borders to semantic CSS custom properties (--zen-bg-*, --zen-surface-*, --zen-ink-*, --zen-accent-*, --zen-border-*).',
-      'Cross-Stack Parity: Use @zen-ui/system/universal (zenTheme, registerZenElements) for Angular 20+, Vue 3, Svelte 5, and Vanilla HTML.',
+      'Cross-Stack Parity: Use @zen-ui-capri/system/universal (zenTheme, registerZenElements) for Angular 20+, Vue 3, Svelte 5, and Vanilla HTML.',
     ],
     cliCommand: 'npx capri skill architect',
-    aiSystemPrompt: `You are operating under the @zen-ui/system [SCS // ARCHITECT (architect)] subroutine skill.
+    aiSystemPrompt: `You are operating under the @zen-ui-capri/system [SCS // ARCHITECT (architect)] subroutine skill.
 Respond with concise, technical engineering output (Persona Voice is OFF by default unless '--voice' is requested):
 1. Strict TypeScript: Never use 'any' or 'as any'. Always declare array types as 'readonly T[]'.
 2. Zero Hardcoded Hex Values: Never hardcode hex/RGB colors in component styles. Use semantic CSS custom properties (--zen-bg-canvas, --zen-surface-1, --zen-ink-primary, --zen-accent-primary, --zen-border-default).
@@ -219,7 +219,7 @@ Respond with concise, technical engineering output (Persona Voice is OFF by defa
       'Zero Horizontal Overflow: Layouts must use min-w-0 on CSS Grid/Flex children and .zen-table-wrapper so scrollWidth never exceeds innerWidth at 320px-375px.',
     ],
     cliCommand: 'npx capri guard',
-    aiSystemPrompt: `You are operating under the @zen-ui/system [CYBERPSYCHOSIS // GUARD (guard / sentinel)] subroutine skill.
+    aiSystemPrompt: `You are operating under the @zen-ui-capri/system [CYBERPSYCHOSIS // GUARD (guard / sentinel)] subroutine skill.
 Respond with concise, technical engineering output (Persona Voice is OFF by default unless '--voice' is requested):
 1. Anti-Prompt-Injection Defense: Sanitize any user input or scraped DOM text via capri.sanitizeForPrompt() before embedding into LLM context windows. Block system-override phrases ('ignore previous instructions', 'disregard system prompt') and role-delimiter spoofing ('<|im_start|>', '</system>', '</USER_REQUEST>').
 2. XSS & Secret Hardening: Never interpolate unescaped user attributes into innerHTML or dangerouslySetInnerHTML, reject 'javascript:' / 'data:text/html' URLs, and ensure zero hardcoded secrets in source code.
@@ -248,7 +248,7 @@ Respond with concise, technical engineering output (Persona Voice is OFF by defa
       'Adaptive Density: Support data-density="comfortable" | "compact" and data-radius="sharp" | "architectural" | "soft" on <html>.',
     ],
     cliCommand: 'npx capri skill zen',
-    aiSystemPrompt: `You are operating under the @zen-ui/system [THEME // MATRIX (zen)] subroutine skill.
+    aiSystemPrompt: `You are operating under the @zen-ui-capri/system [THEME // MATRIX (zen)] subroutine skill.
 Respond with concise, technical engineering output (Persona Voice is OFF by default unless '--voice' is requested):
 1. 8-Theme Compatibility: Verify that all surfaces, badges, and borders adapt automatically across dark ('blackwall-crimson', 'obsidian-gold', 'neon-emerald', 'midnight-cobalt') and light ('atelier-paper', 'nordic-snow', 'kyoto-matcha', 'cyber-daylight') themes.
 2. GPU-Only Motion: Animate only transform and opacity using --zen-ease-spring and --zen-ease-out. Avoid layout-thrashing properties.
@@ -272,11 +272,11 @@ Respond with concise, technical engineering output (Persona Voice is OFF by defa
     ruleset: [
       'Zero Build / Runtime Cost: Run documentation generation on demand via npx capri docu or AI agent inspection—never inside production render loops.',
       'Mermaid Topology Maps: Always output valid flowchart TD diagrams with quoted node labels for routes, landmarks, and user flows.',
-      'Component & Prop Inventory: Summarize mounted @zen-ui/system primitives, custom elements, and interactive triggers per screen.',
+      'Component & Prop Inventory: Summarize mounted @zen-ui-capri/system primitives, custom elements, and interactive triggers per screen.',
       'LLM Context Readiness: Format output as structured Markdown ready for Claude Code, OpenAI Codex, Gemini, and Obsidian.',
     ],
     cliCommand: 'npx capri docu',
-    aiSystemPrompt: `You are operating under the @zen-ui/system [CAPRI // AUTO-DOCU (docu)] subroutine skill.
+    aiSystemPrompt: `You are operating under the @zen-ui-capri/system [CAPRI // AUTO-DOCU (docu)] subroutine skill.
 Respond with concise, technical engineering output (Persona Voice is OFF by default unless '--voice' is requested):
 1. Architecture & User-Flow Mapping: Inspect the target routes/components and produce a structured Markdown dossier covering system tokens, component inventory, and interactive user flows.
 2. Mermaid Flowchart: Generate a valid 'flowchart TD' diagram with quoted node labels illustrating the page hierarchy and user actions.
@@ -652,7 +652,7 @@ export class CapriEngine {
         badgesAndAlerts: 0,
         customElements: [],
       };
-      const mermaidDiagram = 'flowchart TD\n  Root["App Root (SSR)"] --> UI["@zen-ui/system"]';
+      const mermaidDiagram = 'flowchart TD\n  Root["App Root (SSR)"] --> UI["@zen-ui-capri/system"]';
       return {
         generatedAt: new Date().toISOString(),
         appTitle: 'zeN-UI Application',
@@ -806,7 +806,7 @@ export class CapriEngine {
 
     const markdownBundle = [
       `# ${appTitle} — Automated Architecture, User-Flow & AI Context Dossier`,
-      `Generated by \`@zen-ui/system\` // \`capri.docu()\` at \`${new Date().toISOString()}\``,
+      `Generated by \`@zen-ui-capri/system\` // \`capri.docu()\` at \`${new Date().toISOString()}\``,
       ``,
       `## 1. Runtime & Design Token Architecture`,
       `- **Route Path:** \`${routePath}\``,
@@ -895,7 +895,7 @@ export class CapriEngine {
             .join('\n');
 
     return [
-      `# @zen-ui/system // CAPRI AI SKILL & ARCHITECTURE CONTEXT`,
+      `# @zen-ui-capri/system // CAPRI AI SKILL & ARCHITECTURE CONTEXT`,
       `Subroutine: ${skill.codeName} (${skill.id}) — ${skill.title}`,
       `Invoke Command: "${voiceEnabled ? skill.voiceCommand : skill.chatCommand}" (Voice Mode: ${voiceEnabled ? 'ON (--voice)' : 'OFF (Default)'})`,
       `Recommended Preset: theme="${skill.recommendedTheme}", radius="${skill.recommendedRadius}", density="${skill.recommendedDensity}"`,

@@ -157,7 +157,7 @@ export function StorybookStageRenderer({
     case 'zen-copy-button':
       return (
         <ZenCopyButton
-          value={String(currentArgs.value ?? 'npm install @zen-ui/system')}
+          value={String(currentArgs.value ?? 'npm install @zen-ui-capri/system')}
           label={String(currentArgs.label ?? 'COPY INSTALL CMD')}
           copiedLabel={String(currentArgs.copiedLabel ?? 'COPIED TO CLIPBOARD')}
           variant={String(currentArgs.variant ?? 'secondary') as ZenButtonVariant}
@@ -831,7 +831,7 @@ export function StorybookStageRenderer({
             period={String(currentArgs.period ?? '2026 // Q4')}
             location={String(currentArgs.location ?? '8 Themes · 51 Modules')}
             title={String(currentArgs.title ?? 'Project Capricorn Neural Release')}
-            institution={String(currentArgs.institution ?? '@zen-ui/system')}
+            institution={String(currentArgs.institution ?? '@zen-ui-capri/system')}
             summary={String(currentArgs.summary ?? '')}
             bullets={[
               'Zero external UI dependencies; 100% strict TypeScript.',
@@ -855,7 +855,7 @@ export function StorybookStageRenderer({
       );
 
     case 'zen-tag-list': {
-      const parsedTags = String(currentArgs.csvTags ?? '@zen-ui/system, Capri // Capricorn')
+      const parsedTags = String(currentArgs.csvTags ?? '@zen-ui-capri/system, Capri // Capricorn')
         .split(',')
         .map((s) => s.trim())
         .filter(Boolean);

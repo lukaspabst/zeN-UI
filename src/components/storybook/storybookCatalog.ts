@@ -70,7 +70,7 @@ export const STORYBOOK_CATALOG: readonly StoryEntry[] = [
     a11yNotes: ['Uses navigator.clipboard API', 'Visual + text state confirmation', 'Keyboard Enter/Space trigger'],
     cssTokens: ['--zen-accent-primary', '--zen-surface-subtle', '--zen-border-control'],
     propDefs: [
-      { name: 'value', type: 'string', required: true, defaultValue: 'npm install @zen-ui/system', description: 'Payload string written to clipboard', control: 'text' },
+      { name: 'value', type: 'string', required: true, defaultValue: 'npm install @zen-ui-capri/system', description: 'Payload string written to clipboard', control: 'text' },
       { name: 'label', type: 'string', defaultValue: 'COPY INSTALL CMD', description: 'Resting button label', control: 'text' },
       { name: 'copiedLabel', type: 'string', defaultValue: 'COPIED TO CLIPBOARD', description: 'Confirmation label shown for 2000ms', control: 'text' },
       { name: 'variant', type: "'primary' | 'secondary' | 'ghost' | 'danger'", defaultValue: 'secondary', description: 'Button visual style', control: 'select', options: ['primary', 'secondary', 'ghost', 'danger'] },
@@ -691,7 +691,7 @@ export const STORYBOOK_CATALOG: readonly StoryEntry[] = [
     propDefs: [
       { name: 'title', type: 'string', required: true, defaultValue: 'zen-tokens.config.ts', description: 'Filename or snippet title in header bar', control: 'text' },
       { name: 'language', type: 'string', defaultValue: 'TS', description: 'Language badge tag', control: 'text' },
-      { name: 'code', type: 'string', required: true, defaultValue: "import { zenTheme } from '@zen-ui/system/universal';\nzenTheme.setTheme('blackwall-crimson');", description: 'Raw code string rendered & copied', control: 'text' },
+      { name: 'code', type: 'string', required: true, defaultValue: "import { zenTheme } from '@zen-ui-capri/system/universal';\nzenTheme.setTheme('blackwall-crimson');", description: 'Raw code string rendered & copied', control: 'text' },
     ],
   },
   {
@@ -721,7 +721,7 @@ export const STORYBOOK_CATALOG: readonly StoryEntry[] = [
       { name: 'period', type: 'string', required: true, defaultValue: '2026 // Q4', description: 'Timestamp or release phase label', control: 'text' },
       { name: 'location', type: 'string', required: true, defaultValue: '8 Themes · 49 Modules', description: 'Right-aligned location or scope label', control: 'text' },
       { name: 'title', type: 'string', required: true, defaultValue: 'Project Capricorn Neural Release', description: 'Card title', control: 'text' },
-      { name: 'institution', type: 'string', required: true, defaultValue: '@zen-ui/system', description: 'Italic serif subtitle', control: 'text' },
+      { name: 'institution', type: 'string', required: true, defaultValue: '@zen-ui-capri/system', description: 'Italic serif subtitle', control: 'text' },
       { name: 'summary', type: 'string', required: true, defaultValue: 'Unified 8 dark and light themes with zero-runtime CSS custom properties.', description: 'Body summary paragraph', control: 'text' },
     ],
   },
@@ -752,7 +752,7 @@ export const STORYBOOK_CATALOG: readonly StoryEntry[] = [
     a11yNotes: ['High-contrast border & subtle glass background'],
     cssTokens: ['--zen-surface-subtle', '--zen-border-default', '--zen-font-mono'],
     propDefs: [
-      { name: 'csvTags', type: 'readonly string[] (tags)', required: true, defaultValue: '@zen-ui/system, Capri // Capricorn, Angular 20+, React 19, Zero-Any TS', description: 'Comma-separated list of tags rendered as pills', control: 'text' },
+      { name: 'csvTags', type: 'readonly string[] (tags)', required: true, defaultValue: '@zen-ui-capri/system, Capri // Capricorn, Angular 20+, React 19, Zero-Any TS', description: 'Comma-separated list of tags rendered as pills', control: 'text' },
       { name: 'className', type: 'string', defaultValue: '', description: 'Custom wrapper classes', control: 'text' },
     ],
   },

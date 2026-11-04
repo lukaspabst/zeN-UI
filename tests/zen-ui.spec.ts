@@ -66,7 +66,7 @@ test.describe('zeN-UI // CAPRI Universal Design System & Multi-Screen Readiness'
     const openModalBtn = page.getByRole('button', { name: 'Open Modal' });
     await openModalBtn.click();
     const modal = page.getByRole('dialog', {
-      name: /Install @zen-ui\/system in Any Tech Stack/i,
+      name: /Install @zen-ui-capri\/system in Any Tech Stack/i,
     });
     await expect(modal).toBeVisible();
     await modal.getByRole('radio', { name: 'Angular 20+' }).click();

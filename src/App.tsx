@@ -334,7 +334,7 @@ export default function App() {
             <div className="space-y-5">
               <div className="flex flex-wrap items-center gap-2.5">
                 <ZenBadge tone="gold" pulse>
-                  @ZEN-UI/SYSTEM v{ZEN_UI_VERSION} · LATEST NPM RELEASE
+                  @ZEN-UI-CAPRI/SYSTEM v{ZEN_UI_VERSION} · LATEST NPM RELEASE
                 </ZenBadge>
                 <ZenBadge tone="emerald">
                   1 UNIFIED PACKAGE (UI + CAPRI AI CORE + CLI)
@@ -354,7 +354,7 @@ export default function App() {
               </ZenHeading>
 
               <p className="text-base sm:text-lg text-[var(--zen-ink-secondary)] max-w-3xl leading-relaxed">
-                Ship one versioned package (<code>@zen-ui/system@v{ZEN_UI_VERSION}</code>) containing 51 React 19 TSX primitives, W3C Custom Elements for Angular 20+ / Vue 3 / HTML, 40 vector icons, 8 dark/light CSS token themes, and the zero-runtime <code>npx capri</code> CLI &amp; security guard.
+                Ship one versioned package (<code>@zen-ui-capri/system@v{ZEN_UI_VERSION}</code>) containing 51 React 19 TSX primitives, W3C Custom Elements for Angular 20+ / Vue 3 / HTML, 40 vector icons, 8 dark/light CSS token themes, and the zero-runtime <code>npx capri</code> CLI &amp; security guard.
               </p>
             </div>
 
@@ -364,7 +364,7 @@ export default function App() {
                 metrics={[
                   { value: `v${ZEN_UI_VERSION}`, label: 'Unified NPM Package', accent: true },
                   { value: '51 Modules', label: 'React + W3C Elements' },
-                  { value: '33.9 kB', label: 'Full ESM Bundle (Gzip)' },
+                  { value: '0 Deps', label: 'Zero Runtime Bloat' },
                   { value: '0 any', label: 'Strict TypeScript' },
                 ]}
               />
@@ -375,11 +375,11 @@ export default function App() {
                     SINGLE VERSIONED NPM PACKAGE (UI COMPONENTS + CAPRI AI CORE + CLI)
                   </div>
                   <code className="block zen-font-mono text-xs text-[var(--zen-ink-primary)] truncate mt-0.5">
-                    {`npm install "@zen-ui/system@https://github.com/lukaspabst/zeN-UI/releases/download/v${ZEN_UI_VERSION}/zen-ui-system-${ZEN_UI_VERSION}.tgz"`}
+                    {`npm install @zen-ui-capri/system@${ZEN_UI_VERSION}`}
                   </code>
                 </div>
                 <ZenCopyButton
-                  value={`npm install "@zen-ui/system@https://github.com/lukaspabst/zeN-UI/releases/download/v${ZEN_UI_VERSION}/zen-ui-system-${ZEN_UI_VERSION}.tgz"`}
+                  value={`npm install @zen-ui-capri/system@${ZEN_UI_VERSION}`}
                   label={`COPY v${ZEN_UI_VERSION} INSTALL`}
                   copiedLabel="COPIED"
                   size="sm"
@@ -553,7 +553,7 @@ export default function App() {
               PURPOSE / ZWECK DIESER WEBSITE
             </div>
             <p>
-              Non-commercial open-source documentation and interactive component playground for <code>@zen-ui/system</code> (MIT License). / Nicht-kommerzielle Open-Source-Dokumentation und Komponenten-Vorschau für <code>@zen-ui/system</code> (MIT-Lizenz).
+              Non-commercial open-source documentation and interactive component playground for <code>@zen-ui-capri/system</code> (MIT License). / Nicht-kommerzielle Open-Source-Dokumentation und Komponenten-Vorschau für <code>@zen-ui-capri/system</code> (MIT-Lizenz).
             </p>
           </div>
 
@@ -572,7 +572,7 @@ export default function App() {
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         eyebrow="ZEN-UI // MULTI-FRAMEWORK EXPORT"
-        title="Install @zen-ui/system in Any Tech Stack"
+        title="Install @zen-ui-capri/system in Any Tech Stack"
         footer={
           <>
             <ZenButton variant="ghost" size="sm" onClick={() => setModalOpen(false)}>
@@ -589,7 +589,7 @@ export default function App() {
       >
         <div className="space-y-4">
           <p className="text-xs sm:text-sm text-[var(--zen-ink-secondary)] leading-relaxed">
-            Use native React 19 TSX components or import <code className="zen-font-mono text-[var(--zen-accent-primary)]">@zen-ui/system/universal</code> + <code className="zen-font-mono text-[var(--zen-accent-primary)]">@zen-ui/system/tokens.css</code> in Angular 20+, Vue 3, Svelte 5, Astro, or Vanilla HTML.
+            Use native React 19 TSX components or import <code className="zen-font-mono text-[var(--zen-accent-primary)]">@zen-ui-capri/system/universal</code> + <code className="zen-font-mono text-[var(--zen-accent-primary)]">@zen-ui-capri/system/tokens.css</code> in Angular 20+, Vue 3, Svelte 5, Astro, or Vanilla HTML.
           </p>
           <ZenSegmentedControl
             ariaLabel="Select Frontend Stack"
