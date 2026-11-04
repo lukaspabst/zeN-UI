@@ -1,32 +1,32 @@
 ---
 project: "zeN-UI"
-version: "1.1.5"
-files: 47
-loc: 15956
+version: "1.1.6"
+files: 48
+loc: 15957
 tags: [capri-docu, architecture, ideaprojects]
 ---
 # zeN-UI // CAPRI Architecture & AI Context Dossier
-> **Executive Summary:** Universal Multi-Polarity Design System (`@zen-ui-capri/system` v1.1.5), 51 UI modules, 40 vector icons, 8 Dark/Light themes, Three.js WebGL Cosmos, Web Audio Synth, W3C Custom Elements, and the `Capri` AI Co-Pilot CLI (`https://ui.lpabst.dev`).
+> **Executive Summary:** Universal Multi-Polarity Design System (`@zen-ui-capri/system` v1.1.6), 51 UI modules, 40 vector icons, 8 Dark/Light themes, Three.js WebGL Cosmos, Web Audio Synth, W3C Custom Elements, and the `Capri` AI Co-Pilot CLI (`https://ui.lpabst.dev`).
 >
 > *Generated automatically via `npx capri docu` (Zero build or browser runtime overhead) · Linked to [[000-Master-Workspace-Index]]*
 
 ## 1. Project Identity & Stack Overview
 - **Repository:** `zeN-UI` (`@zen-ui-capri/system`)
-- **Version:** `1.1.5`
+- **Version:** `1.1.6`
 - **Detected Stack:** React 19 · Three.js / WebGL · GSAP Motion · Vite · @zen-ui-capri/system (CAPRI) · TypeScript · Docker Containerized
 - **Top-Level Subsystems:** `/bin`, `/docker`, `/public`, `/src`, `/tests`
 - **Container Readiness:** `docker-compose.yml` present
 
 ## 2. Codebase Metrics & Language Breakdown
-- **Total Source Files Scanned:** 47
-- **Total Lines of Code (LOC):** 15,956
-- **File Extensions:** `.tsx` (33), `.ts` (11), `.mjs` (1), `.html` (1), `.css` (1)
+- **Total Source Files Scanned:** 48
+- **Total Lines of Code (LOC):** 15,957
+- **File Extensions:** `.tsx` (33), `.ts` (11), `.css` (2), `.mjs` (1), `.html` (1)
 - **Key Domain Symbols / Classes / Functions (45):** `ZEN_ICON_SVG_INNER`, `StoryCategory`, `StoryControlType`, `StoryArgValue`, `StoryPropDef`, `StoryEntry`, `STORYBOOK_CATALOG`, `CATEGORY_FILTERS`, `buildInitialArgs`, `StorybookStageRenderer`, `SampleRow`, `StorybookStageRendererProps`, `ZenStorybookPlayground`, `CatalogSectionTab`, `InstallStackId`, `CATALOG_TABS`, `FRAMEWORK_OPTIONS`, `DEPLOY_REGION_OPTIONS`, `FILTER_CHIPS`, `INSTALL_STACK_SEGMENTS`, `INSTALL_SNIPPETS`, `AppShell`, `AppComponent`, `TokenSwatch`, `ComponentBenchmarkRow`, `TOKEN_SWATCHES`, `COMPONENT_BENCHMARKS`, `ORION_ACCORDION_ITEMS`, `WORKFLOW_STEPS`, `SHOWCASE_DOSSIERS`, `ZenSynthPresetId`, `ZenSynthPreset`
 
 ## 4. Architecture & Subsystem Topology (`flowchart TD`)
 ```mermaid
 flowchart TD
-  Repo["zeN-UI v1.1.5"]
+  Repo["zeN-UI v1.1.6"]
   Stack["Stack: React 19 · Three.js / WebGL · GSAP Motion · Vite · @zen-ui-capri/system (CAPRI)"]
   Repo --> Stack
   N0_bin["/bin"]

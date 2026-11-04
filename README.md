@@ -1,4 +1,4 @@
-# `@zen-ui-capri/system` (`zeN-UI // CAPRI`) — `v1.1.5`
+# `@zen-ui-capri/system` (`zeN-UI // CAPRI`) — `v1.1.6`
 
 Universal, zero-dependency, multi-framework design system and component library (`320px` mobile to `4K` ultrawide) for **React 19**, **Angular 20+**, **Vue 3**, **Svelte 5**, and **Vanilla HTML/CSS**, paired with the **Capri 5-Subroutine AI Co-Pilot & Security Guard CLI** in a single versioned npm package (`0` runtime dependencies).
 
@@ -6,8 +6,8 @@ Universal, zero-dependency, multi-framework design system and component library 
 # Option A — Install from npmjs.com (SLSA Build Provenance verified):
 npm install @zen-ui-capri/system
 
-# Option B — Install the signed GitHub Release tarball (v1.1.5):
-npm install "@zen-ui-capri/system@https://github.com/lukaspabst/zeN-UI/releases/download/v1.1.5/zen-ui-system-1.1.5.tgz"
+# Option B — Install the signed GitHub Release tarball (v1.1.6):
+npm install "@zen-ui-capri/system@https://github.com/lukaspabst/zeN-UI/releases/download/v1.1.6/zen-ui-system-1.1.6.tgz"
 ```
 
 - **Full Architecture & User-Flow Dossier:** [`docs/CAPRI-ARCHITECTURE-DOSSIER.md`](./docs/CAPRI-ARCHITECTURE-DOSSIER.md)

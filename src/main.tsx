@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import './lib/styles/zen-tokens.css';
+import './index.css';
 import { ZenThemeProvider } from './lib';
 import App from './App';
 

@@ -582,7 +582,7 @@ function discoverSubProjects(absDir) {
 
 const REPO_EXECUTIVE_SUMMARIES = {
   'zeN-UI':
-    'Universal Multi-Polarity Design System (`@zen-ui-capri/system` v1.1.5), 51 UI modules, 40 vector icons, 8 Dark/Light themes, Three.js WebGL Cosmos, Web Audio Synth, W3C Custom Elements, and the `Capri` AI Co-Pilot CLI (`https://ui.lpabst.dev`).',
+    'Universal Multi-Polarity Design System (`@zen-ui-capri/system` v1.1.6), 51 UI modules, 40 vector icons, 8 Dark/Light themes, Three.js WebGL Cosmos, Web Audio Synth, W3C Custom Elements, and the `Capri` AI Co-Pilot CLI (`https://ui.lpabst.dev`).',
   portfolio:
     'Interactive 3D Creative Developer Portfolio (`https://lpabst.dev`) built with React 19, Three.js / R3F Three-Body orbital physics, GSAP ScrollTrigger, and `@zen-ui-capri/system`.',
   'zeN-Terminal':
@@ -1003,7 +1003,7 @@ function generateMasterObsidianVaultIndex(repoInfos) {
     '',
     '## 1. Live Production & Hetzner Deployment Topology (`2.31.32.227`)',
     '- **`https://lpabst.dev` (`portfolio-web`):** Creative 3D Portfolio (`portfolio` repo · React 19 + Three.js + `@zen-ui-capri/system`).',
-    '- **`https://ui.lpabst.dev` (`zen-ui-web`):** `@zen-ui-capri/system // CAPRI v1.1.5` Design System Showcase & 51-Module Storybook (`zeN-UI` repo).',
+    '- **`https://ui.lpabst.dev` (`zen-ui-web`):** `@zen-ui-capri/system // CAPRI v1.1.6` Design System Showcase & 51-Module Storybook (`zeN-UI` repo).',
     '- **`https://terminal.lpabst.dev` (`zen-terminal-web`):** `zeN-Terminal` 3D Cyber-Shell Showcase (`zeN-Terminal` repo · also installed locally across Windows Terminal, PowerShell `$PROFILE`, and `cmd.exe`).',
     '- **Reverse Proxy & Hardening:** `caddy-gateway` (`80/443`) routes to isolated internal Docker bridge networks (`portfolio-net`, `zen-ui-net`, `zen-terminal-net`). All web containers run rootless (`101:101`), `read_only: true`, `cap_drop: ALL`, `256M` RAM limit.',
     '',
