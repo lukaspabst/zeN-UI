@@ -128,17 +128,23 @@ jobs:
 
       - name: Publish @zen-ui-capri/system to Public NPM Registry via OIDC Provenance
         run: |
+          rm -f "${NPM_CONFIG_USERCONFIG:-}" ~/.npmrc .npmrc
           npm install -g npm@latest
-          cp package.json package.json.bak
-          node -e '
-            const fs = require("fs");
-            const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
-            pkg.name = "@zen-ui-capri/system";
-            pkg.publishConfig = { registry: "https://registry.npmjs.org", access: "public" };
-            fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
-          '
-          npm publish --provenance --access public --ignore-scripts || echo "NPM publish skipped (complete initial publish + Trusted Publisher setup on npmjs.com, or version already published)."
-          mv package.json.bak package.json
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "@zen-ui-capri/system@${VERSION}" version >/dev/null 2>&1; then
+            echo "@zen-ui-capri/system@${VERSION} is already published on npmjs.org."
+          else
+            cp package.json package.json.bak
+            node -e '
+              const fs = require("fs");
+              const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+              pkg.name = "@zen-ui-capri/system";
+              pkg.publishConfig = { registry: "https://registry.npmjs.org", access: "public" };
+              fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
+            '
+            npm publish --provenance --access public --ignore-scripts
+            mv package.json.bak package.json
+          fi
 
       - name: Publish Immutable Versioned Release (vX.Y.Z) & Rolling Latest Assets
         env:
