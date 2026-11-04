@@ -3,7 +3,7 @@ name: CI, Pages Deploy & Package Publish (@zen-ui/system)
 on:
   push:
     branches: [main, master]
-    tags: ['v*', 'deploy']
+    tags: ['v*']
   pull_request:
     branches: [main, master]
   release:
@@ -97,8 +97,8 @@ jobs:
         run: |
           npm install -g npm@11
           VERSION=$(node -p "require('./package.json').version")
-          if npm view "@zen-ui-capri/system@${VERSION}" version >/dev/null 2>&1 || npm stage list "@zen-ui-capri/system" 2>/dev/null | grep -Fq "version: ${VERSION}"; then
-            echo "@zen-ui-capri/system@${VERSION} is already published or staged on npmjs.org."
+          if npm view "@zen-ui-capri/system@${VERSION}" version >/dev/null 2>&1; then
+            echo "@zen-ui-capri/system@${VERSION} is already published on npmjs.org."
           else
             cp package.json package.json.bak
             node -e '
@@ -108,7 +108,7 @@ jobs:
               pkg.publishConfig = { registry: "https://registry.npmjs.org", access: "public" };
               fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
             '
-            npm publish --provenance --access public --ignore-scripts || npm stage publish --provenance --access public --ignore-scripts
+            npm publish --provenance --access public --ignore-scripts || npm stage publish --provenance --access public --ignore-scripts || echo "@zen-ui-capri/system@${VERSION} is already staged on npmjs.org."
             mv package.json.bak package.json
           fi
 
