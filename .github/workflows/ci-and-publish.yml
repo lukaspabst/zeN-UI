@@ -121,16 +121,14 @@ jobs:
           npm publish --ignore-scripts || echo "Version already published to GitHub Packages."
           mv package.json.bak package.json
 
-      - name: Setup Node.js 22 for Public NPM Registry (OIDC Provenance)
+      - name: Setup Node.js 22 for Public NPM Registry (OIDC Trusted Publishing)
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          registry-url: 'https://registry.npmjs.org'
 
-      - name: Publish @zen-ui-capri/system to Public NPM Registry with Provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish @zen-ui-capri/system to Public NPM Registry via OIDC Provenance
         run: |
+          npm install -g npm@latest
           cp package.json package.json.bak
           node -e '
             const fs = require("fs");
@@ -139,7 +137,7 @@ jobs:
             pkg.publishConfig = { registry: "https://registry.npmjs.org", access: "public" };
             fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
           '
-          npm publish --provenance --access public --ignore-scripts || echo "NPM publish skipped (configure Trusted Publisher on npmjs.com or already published)."
+          npm publish --provenance --access public --ignore-scripts || echo "NPM publish skipped (complete initial publish + Trusted Publisher setup on npmjs.com, or version already published)."
           mv package.json.bak package.json
 
       - name: Publish Immutable Versioned Release (vX.Y.Z) & Rolling Latest Assets
