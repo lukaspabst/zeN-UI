@@ -3,7 +3,7 @@ import {
   type ZenDensityMode,
   type ZenRadiusMode,
   type ZenThemeId,
-} from '../theme/ZenThemeProvider';
+} from '../theme/zen-theme-core';
 
 export type CapriSubroutineId =
   | 'orion'
