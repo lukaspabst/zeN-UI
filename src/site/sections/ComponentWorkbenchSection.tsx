@@ -64,7 +64,7 @@ import {
   type ZenTableColumn,
   type ZenToastItem,
   type ZenUploadedFile,
-} from '../lib';
+} from '../../lib';
 import {
   CATALOG_TABS,
   COMPONENT_BENCHMARKS,

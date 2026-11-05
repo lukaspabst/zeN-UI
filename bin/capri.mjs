@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import path from 'node:path';
-import { execSync } from 'node:child_process';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const SUBROUTINES = {
   orion: {
@@ -115,8 +115,10 @@ function runOrionAudit(rootDir, voiceEnabled) {
 
   const iconFile = readSafe(path.join(rootDir, 'src/lib/components/ZenIcon.tsx'));
   const storybookFile =
-    readSafe(path.join(rootDir, 'src/components/storybook/storybookCatalog.ts')) ||
-    readSafe(path.join(rootDir, 'src/components/ZenStorybookPlayground.tsx'));
+    readSafe(
+      path.join(rootDir, 'src/site/components/storybook/storybookCatalog.ts')
+    ) ||
+    readSafe(path.join(rootDir, 'src/components/storybook/storybookCatalog.ts'));
   const universalFile = readSafe(
     path.join(rootDir, 'src/lib/universal/zen-universal.ts')
   );
@@ -580,30 +582,7 @@ function discoverSubProjects(absDir) {
   return subProjects;
 }
 
-const REPO_EXECUTIVE_SUMMARIES = {
-  'zeN-UI':
-    'Universal Multi-Polarity Design System (`@zen-ui-capri/system` v1.1.6), 51 UI modules, 40 vector icons, 8 Dark/Light themes, Three.js WebGL Cosmos, Web Audio Synth, W3C Custom Elements, and the `Capri` AI Co-Pilot CLI (`https://ui.lpabst.dev`).',
-  portfolio:
-    'Interactive 3D Creative Developer Portfolio (`https://lpabst.dev`) built with React 19, Three.js / R3F Three-Body orbital physics, GSAP ScrollTrigger, and `@zen-ui-capri/system`.',
-  'zeN-Terminal':
-    'Local Windows Terminal / PowerShell / CMD cyber-shell overhaul (`install:terminal`) + interactive 3D terminal showcase web app (`https://terminal.lpabst.dev`) powered by `@zen-ui-capri/system`.',
-  JourneyLink:
-    '22-SCS (Self-Contained System) Polyglot Travel & Group Coordination Platform using Angular 20 Native Federation MFEs, `@journey-link/ui`, Kotlin Spring Boot 4, Node/Express/Fastify/NestJS, Python FastAPI, Go, MongoDB-per-service, RabbitMQ AMQP events, and Redis.',
-  'Capri-Assistant':
-    'Personal AI Construct Assistant (Project Capricorn — Desktop Electron + Web PWA + Express API) with a strict 2-Zone Air-Gapped Sandbox (`capri-vault/`), Relic Engram memory/task/note store, Host PC telemetry, and hybrid Gemini / Ollama / Local Reflex inference.',
-  'dc-translation':
-    'Multi-Server Discord Live-Translation Bot (`Discord.js` + TypeScript + SQLite/Database) featuring automated live translation threads, flag reaction translation, onboarding setup wizards, and server-wide broadcast localization.',
-  SyncSound:
-    'Collaborative Real-Time Music Voting & Room Synchronization Platform combining a Java Spring Boot + WebSocket + Spotify Web API backend (`/backend`) with a Vue 3 + Vuex + Tailwind CSS frontend (`/frontend`).',
-  physioTherapie:
-    'Responsive Web Presence & Brand Identity System for Physiotherapie Pabst, including custom SVG/WebP anatomical spine/wave emblems, appointment & treatment sections, and GDPR-compliant legal pages (`impressum.html`, `datenschutz.html`).',
-  LiveTracker:
-    'Real-Time Livestream Countdown & Overlay Tracker combining a Python Tkinter/Canvas desktop tracker (`livestream_tracker.py`) with a Node.js synchronization server (`server.js`) and HTML5 browser overlay (`livetracker.html`).',
-  'File-Scanner':
-    'Containerized Malware & File Ingestion Scanner (`scanner.py` + ClamAV `clamd` + `supervisord`) that watches upload directories, scans files for threats, quarantines/moves files, and publishes scan results.',
-};
-
-function analyzeRepo(targetDir) {
+export function analyzeRepo(targetDir, customSummary) {
   const absDir = path.resolve(targetDir);
   const repoName = path.basename(absDir);
   const pkgPath = path.join(absDir, 'package.json');
@@ -750,13 +729,8 @@ function analyzeRepo(targetDir) {
   if (allDeps.fastify) stackSet.add('Fastify');
   if (allDeps.express) stackSet.add('Express / Node.js');
   if (allDeps['discord.js']) stackSet.add('Discord.js');
-  if (allDeps.mongoose || allDeps.mongodb || extCounts['.kt']) {
-    if (repoName === 'JourneyLink') stackSet.add('MongoDB + RabbitMQ + Redis');
-  }
   if (
     allDeps['@zen-ui-capri/system'] ||
-    allDeps['@zen-ui-capri/system'] ||
-    pkg?.name === '@zen-ui-capri/system' ||
     pkg?.name === '@zen-ui-capri/system'
   ) {
     stackSet.add('@zen-ui-capri/system (CAPRI)');
@@ -774,7 +748,7 @@ function analyzeRepo(targetDir) {
     repoName,
     pkg,
     executiveSummary:
-      REPO_EXECUTIVE_SUMMARIES[repoName] ||
+      customSummary ||
       pkg?.description ||
       `${repoName} software repository (${stackTags.join(', ')}).`,
     hasDockerCompose,
@@ -791,8 +765,8 @@ function analyzeRepo(targetDir) {
   };
 }
 
-function generateStaticDocu(targetDir) {
-  const info = analyzeRepo(targetDir);
+export function generateStaticDocu(targetDir, customSummary) {
+  const info = analyzeRepo(targetDir, customSummary);
   const {
     repoName,
     pkg,
@@ -895,12 +869,12 @@ function generateStaticDocu(targetDir) {
     `version: "${pkg?.version || '1.0.0'}"`,
     `files: ${allFiles.length}`,
     `loc: ${totalLoc}`,
-    'tags: [capri-docu, architecture, ideaprojects]',
+    'tags: [capri-docu, architecture]',
     '---',
     `# ${repoName} // CAPRI Architecture & AI Context Dossier`,
     `> **Executive Summary:** ${executiveSummary}`,
     '>',
-    '> *Generated automatically via `npx capri docu` (Zero build or browser runtime overhead) · Linked to [[000-Master-Workspace-Index]]*',
+    '> *Generated automatically via `npx capri docu` (Zero build or browser runtime overhead)*',
     '',
     '## 1. Project Identity & Stack Overview',
     `- **Repository:** \`${repoName}\`${pkg?.name ? ` (\`${pkg.name}\`)` : ''}`,
@@ -941,252 +915,107 @@ function generateStaticDocu(targetDir) {
     '- **Subroutine `architect` (`SCS // ARCHITECT`):** Enforce strict typing (zero `any`, `readonly T[]`), modular files (`< 900` lines), and `--zen-*` CSS tokens.',
     '- **Subroutine `guard` (`CYBERPSYCHOSIS // GUARD`):** Sanitize untrusted inputs (`capri.sanitizeForPrompt()`), prevent XSS/secret leaks, bind dropdowns to `onMouseDown`, and ensure zero horizontal overflow (`320px` to `4K`).',
     '- **Subroutine `zen` (`THEME // MATRIX`):** Maintain 4 Dark + 4 Light themes (`>= 4.5:1` AA contrast) and 60fps `--zen-ease-spring` tactile motion.',
-    '- **Subroutine `docu` (`CAPRI // AUTO-DOCU`):** Re-run `npm run capri -- docu --workspace "C:\\Users\\Lukas\\IdeaProjects" --write` whenever architectural boundaries or modules change.',
+    '- **Subroutine `docu` (`CAPRI // AUTO-DOCU`):** Run `npx capri docu --write` whenever architectural boundaries or modules change.',
     '',
   ].join('\n');
 }
 
-function generateMasterObsidianVaultIndex(repoInfos) {
-  const totalFiles = repoInfos.reduce((acc, r) => acc + r.allFiles.length, 0);
-  const totalLoc = repoInfos.reduce((acc, r) => acc + r.totalLoc, 0);
+const isDirectExecution =
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
 
-  const tableRows = repoInfos.map((r) => {
-    const link = `[[repos-index/${r.repoName}|${r.repoName}]]`;
-    const stackShort = r.stackTags.slice(0, 4).join(' · ');
-    return `| ${link} | ${r.allFiles.length} | ${r.totalLoc.toLocaleString(
-      'en-US'
-    )} | ${stackShort} | ${r.executiveSummary} |`;
-  });
+if (isDirectExecution) {
+  const [, , rawCommand = 'help', rawArg = 'orion'] = process.argv;
+  const command = rawCommand.toLowerCase();
+  const voiceEnabled = process.argv.includes('--voice');
+  const writeEnabled = process.argv.includes('--write');
+  const workspaceIdx = process.argv.indexOf('--workspace');
+  const workspaceDir =
+    workspaceIdx !== -1 && process.argv[workspaceIdx + 1]
+      ? path.resolve(process.argv[workspaceIdx + 1])
+      : null;
+  const rootDir = process.cwd();
+  const maintainerScriptPath = path.resolve(
+    path.dirname(fileURLToPath(import.meta.url)),
+    '../scripts/maintainer.mjs'
+  );
 
-  const detailBlocks = repoInfos.map((r) => {
-    const subCount =
-      r.subProjects.length > 0
-        ? ` (${r.subProjects.length} sub-projects/services)`
-        : '';
-    const topMods = r.topFiles
-      .slice(0, 4)
-      .map((f) => `\`${f.rel}\` (${f.lines}L)`)
-      .join(', ');
-    const endpointsPreview =
-      r.routesAndEndpoints.length > 0
-        ? `\n- **Key Endpoints:** ${r.routesAndEndpoints
-            .slice(0, 8)
-            .map((e) => `\`${e}\``)
-            .join(', ')}`
-        : '';
-    return [
-      `### [[repos-index/${r.repoName}|${r.repoName}]]${subCount}`,
-      `- **Summary:** ${r.executiveSummary}`,
-      `- **Stack:** ${r.stackTags.join(' · ')}`,
-      `- **Scale:** ${r.allFiles.length} files · ${r.totalLoc.toLocaleString(
-        'en-US'
-      )} LOC (${Object.entries(r.extCounts)
-        .map(([k, v]) => `${k}: ${v}`)
-        .join(', ')})`,
-      `- **Core Entrypoints:** ${topMods || 'N/A'}${endpointsPreview}`,
-    ].join('\n');
-  });
-
-  return [
-    '---',
-    'title: "Capri Master Workspace & Repository Index (IdeaProjects)"',
-    'tags: [capri-vault, moc, workspace-index, architecture]',
-    '---',
-    '# 000 — Capri Master Workspace & Repository Index (`IdeaProjects`)',
-    '> **Instant AI Context Map for Capri Personal Assistant & Coding Agents**',
-    `> Covers **${repoInfos.length} repositories**, **${totalFiles.toLocaleString(
-      'en-US'
-    )} source files**, and **${totalLoc.toLocaleString(
-      'en-US'
-    )} lines of code** across \`C:\\Users\\Lukas\\IdeaProjects\\\`.`,
-    '> When answering questions about any project below, read this index first (and the linked `[[repos-index/<Repo>]]` note if deeper file/endpoint detail is needed) — no full-disk repo crawling required.',
-    '',
-    '## 1. Live Production & Hetzner Deployment Topology (`2.31.32.227`)',
-    '- **`https://lpabst.dev` (`portfolio-web`):** Creative 3D Portfolio (`portfolio` repo · React 19 + Three.js + `@zen-ui-capri/system`).',
-    '- **`https://ui.lpabst.dev` (`zen-ui-web`):** `@zen-ui-capri/system // CAPRI v1.1.6` Design System Showcase & 51-Module Storybook (`zeN-UI` repo).',
-    '- **`https://terminal.lpabst.dev` (`zen-terminal-web`):** `zeN-Terminal` 3D Cyber-Shell Showcase (`zeN-Terminal` repo · also installed locally across Windows Terminal, PowerShell `$PROFILE`, and `cmd.exe`).',
-    '- **Reverse Proxy & Hardening:** `caddy-gateway` (`80/443`) routes to isolated internal Docker bridge networks (`portfolio-net`, `zen-ui-net`, `zen-terminal-net`). All web containers run rootless (`101:101`), `read_only: true`, `cap_drop: ALL`, `256M` RAM limit.',
-    '',
-    '## 2. Master Repository Matrix (`C:\\Users\\Lukas\\IdeaProjects`)',
-    '| Repository Note | Files | LOC | Primary Tech Stack | Executive Purpose |',
-    '| :--- | ---: | ---: | :--- | :--- |',
-    ...tableRows,
-    '',
-    '## 3. Per-Repository Instant Context Briefs',
-    ...detailBlocks,
-    '',
-    '## 4. Mandatory Auto-Docu Synchronization Rule',
-    'Whenever any repository in `C:\\Users\\Lukas\\IdeaProjects` adds/removes modules, changes APIs, or updates dependencies, run:',
-    '```powershell',
-    'npm --prefix "C:\\Users\\Lukas\\IdeaProjects\\zeN-UI" run capri -- docu --workspace "C:\\Users\\Lukas\\IdeaProjects" --write',
-    '```',
-    'This single command regenerates every repo\'s `docs/CAPRI-ARCHITECTURE.md` AND updates `capri-vault/000-Master-Workspace-Index.md` + `capri-vault/repos-index/*.md` in `< 2 seconds`.',
-    '',
-  ].join('\n');
-}
-
-const [, , rawCommand = 'help', rawArg = 'orion'] = process.argv;
-const command = rawCommand.toLowerCase();
-const voiceEnabled = process.argv.includes('--voice');
-const writeEnabled = process.argv.includes('--write');
-const workspaceIdx = process.argv.indexOf('--workspace');
-const workspaceDir =
-  workspaceIdx !== -1 && process.argv[workspaceIdx + 1]
-    ? path.resolve(process.argv[workspaceIdx + 1])
-    : null;
-const rootDir = process.cwd();
-
-if (command === 'docu') {
-  if (workspaceDir && fs.existsSync(workspaceDir)) {
-    const entries = fs
-      .readdirSync(workspaceDir, { withFileTypes: true })
-      .filter((e) => e.isDirectory() && !e.name.startsWith('.'));
-    const summaryRows = [];
-    const repoInfos = [];
-    const capriVaultDir = path.join(
-      workspaceDir,
-      'Capri-Assistant',
-      'capri-vault'
-    );
-    const capriReposIndexDir = path.join(capriVaultDir, 'repos-index');
-    if (writeEnabled && fs.existsSync(path.join(workspaceDir, 'Capri-Assistant'))) {
-      fs.mkdirSync(capriReposIndexDir, { recursive: true });
-    }
-
-    for (const entry of entries) {
-      const repoPath = path.join(workspaceDir, entry.name);
-      const info = analyzeRepo(repoPath);
-      repoInfos.push(info);
-      const docContent = generateStaticDocu(repoPath);
-      const outDir = path.join(repoPath, 'docs');
-      const outFile = path.join(outDir, 'CAPRI-ARCHITECTURE.md');
+  if (command === 'docu') {
+    if (workspaceDir && fs.existsSync(workspaceDir) && fs.existsSync(maintainerScriptPath)) {
+      const maintainer = await import(pathToFileURL(maintainerScriptPath).href);
+      maintainer.runWorkspaceSync(workspaceDir, writeEnabled, {
+        analyzeRepo,
+        generateStaticDocu,
+      });
+    } else {
+      const targetPath =
+        rawArg && !rawArg.startsWith('--') && rawArg !== 'orion'
+          ? path.resolve(rawArg)
+          : rootDir;
+      const docContent = generateStaticDocu(targetPath);
       if (writeEnabled) {
+        const outDir = path.join(targetPath, 'docs');
+        const outFile = path.join(outDir, 'CAPRI-ARCHITECTURE.md');
         fs.mkdirSync(outDir, { recursive: true });
         fs.writeFileSync(outFile, docContent, 'utf8');
-        if (fs.existsSync(capriReposIndexDir)) {
-          fs.writeFileSync(
-            path.join(capriReposIndexDir, `${entry.name}.md`),
-            docContent,
-            'utf8'
-          );
-        }
+        console.log(`Wrote Capri Architecture Dossier to: ${outFile}`);
+      } else {
+        console.log(docContent);
       }
-      summaryRows.push(
-        `- **${entry.name}**: \`${outFile}\` (${info.allFiles.length} source files · ${info.totalLoc.toLocaleString('en-US')} LOC · ${info.subProjects.length} sub-projects)`
-      );
     }
-
-    if (writeEnabled && fs.existsSync(capriVaultDir)) {
-      const masterIndexContent = generateMasterObsidianVaultIndex(repoInfos);
-      const masterIndexPath = path.join(
-        capriVaultDir,
-        '000-Master-Workspace-Index.md'
-      );
-      fs.writeFileSync(masterIndexPath, masterIndexContent, 'utf8');
-      summaryRows.push(
-        `- **Master Obsidian Vault Index**: \`${masterIndexPath}\` (Synced ${repoInfos.length} repos into \`capri-vault/repos-index/\`)`
-      );
+  } else if (command === 'orion') {
+    runOrionAudit(rootDir, voiceEnabled);
+  } else if (command === 'architect') {
+    runArchitectAudit(rootDir, voiceEnabled);
+  } else if (command === 'guard' || command === 'sentinel') {
+    runGuardAudit(rootDir, voiceEnabled);
+  } else if (command === 'zen') {
+    runZenAudit(rootDir, voiceEnabled);
+  } else if (command === 'all') {
+    runOrionAudit(rootDir, voiceEnabled);
+    console.log('\n---\n');
+    runArchitectAudit(rootDir, voiceEnabled);
+    console.log('\n---\n');
+    runGuardAudit(rootDir, voiceEnabled);
+    console.log('\n---\n');
+    runZenAudit(rootDir, voiceEnabled);
+  } else if (command === 'scan') {
+    const inputPayload = process.argv
+      .slice(3)
+      .filter((a) => a !== '--voice')
+      .join(' ');
+    const sub = SUBROUTINES.sentinel;
+    printHeader('guard // scan', sub, voiceEnabled);
+    const res = scanTextForPromptInjection(inputPayload);
+    console.log(`## Prompt-Injection & Security Payload Scan`);
+    console.log(`- Safe: ${res.safe ? 'TRUE (CLEAN)' : 'FALSE (BLOCKED)'}`);
+    console.log(`- Threats Detected: ${res.threats.length}`);
+    for (const t of res.threats) {
+      console.log(`  * [${t.category}] ${t.patternName}: "${t.snippet}"`);
     }
-
-    console.log(
-      `# CAPRI // AUTO-DOCU — Workspace & Obsidian Vault Sync Complete (${entries.length} Repositories)\n`
-    );
-    console.log(summaryRows.join('\n'));
+    console.log(`- Sanitized Output: ${res.sanitized}`);
+  } else if (
+    (command === 'pack-npm' || command === 'publish-npm') &&
+    fs.existsSync(maintainerScriptPath)
+  ) {
+    const maintainer = await import(pathToFileURL(maintainerScriptPath).href);
+    maintainer.runNpmRelease(rootDir, command);
+  } else if (command === 'skill') {
+    const rawKey = rawArg.toLowerCase();
+    const key = rawKey === 'guard' ? 'sentinel' : rawKey;
+    const sub = SUBROUTINES[key] || SUBROUTINES.orion;
+    printHeader(rawKey, sub, voiceEnabled);
+    sub.rules.forEach((r, i) => console.log(`${i + 1}. ${r}`));
   } else {
-    const targetPath =
-      rawArg && !rawArg.startsWith('--') && rawArg !== 'orion'
-        ? path.resolve(rawArg)
-        : rootDir;
-    const docContent = generateStaticDocu(targetPath);
-    if (writeEnabled) {
-      const outDir = path.join(targetPath, 'docs');
-      const outFile = path.join(outDir, 'CAPRI-ARCHITECTURE.md');
-      fs.mkdirSync(outDir, { recursive: true });
-      fs.writeFileSync(outFile, docContent, 'utf8');
-      console.log(`Wrote Capri Architecture Dossier to: ${outFile}`);
-    } else {
-      console.log(docContent);
-    }
-  }
-} else if (command === 'orion') {
-  runOrionAudit(rootDir, voiceEnabled);
-} else if (command === 'architect') {
-  runArchitectAudit(rootDir, voiceEnabled);
-} else if (command === 'guard' || command === 'sentinel') {
-  runGuardAudit(rootDir, voiceEnabled);
-} else if (command === 'zen') {
-  runZenAudit(rootDir, voiceEnabled);
-} else if (command === 'all') {
-  runOrionAudit(rootDir, voiceEnabled);
-  console.log('\n---\n');
-  runArchitectAudit(rootDir, voiceEnabled);
-  console.log('\n---\n');
-  runGuardAudit(rootDir, voiceEnabled);
-  console.log('\n---\n');
-  runZenAudit(rootDir, voiceEnabled);
-} else if (command === 'scan') {
-  const inputPayload = process.argv
-    .slice(3)
-    .filter((a) => a !== '--voice')
-    .join(' ');
-  const sub = SUBROUTINES.sentinel;
-  printHeader('guard // scan', sub, voiceEnabled);
-  const res = scanTextForPromptInjection(inputPayload);
-  console.log(`## Prompt-Injection & Security Payload Scan`);
-  console.log(`- Safe: ${res.safe ? 'TRUE (CLEAN)' : 'FALSE (BLOCKED)'}`);
-  console.log(`- Threats Detected: ${res.threats.length}`);
-  for (const t of res.threats) {
-    console.log(`  * [${t.category}] ${t.patternName}: "${t.snippet}"`);
-  }
-  console.log(`- Sanitized Output: ${res.sanitized}`);
-} else if (command === 'pack-npm' || command === 'publish-npm') {
-  const pkgPath = path.join(rootDir, 'package.json');
-  const originalContent = fs.readFileSync(pkgPath, 'utf8');
-  try {
-    if (command === 'publish-npm') {
-      console.log('Running Capri all-subroutine audit & production build...');
-      execSync('npm run capri -- all && npm run build', {
-        cwd: rootDir,
-        stdio: 'inherit',
-      });
-    }
-    const pkg = JSON.parse(originalContent);
-    pkg.name = '@zen-ui-capri/system';
-    pkg.publishConfig = {
-      registry: 'https://registry.npmjs.org',
-      access: 'public',
-    };
-    fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf8');
-    if (command === 'pack-npm') {
-      execSync('npm pack --ignore-scripts', {
-        cwd: rootDir,
-        stdio: 'inherit',
-      });
-    } else {
-      console.log('Publishing @zen-ui-capri/system to https://registry.npmjs.org...');
-      execSync('npm publish --access public --ignore-scripts --auth-type=web', {
-        cwd: rootDir,
-        stdio: 'inherit',
-      });
-    }
-  } finally {
-    fs.writeFileSync(pkgPath, originalContent, 'utf8');
-  }
-} else if (command === 'skill') {
-  const rawKey = rawArg.toLowerCase();
-  const key = rawKey === 'guard' ? 'sentinel' : rawKey;
-  const sub = SUBROUTINES[key] || SUBROUTINES.orion;
-  printHeader(rawKey, sub, voiceEnabled);
-  sub.rules.forEach((r, i) => console.log(`${i + 1}. ${r}`));
-} else {
-  console.log(`@zen-ui-capri/system // CAPRI AI Co-Pilot CLI (On-Demand · Zero Build Overhead)
+    console.log(`@zen-ui-capri/system // CAPRI AI Co-Pilot CLI (On-Demand · Zero Build Overhead)
 Usage:
-  npm run capri -- docu                           Generate static architecture, component & user-flow Markdown
-  npm run capri -- orion [--voice]                Run UI & Component Synthesis audit (51 modules, 40 icons)
-  npm run capri -- architect [--voice]            Run TypeScript & CSS Token Governance audit (zero any, zero hex)
-  npm run capri -- guard [--voice]                Run Security, Anti-Prompt-Injection, WCAG & Overflow Guard audit
-  npm run capri -- zen [--voice]                  Run 8-Theme Polarity & 60fps Motion audit
-  npm run capri -- all [--voice]                  Run all 4 audit subroutines (orion, architect, guard, zen)
-  npm run capri -- scan "<text>" [--voice]        Scan and sanitize untrusted text for prompt injection / XSS
-  npm run capri -- skill <subroutine> [--voice]   Print ruleset for: guard | orion | architect | sentinel | zen | docu`);
+  npx capri docu [--write]                Generate static architecture, component & user-flow Markdown
+  npx capri orion [--voice]               Run UI & Component Synthesis audit (51 modules, 40 icons)
+  npx capri architect [--voice]           Run TypeScript & CSS Token Governance audit (zero any, zero hex)
+  npx capri guard [--voice]               Run Security, Anti-Prompt-Injection, WCAG & Overflow Guard audit
+  npx capri zen [--voice]                 Run 8-Theme Polarity & 60fps Motion audit
+  npx capri all [--voice]                 Run all 4 audit subroutines (orion, architect, guard, zen)
+  npx capri scan "<text>" [--voice]       Scan and sanitize untrusted text for prompt injection / XSS
+  npx capri skill <subroutine> [--voice]  Print ruleset for: guard | orion | architect | sentinel | zen | docu`);
+  }
 }

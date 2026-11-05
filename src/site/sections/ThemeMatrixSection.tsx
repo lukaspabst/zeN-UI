@@ -12,7 +12,7 @@ import {
   type ZenRadiusMode,
   type ZenSegmentItem,
   type ZenThemeId,
-} from '../lib';
+} from '../../lib';
 import { TOKEN_SWATCHES } from '../data/studioWorkbenchData';
 
 export const RADIUS_SEGMENTS: readonly ZenSegmentItem<ZenRadiusMode>[] = [

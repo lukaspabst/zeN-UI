@@ -41,7 +41,7 @@ import {
   type ZenBackgroundVariant,
   type ZenCommandItem,
   type ZenSegmentItem,
-} from './lib';
+} from '../lib';
 import { ZenStorybookPlayground } from './components/ZenStorybookPlayground';
 import {
   DENSITY_SEGMENTS,

@@ -102,7 +102,7 @@ function renderZenIconSvgMarkup(options: {
     ? UNIVERSAL_ICON_SVG_INNER[options.name]
     : UNIVERSAL_ICON_SVG_INNER.sparkles;
   const spinStyle = options.spin ? 'animation: spin 1s linear infinite;' : '';
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${px}" height="${px}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0;${spinStyle}">${inner}</svg>`;
+  return `<svg width="${px}" height="${px}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;flex-shrink:0;${spinStyle}">${inner}</svg>`;
 }
 
 export type ZenUniversalPolarity = 'dark' | 'light';

@@ -20,11 +20,14 @@ export default defineConfig({
   ],
   build: {
     outDir: 'dist/lib',
-    emptyOutDir: false,
+    emptyOutDir: true,
     copyPublicDir: false,
     lib: {
       entry: {
         index: resolve(__dirname, 'src/lib/index.ts'),
+        'cosmos/index': resolve(__dirname, 'src/lib/cosmos/index.ts'),
+        'audio/index': resolve(__dirname, 'src/lib/audio/index.ts'),
+        'capri/index': resolve(__dirname, 'src/lib/capri/index.ts'),
         'universal/zen-universal': resolve(
           __dirname,
           'src/lib/universal/zen-universal.ts'
@@ -45,6 +48,10 @@ export default defineConfig({
         'gsap',
         '@gsap/react',
       ],
+      output: {
+        entryFileNames: '[name].js',
+        chunkFileNames: 'chunks/[name].js',
+      },
     },
   },
 });

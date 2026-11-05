@@ -1,6 +1,6 @@
 {
   "name": "@zen-ui-capri/system",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "zeN-UI // CAPRI — Universal Multi-Framework Design System (51 Primitives, 40 Vector Icons, 8 Dark/Light Themes & Capri 5-Subroutine AI Co-Pilot)",
   "type": "module",
   "license": "MIT",
@@ -16,7 +16,6 @@
   },
   "files": [
     "dist/lib",
-    "src/lib",
     "bin",
     "AGENTS.md",
     "CLAUDE.md",
@@ -27,14 +26,29 @@
     ".": {
       "types": "./dist/lib/index.d.ts",
       "import": "./dist/lib/index.js",
-      "default": "./src/lib/index.ts"
+      "default": "./dist/lib/index.js"
     },
     "./universal": {
       "types": "./dist/lib/universal/zen-universal.d.ts",
       "import": "./dist/lib/universal/zen-universal.js",
-      "default": "./src/lib/universal/zen-universal.ts"
+      "default": "./dist/lib/universal/zen-universal.js"
     },
-    "./tokens.css": "./src/lib/styles/zen-tokens.css"
+    "./cosmos": {
+      "types": "./dist/lib/cosmos/index.d.ts",
+      "import": "./dist/lib/cosmos/index.js",
+      "default": "./dist/lib/cosmos/index.js"
+    },
+    "./audio": {
+      "types": "./dist/lib/audio/index.d.ts",
+      "import": "./dist/lib/audio/index.js",
+      "default": "./dist/lib/audio/index.js"
+    },
+    "./capri": {
+      "types": "./dist/lib/capri/index.d.ts",
+      "import": "./dist/lib/capri/index.js",
+      "default": "./dist/lib/capri/index.js"
+    },
+    "./tokens.css": "./dist/lib/tokens.css"
   },
   "sideEffects": [
     "**/*.css"
@@ -44,14 +58,15 @@
   },
   "scripts": {
     "dev": "vite --port 5180",
-    "build": "tsc --noEmit && vite build && npm run build:lib",
-    "build:lib": "tsc -p tsconfig.lib.json && vite build --config vite.lib.config.ts",
+    "build": "tsc --noEmit && npm run build:lib && npm run build:site",
+    "build:site": "vite build",
+    "build:lib": "vite build --config vite.lib.config.ts && tsc -p tsconfig.lib.json",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview --port 5180",
     "test:e2e": "playwright test",
     "capri": "node bin/capri.mjs",
-    "prepublishOnly": "npm run capri -- all && npm run build",
-    "publish:npm": "node bin/capri.mjs publish-npm"
+    "prepublishOnly": "npm run capri -- all && npm run build:lib",
+    "publish:npm": "node scripts/maintainer.mjs publish-npm"
   },
   "peerDependencies": {
     "@react-three/fiber": ">=8.0.0",

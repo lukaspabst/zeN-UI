@@ -1,4 +1,4 @@
-import { ZEN_ICON_NAMES } from '../../lib';
+import { ZEN_ICON_NAMES } from '../../../lib';
 
 export type StoryCategory =
   | 'all'

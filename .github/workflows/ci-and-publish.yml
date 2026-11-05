@@ -50,7 +50,7 @@ jobs:
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./dist/site
 
   deploy-pages:
     name: Deploy Interactive Workbench & Storybook to GitHub Pages
@@ -91,7 +91,7 @@ jobs:
         run: npm ci
 
       - name: Build @zen-ui-capri/system Library
-        run: npm run build
+        run: npm run build:lib
 
       - name: Publish @zen-ui-capri/system to NPM Registry via OIDC Provenance
         run: |

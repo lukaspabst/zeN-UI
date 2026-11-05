@@ -10,4 +10,8 @@ export default defineConfig({
       '@zen-ui': resolve(__dirname, 'src/lib'),
     },
   },
+  build: {
+    outDir: 'dist/site',
+    emptyOutDir: true,
+  },
 });

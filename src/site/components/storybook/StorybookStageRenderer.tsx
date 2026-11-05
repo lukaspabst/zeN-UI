@@ -79,7 +79,7 @@ import {
   type ZenIconTone,
   type ZenTableColumn,
   type ZenUploadedFile,
-} from '../../lib';
+} from '../../../lib';
 import { SHOWCASE_DOSSIERS } from '../../data/studioWorkbenchData';
 import type { StoryArgValue, StoryEntry } from './storybookCatalog';
 

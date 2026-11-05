@@ -7,7 +7,7 @@ import {
   type ZenSegmentItem,
   type ZenStepItem,
   type ZenTabItem,
-} from '../lib';
+} from '../../lib';
 
 export type CatalogSectionTab = 'all' | 'forms' | 'navigation' | 'overlays' | 'data' | 'feedback';
 export type InstallStackId = 'react' | 'angular' | 'vue' | 'vanilla';
@@ -167,7 +167,7 @@ onUnmounted(() => unsub?.());
   vanilla: {
     title: 'index.html (Vanilla HTML / Astro / HTMX)',
     lang: 'HTML',
-    code: `<link rel="stylesheet" href="/node_modules/@zen-ui-capri/system/src/lib/styles/zen-tokens.css" />
+    code: `<link rel="stylesheet" href="/node_modules/@zen-ui-capri/system/dist/lib/tokens.css" />
 <script type="module">
   import { registerZenElements, zenTheme } from '@zen-ui-capri/system/universal';
   registerZenElements();

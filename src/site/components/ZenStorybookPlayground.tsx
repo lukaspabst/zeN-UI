@@ -12,7 +12,7 @@ import {
   type CapriSubroutineId,
   type ZenSegmentItem,
   type ZenUploadedFile,
-} from '../lib';
+} from '../../lib';
 import {
   CATEGORY_FILTERS,
   STORYBOOK_CATALOG,
