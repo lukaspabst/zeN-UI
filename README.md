@@ -1,4 +1,4 @@
-# `@zen-ui-capri/system` (`zeN-UI // CAPRI`) — `v1.1.9`
+# `@zen-ui-capri/system` (`zeN-UI // CAPRI`) — `v1.2.0`
 
 Universal, zero-dependency, multi-framework design system and component library (`320px` mobile to `4K` ultrawide) for **React 19**, **Angular 20+**, **Vue 3**, **Svelte 5**, and **Vanilla HTML/CSS**, paired with the **Capri 5-Subroutine AI Co-Pilot & Security Guard CLI** in a single versioned npm package (`0` runtime dependencies).
 
@@ -24,7 +24,6 @@ flowchart TD
   subgraph Layer2["Layer 2: Modular Multi-Framework Entrypoints"]
     ReactPrimitives["@zen-ui-capri/system (51 UI Modules · Tree-Shakable ESM)"]
     UniversalElements["@zen-ui-capri/system/universal (W3C Custom Elements)"]
-    CosmosModule["@zen-ui-capri/system/cosmos (3D Three-Body WebGL & Telemetry HUD)"]
     AudioModule["@zen-ui-capri/system/audio (Procedural Web Audio Synth)"]
     CapriModule["@zen-ui-capri/system/capri (Capri Security & Docu Engine)"]
     Tokens --> ReactPrimitives

@@ -1,4 +1,4 @@
-export const ZEN_UI_VERSION = '1.1.9';
+export const ZEN_UI_VERSION = '1.2.0';
 export const ZEN_PACKAGE_NAME = '@zen-ui-capri/system';
 
 export {
@@ -231,20 +231,6 @@ export {
   type ZenAudioSynthController,
   type ZenAudioControllerProps,
 } from './audio';
-
-export {
-  ZenTelemetryHud,
-  ZenTelemetryInspector,
-  DEFAULT_CELESTIAL_CATALOG,
-  ZenCosmosCanvas,
-  type CelestialCatalogEntry,
-  type ZenTelemetryPayload,
-  type ZenTelemetryBridge,
-  type ZenTelemetryHudProps,
-  type ZenTelemetryTargetId,
-  type ZenTelemetryInspectorProps,
-  type ZenCosmosCanvasProps,
-} from './cosmos';
 
 export {
   ZEN_UNIVERSAL_THEMES,

@@ -1,6 +1,6 @@
 {
   "name": "@zen-ui-capri/system",
-  "version": "1.1.9",
+  "version": "1.2.0",
   "description": "zeN-UI // CAPRI — Universal Multi-Framework Design System (51 Primitives, 40 Vector Icons, 8 Dark/Light Themes & Capri 5-Subroutine AI Co-Pilot)",
   "type": "module",
   "license": "MIT",
@@ -33,11 +33,6 @@
       "import": "./dist/lib/universal/zen-universal.js",
       "default": "./dist/lib/universal/zen-universal.js"
     },
-    "./cosmos": {
-      "types": "./dist/lib/cosmos/index.d.ts",
-      "import": "./dist/lib/cosmos/index.js",
-      "default": "./dist/lib/cosmos/index.js"
-    },
     "./audio": {
       "types": "./dist/lib/audio/index.d.ts",
       "import": "./dist/lib/audio/index.js",
@@ -69,25 +64,12 @@
     "publish:npm": "node scripts/maintainer.mjs publish-npm"
   },
   "peerDependencies": {
-    "@react-three/fiber": ">=8.0.0",
-    "@react-three/postprocessing": ">=2.0.0",
     "lucide-react": ">=0.300.0",
-    "postprocessing": ">=6.0.0",
     "react": ">=18.0.0",
-    "react-dom": ">=18.0.0",
-    "three": ">=0.150.0"
+    "react-dom": ">=18.0.0"
   },
   "peerDependenciesMeta": {
-    "@react-three/fiber": {
-      "optional": true
-    },
-    "@react-three/postprocessing": {
-      "optional": true
-    },
     "lucide-react": {
-      "optional": true
-    },
-    "postprocessing": {
       "optional": true
     },
     "react": {
@@ -95,29 +77,21 @@
     },
     "react-dom": {
       "optional": true
-    },
-    "three": {
-      "optional": true
     }
   },
   "devDependencies": {
     "@gsap/react": "^2.1.2",
     "@playwright/test": "^1.51.0",
-    "@react-three/fiber": "^9.5.0",
-    "@react-three/postprocessing": "^3.2.2",
     "@tailwindcss/vite": "^4.1.0",
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
-    "@types/three": "^0.182.0",
     "@vitejs/plugin-react": "^4.3.4",
     "gsap": "^3.13.0",
     "lucide-react": "^0.562.0",
-    "postprocessing": "^6.39.6",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "tailwindcss": "^4.1.0",
-    "three": "^0.182.0",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
   }

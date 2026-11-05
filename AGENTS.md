@@ -39,9 +39,10 @@ This repository ships **`Capri`** (*Project Capricorn* — the Soulkiller mixed-
 - **When to ask:** *"Capri `architect`, check our TypeScript types, CSS tokens, or set up Angular 20+ / Vue interop."*
 - **What Capri enforces:**
   1. **Zero `any` / `as any`**: Use strict generics, discriminated unions, or `unknown` with type guards.
-  2. **Strict Readonly Arrays**: Always declare array types as `readonly T[]`.
+  2. **Strict Readonly Contracts**: Declare props, function parameters, state models, and public return types as `readonly T[]` (allow mutable `T[]` for local function accumulators and hot-path buffers).
   3. **Zero Hardcoded Hex Colors**: Bind all colors to `--zen-bg-*`, `--zen-surface-*`, `--zen-ink-*`, `--zen-accent-*`, and `--zen-border-*`.
   4. **Zero Comments in Code**: Keep source files clean; place rationale in documentation or ADRs.
+  5. **Library Purity**: Keep `@zen-ui-capri/system` (`src/lib/`) strictly limited to general-purpose UI components, CSS tokens, and Capri subroutines—never bundle project-specific application scenes or domain logic into the shared library.
 
 ### 4. `Capri zen` (`THEME // MATRIX` — 8-Theme Polarity & 60fps Motion)
 - **Personality:** Smooth chrome & optical glass specialist—tuning Night City neon and crisp Nordic daylight at a locked $60\text{fps}$.

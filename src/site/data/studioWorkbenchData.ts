@@ -305,12 +305,12 @@ export const COMPONENT_BENCHMARKS: readonly ComponentBenchmarkRow[] = [
     status: 'VERIFIED',
   },
   {
-    id: 'cosmos-audio-universal',
-    component: '<ZenCosmosCanvas />, useZenAudioSynth(), @zen-ui-capri/system/universal',
-    category: '08 // WebGL, Web Audio & Custom Elements',
-    a11yPattern: 'RK4 3-Body shader canvas · Web Components for Angular 20+ & Vue',
-    renderCostMs: 0.4,
-    status: 'HYBRID 60FPS',
+    id: 'audio-universal-subpaths',
+    component: 'useZenAudioSynth(), @zen-ui-capri/system/universal, @zen-ui-capri/system/capri',
+    category: '08 // Web Audio, Custom Elements & Capri Engine',
+    a11yPattern: 'Procedural Web Audio synth · W3C Custom Elements for Angular 20+ & Vue',
+    renderCostMs: 0.2,
+    status: 'VERIFIED',
   },
 ];
 

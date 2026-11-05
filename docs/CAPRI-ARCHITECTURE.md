@@ -1,8 +1,8 @@
 ---
 project: "zeN-UI"
-version: "1.1.9"
-files: 52
-loc: 16015
+version: "1.2.0"
+files: 49
+loc: 14661
 tags: [capri-docu, architecture]
 ---
 # zeN-UI // CAPRI Architecture & AI Context Dossier
@@ -12,22 +12,22 @@ tags: [capri-docu, architecture]
 
 ## 1. Project Identity & Stack Overview
 - **Repository:** `zeN-UI` (`@zen-ui-capri/system`)
-- **Version:** `1.1.9`
-- **Detected Stack:** React 19 · Three.js / WebGL · GSAP Motion · Vite · @zen-ui-capri/system (CAPRI) · TypeScript · Docker Containerized
+- **Version:** `1.2.0`
+- **Detected Stack:** React 19 · GSAP Motion · Vite · @zen-ui-capri/system (CAPRI) · TypeScript · Docker Containerized
 - **Top-Level Subsystems:** `/bin`, `/docker`, `/public`, `/scripts`, `/src`, `/tests`
 - **Container Readiness:** `docker-compose.yml` present
 
 ## 2. Codebase Metrics & Language Breakdown
-- **Total Source Files Scanned:** 52
-- **Total Lines of Code (LOC):** 16,015
-- **File Extensions:** `.tsx` (33), `.ts` (14), `.mjs` (2), `.css` (2), `.html` (1)
+- **Total Source Files Scanned:** 49
+- **Total Lines of Code (LOC):** 14,661
+- **File Extensions:** `.tsx` (31), `.ts` (13), `.mjs` (2), `.css` (2), `.html` (1)
 - **Key Domain Symbols / Classes / Functions (45):** `ZEN_ICON_SVG_INNER`, `analyzeRepo`, `generateStaticDocu`, `runWorkspaceSync`, `runNpmRelease`, `ZenSynthPresetId`, `ZenSynthPreset`, `ZEN_SYNTH_PRESETS`, `UseZenAudioSynthOptions`, `ZenAudioSynthController`, `useZenAudioSynth`, `ZenAudioController`, `ZenAudioControllerProps`, `CapriSubroutineId`, `CapriAuditViolationCode`, `CapriAuditViolation`, `CapriThreatCategory`, `CapriPromptInjectionThreat`, `CapriPromptGuardResult`, `CapriAuditReport`, `CapriTelemetrySnapshot`, `CapriLandmarkNode`, `CapriUserFlowStep`, `CapriComponentInventory`, `CapriArchitectureDocu`, `CapriSubroutineSkill`, `CAPRI_SUBROUTINE_SKILLS`, `CapriEngineListener`, `CapriEngine`, `capri`, `ZenAIPersonaMode`, `ZenAICameraFraming`
 
 ## 4. Architecture & Subsystem Topology (`flowchart TD`)
 ```mermaid
 flowchart TD
-  Repo["zeN-UI v1.1.9"]
-  Stack["Stack: React 19 · Three.js / WebGL · GSAP Motion · Vite · @zen-ui-capri/system (CAPRI)"]
+  Repo["zeN-UI v1.2.0"]
+  Stack["Stack: React 19 · GSAP Motion · Vite · @zen-ui-capri/system (CAPRI) · TypeScript"]
   Repo --> Stack
   N0_bin["/bin"]
   Stack --> N0_bin
@@ -51,7 +51,6 @@ flowchart TD
 | `src/site/components/storybook/StorybookStageRenderer.tsx` | 1052 | `.tsx` |
 | `bin/capri.mjs` | 1041 | `.mjs` |
 | `src/lib/capri/capri-engine.ts` | 940 | `.ts` |
-| `src/lib/cosmos/ZenCosmosCanvas.tsx` | 932 | `.tsx` |
 | `src/site/sections/ComponentWorkbenchSection.tsx` | 920 | `.tsx` |
 | `src/site/components/storybook/storybookCatalog.ts` | 903 | `.ts` |
 | `src/lib/universal/zen-universal.ts` | 832 | `.ts` |
@@ -60,6 +59,7 @@ flowchart TD
 | `src/lib/components/ZenAIConstruct.tsx` | 595 | `.tsx` |
 | `src/site/components/ZenStorybookPlayground.tsx` | 504 | `.tsx` |
 | `src/site/data/studioWorkbenchData.ts` | 394 | `.ts` |
+| `src/lib/components/ZenOverlays.tsx` | 387 | `.tsx` |
 
 ## 7. Available Build & Automation Scripts
 - `npm run dev`: `vite --port 5180`

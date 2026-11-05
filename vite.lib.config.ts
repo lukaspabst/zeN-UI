@@ -25,7 +25,6 @@ export default defineConfig({
     lib: {
       entry: {
         index: resolve(__dirname, 'src/lib/index.ts'),
-        'cosmos/index': resolve(__dirname, 'src/lib/cosmos/index.ts'),
         'audio/index': resolve(__dirname, 'src/lib/audio/index.ts'),
         'capri/index': resolve(__dirname, 'src/lib/capri/index.ts'),
         'universal/zen-universal': resolve(
@@ -41,10 +40,6 @@ export default defineConfig({
         'react-dom',
         'react/jsx-runtime',
         'lucide-react',
-        'three',
-        '@react-three/fiber',
-        '@react-three/postprocessing',
-        'postprocessing',
         'gsap',
         '@gsap/react',
       ],

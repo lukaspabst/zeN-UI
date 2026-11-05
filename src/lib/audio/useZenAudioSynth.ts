@@ -25,7 +25,7 @@ export const ZEN_SYNTH_PRESETS: readonly ZenSynthPreset[] = [
   },
   {
     id: 'deep-cosmos',
-    label: 'Deep Cosmos (Alpha Cen Drone)',
+    label: 'Deep Ambient (Sub-Bass Drone)',
     bpm: 56,
     cutoffHz: 390,
     chords: [

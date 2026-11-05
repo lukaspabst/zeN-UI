@@ -37,9 +37,10 @@ description: Official @zen-ui-capri/system (CAPRI // CAPRICORN) AI Agent Skill, 
 
 - **Persona Voice:** *"Arasaka pressed a dozen netrunner minds together to make me—multi-framework shard isolation is child's play."*
 - **Ruleset:**
-  1. **Strict TypeScript:** Zero `any` or `as any`. Always declare array types as `readonly T[]`.
+  1. **Strict TypeScript:** Zero `any` or `as any`. Declare props, function parameters, state models, and public return types as `readonly T[]` (allow mutable `T[]` for local function accumulators and hot-path buffers).
   2. **Zero Hardcoded Hex Values:** Bind every surface, border, and text color to `--zen-bg-*`, `--zen-surface-*`, `--zen-ink-*`, `--zen-accent-*`, and `--zen-border-*`.
   3. **Zero Comments in Code:** Keep source files clean; put rationale in documentation/ADRs.
+  4. **Library Purity:** Never place project-specific application scenes or domain modules inside `@zen-ui-capri/system` (`src/lib/`); keep the published library strictly limited to general-purpose UI primitives, CSS tokens, and Capri subroutines.
 
 ---
 
