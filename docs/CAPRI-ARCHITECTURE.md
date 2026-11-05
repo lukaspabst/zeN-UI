@@ -1,8 +1,8 @@
 ---
 project: "zeN-UI"
-version: "1.1.8"
+version: "1.1.9"
 files: 52
-loc: 16031
+loc: 16015
 tags: [capri-docu, architecture]
 ---
 # zeN-UI // CAPRI Architecture & AI Context Dossier
@@ -12,21 +12,21 @@ tags: [capri-docu, architecture]
 
 ## 1. Project Identity & Stack Overview
 - **Repository:** `zeN-UI` (`@zen-ui-capri/system`)
-- **Version:** `1.1.8`
+- **Version:** `1.1.9`
 - **Detected Stack:** React 19 · Three.js / WebGL · GSAP Motion · Vite · @zen-ui-capri/system (CAPRI) · TypeScript · Docker Containerized
 - **Top-Level Subsystems:** `/bin`, `/docker`, `/public`, `/scripts`, `/src`, `/tests`
 - **Container Readiness:** `docker-compose.yml` present
 
 ## 2. Codebase Metrics & Language Breakdown
 - **Total Source Files Scanned:** 52
-- **Total Lines of Code (LOC):** 16,031
+- **Total Lines of Code (LOC):** 16,015
 - **File Extensions:** `.tsx` (33), `.ts` (14), `.mjs` (2), `.css` (2), `.html` (1)
 - **Key Domain Symbols / Classes / Functions (45):** `ZEN_ICON_SVG_INNER`, `analyzeRepo`, `generateStaticDocu`, `runWorkspaceSync`, `runNpmRelease`, `ZenSynthPresetId`, `ZenSynthPreset`, `ZEN_SYNTH_PRESETS`, `UseZenAudioSynthOptions`, `ZenAudioSynthController`, `useZenAudioSynth`, `ZenAudioController`, `ZenAudioControllerProps`, `CapriSubroutineId`, `CapriAuditViolationCode`, `CapriAuditViolation`, `CapriThreatCategory`, `CapriPromptInjectionThreat`, `CapriPromptGuardResult`, `CapriAuditReport`, `CapriTelemetrySnapshot`, `CapriLandmarkNode`, `CapriUserFlowStep`, `CapriComponentInventory`, `CapriArchitectureDocu`, `CapriSubroutineSkill`, `CAPRI_SUBROUTINE_SKILLS`, `CapriEngineListener`, `CapriEngine`, `capri`, `ZenAIPersonaMode`, `ZenAICameraFraming`
 
 ## 4. Architecture & Subsystem Topology (`flowchart TD`)
 ```mermaid
 flowchart TD
-  Repo["zeN-UI v1.1.8"]
+  Repo["zeN-UI v1.1.9"]
   Stack["Stack: React 19 · Three.js / WebGL · GSAP Motion · Vite · @zen-ui-capri/system (CAPRI)"]
   Repo --> Stack
   N0_bin["/bin"]
@@ -49,7 +49,7 @@ flowchart TD
 | Module Path | Lines | Extension |
 | :--- | ---: | :--- |
 | `src/site/components/storybook/StorybookStageRenderer.tsx` | 1052 | `.tsx` |
-| `bin/capri.mjs` | 1022 | `.mjs` |
+| `bin/capri.mjs` | 1041 | `.mjs` |
 | `src/lib/capri/capri-engine.ts` | 940 | `.ts` |
 | `src/lib/cosmos/ZenCosmosCanvas.tsx` | 932 | `.tsx` |
 | `src/site/sections/ComponentWorkbenchSection.tsx` | 920 | `.tsx` |
