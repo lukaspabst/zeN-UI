@@ -65,6 +65,7 @@ const SUBROUTINES = {
       'Map module boundaries, exported components, and framework adapters without adding runtime bundle weight.',
       'Generate valid Mermaid flowchart TD diagrams of component hierarchies and user flows.',
       'Summarize state inputs, props/ArgTypes, and accessibility contracts for LLM context windows.',
+      'Public Repo & NPM Sanitization: Never include raw server IPs, absolute local machine paths, or private cross-repo lists in public docs or published package files.',
     ],
   },
 };
@@ -342,12 +343,25 @@ function runGuardAudit(rootDir, voiceEnabled) {
     modalFile.includes('role="dialog"') && modalFile.includes('aria-modal="true"');
   const hasTableWrapper = tableFile.includes('zen-table-wrapper');
 
+  const libAndBinFiles = [
+    ...scanDirectory(path.join(rootDir, 'src/lib')),
+    path.join(rootDir, 'bin/capri.mjs'),
+  ];
+  let urlOrLocalPathLeaksInPkg = 0;
+  for (const lf of libAndBinFiles) {
+    const ltxt = readSafe(lf);
+    if (/https?:\/\/|[A-Za-z]:\\\\Users\\\\/i.test(ltxt)) {
+      urlOrLocalPathLeaksInPkg++;
+    }
+  }
+
   const passed =
     hasPromptFirewall &&
     promptInjectionPayloadsInSource === 0 &&
     hasHtmlSanitizer &&
     unsafeEvalOrXss === 0 &&
     secretLeaks === 0 &&
+    urlOrLocalPathLeaksInPkg === 0 &&
     hasDropdownMouseDown &&
     hasPaletteMouseDown &&
     hasSwitchAriaLabel &&
@@ -391,6 +405,11 @@ function runGuardAudit(rootDir, voiceEnabled) {
   console.log(
     `- Mobile Table Overflow Guard (.zen-table-wrapper): ${
       hasTableWrapper ? 'PASS' : 'FAIL'
+    }`
+  );
+  console.log(
+    `- NPM Package URL & Local-Path Sanitization (0 URLs/paths in src/lib & bin): ${
+      urlOrLocalPathLeaksInPkg === 0 ? 'PASS' : 'FAIL'
     }`
   );
   console.log(`- Status: ${passed ? 'PASS (100/100)' : 'FAIL'}\n`);

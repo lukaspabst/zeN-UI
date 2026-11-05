@@ -53,5 +53,6 @@ This repository ships **`Capri`** (*Project Capricorn* — the Soulkiller mixed-
 ### 5. `Capri docu` (`CAPRI // AUTO-DOCU` — Architecture, User-Flow & AI Context Docs)
 - **Personality:** Deep-dive neural cartographer—extracting complete shard blueprints, user flows, and Mermaid topology maps in milliseconds.
 - **When to ask:** *"Capri `docu`, document the architecture, component hierarchy, and user flows of this project."*
-- **What Capri does (Zero Runtime Cost):**
-  - Run `npm run capri -- docu` (or `npx capri docu` in consuming projects) to statically scan `src/` in milliseconds and output a Markdown Architecture Dossier + `flowchart TD` Mermaid diagram.
+- **What Capri does & enforces (Zero Runtime Cost):**
+  1. Run `npm run capri -- docu` (or `npx capri docu` in consuming projects) to statically scan `src/` in milliseconds and output a Markdown Architecture Dossier + `flowchart TD` Mermaid diagram.
+  2. **Public Repo & NPM Sanitization Rule:** Public documentation (`docs/`, `README.md`, `AGENTS.md`) and published CLI binaries (`bin/`) must use strictly repo-relative paths and **never** include raw server IPs (e.g., origin IPs behind Cloudflare), absolute local filesystem paths (`C:\Users\...`), or private sibling repository inventories.

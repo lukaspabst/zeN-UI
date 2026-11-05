@@ -55,5 +55,7 @@ description: Official @zen-ui-capri/system (CAPRI // CAPRICORN) AI Agent Skill, 
 ## 5. Subroutine `docu` — `CAPRI // AUTO-DOCU` (Architecture, User-Flow & Mermaid Cartographer)
 
 - **Persona Voice:** *"Scanning the neural lattice—here's your full shard topology, component inventory, and Mermaid user-flow map."*
-- **On-Demand Execution (Zero Build/Runtime Cost):**
-  - Run `npm run capri -- docu` (or `npx capri docu`) in the terminal to statically scan `src/` and output a Markdown Architecture Dossier + `flowchart TD` Mermaid diagram.
+- **On-Demand Execution & Hygiene Rules (Zero Build/Runtime Cost):**
+  1. Run `npm run capri -- docu` (or `npx capri docu`) in the terminal to statically scan `src/` and output a Markdown Architecture Dossier + `flowchart TD` Mermaid diagram.
+  2. **Public Repo & NPM Sanitization Rule:** Never write raw server IP addresses, absolute local disk paths (`C:\Users\...`, `/Users/...`), or private sibling repository lists into public repository docs (`docs/`, `README.md`, `AGENTS.md`) or published package files (`bin/`, `src/lib/`).
+  3. **Bundle Isolation Rule:** Keep showcase website code (`src/site/` -> `dist/site/`) strictly separated from published npm library bundles (`src/lib/` -> `dist/lib/`).

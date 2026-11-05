@@ -273,7 +273,7 @@ Respond with concise, technical engineering output (Persona Voice is OFF by defa
       'Zero Build / Runtime Cost: Run documentation generation on demand via npx capri docu or AI agent inspection—never inside production render loops.',
       'Mermaid Topology Maps: Always output valid flowchart TD diagrams with quoted node labels for routes, landmarks, and user flows.',
       'Component & Prop Inventory: Summarize mounted @zen-ui-capri/system primitives, custom elements, and interactive triggers per screen.',
-      'LLM Context Readiness: Format output as structured Markdown ready for Claude Code, OpenAI Codex, Gemini, and Obsidian.',
+      'Public Repo & NPM Sanitization: Never include raw server IPs, absolute local machine paths, or private cross-repo inventories in public docs or published package files.',
     ],
     cliCommand: 'npx capri docu',
     aiSystemPrompt: `You are operating under the @zen-ui-capri/system [CAPRI // AUTO-DOCU (docu)] subroutine skill.
