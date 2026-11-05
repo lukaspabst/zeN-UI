@@ -3,30 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
 
-const REPO_EXECUTIVE_SUMMARIES = {
-  'zeN-UI':
-    'Universal Multi-Polarity Design System (`@zen-ui-capri/system` v1.1.8), 51 UI modules, 40 vector icons, 8 Dark/Light themes, Three.js WebGL Cosmos, Web Audio Synth, W3C Custom Elements, and the `Capri` AI Co-Pilot CLI (`https://ui.lpabst.dev`).',
-  portfolio:
-    'Interactive 3D Creative Developer Portfolio (`https://lpabst.dev`) built with React 19, Three.js / R3F Three-Body orbital physics, GSAP ScrollTrigger, and `@zen-ui-capri/system`.',
-  'zeN-Terminal':
-    'Local Windows Terminal / PowerShell / CMD cyber-shell overhaul (`install:terminal`) + interactive 3D terminal showcase web app (`https://terminal.lpabst.dev`) powered by `@zen-ui-capri/system`.',
-  JourneyLink:
-    '22-SCS (Self-Contained System) Polyglot Travel & Group Coordination Platform using Angular 20 Native Federation MFEs, `@journey-link/ui`, Kotlin Spring Boot 4, Node/Express/Fastify/NestJS, Python FastAPI, Go, MongoDB-per-service, RabbitMQ AMQP events, and Redis.',
-  'Capri-Assistant':
-    'Personal AI Construct Assistant (Project Capricorn — Desktop Electron + Web PWA + Express API) with a strict 2-Zone Air-Gapped Sandbox (`capri-vault/`), Relic Engram memory/task/note store, Host PC telemetry, and hybrid Gemini / Ollama / Local Reflex inference.',
-  'dc-translation':
-    'Multi-Server Discord Live-Translation Bot (`Discord.js` + TypeScript + SQLite/Database) featuring automated live translation threads, flag reaction translation, onboarding setup wizards, and server-wide broadcast localization.',
-  SyncSound:
-    'Collaborative Real-Time Music Voting & Room Synchronization Platform combining a Java Spring Boot + WebSocket + Spotify Web API backend (`/backend`) with a Vue 3 + Vuex + Tailwind CSS frontend (`/frontend`).',
-  physioTherapie:
-    'Responsive Web Presence & Brand Identity System for Physiotherapie Pabst, including custom SVG/WebP anatomical spine/wave emblems, appointment & treatment sections, and GDPR-compliant legal pages (`impressum.html`, `datenschutz.html`).',
-  LiveTracker:
-    'Real-Time Livestream Countdown & Overlay Tracker combining a Python Tkinter/Canvas desktop tracker (`livestream_tracker.py`) with a Node.js synchronization server (`server.js`) and HTML5 browser overlay (`livetracker.html`).',
-  'File-Scanner':
-    'Containerized Malware & File Ingestion Scanner (`scanner.py` + ClamAV `clamd` + `supervisord`) that watches upload directories, scans files for threats, quarantines/moves files, and publishes scan results.',
-};
-
-function generateMasterObsidianVaultIndex(repoInfos) {
+function generateMasterWorkspaceIndex(repoInfos, workspaceDir) {
   const totalFiles = repoInfos.reduce((acc, r) => acc + r.allFiles.length, 0);
   const totalLoc = repoInfos.reduce((acc, r) => acc + r.totalLoc, 0);
 
@@ -69,38 +46,24 @@ function generateMasterObsidianVaultIndex(repoInfos) {
 
   return [
     '---',
-    'title: "Capri Master Workspace & Repository Index (IdeaProjects)"',
+    'title: "Capri Master Workspace & Repository Index"',
     'tags: [capri-vault, moc, workspace-index, architecture]',
     '---',
-    '# 000 — Capri Master Workspace & Repository Index (`IdeaProjects`)',
-    '> **Instant AI Context Map for Capri Personal Assistant & Coding Agents**',
+    '# 000 — Capri Master Workspace & Repository Index',
+    '> **Instant AI Context Map for Coding Agents**',
     `> Covers **${repoInfos.length} repositories**, **${totalFiles.toLocaleString(
       'en-US'
     )} source files**, and **${totalLoc.toLocaleString(
       'en-US'
-    )} lines of code** across \`C:\\Users\\Lukas\\IdeaProjects\\\`.`,
-    '> When answering questions about any project below, read this index first (and the linked `[[repos-index/<Repo>]]` note if deeper file/endpoint detail is needed) — no full-disk repo crawling required.',
+    )} lines of code** across \`${workspaceDir}\`.`,
     '',
-    '## 1. Live Production & Hetzner Deployment Topology (`2.31.32.227`)',
-    '- **`https://lpabst.dev` (`portfolio-web`):** Creative 3D Portfolio (`portfolio` repo · React 19 + Three.js + `@zen-ui-capri/system`).',
-    '- **`https://ui.lpabst.dev` (`zen-ui-web`):** `@zen-ui-capri/system // CAPRI v1.1.8` Design System Showcase & 51-Module Storybook (`zeN-UI` repo).',
-    '- **`https://terminal.lpabst.dev` (`zen-terminal-web`):** `zeN-Terminal` 3D Cyber-Shell Showcase (`zeN-Terminal` repo · also installed locally across Windows Terminal, PowerShell `$PROFILE`, and `cmd.exe`).',
-    '- **Reverse Proxy & Hardening:** `caddy-gateway` (`80/443`) routes to isolated internal Docker bridge networks (`portfolio-net`, `zen-ui-net`, `zen-terminal-net`). All web containers run rootless (`101:101`), `read_only: true`, `cap_drop: ALL`, `256M` RAM limit.',
-    '',
-    '## 2. Master Repository Matrix (`C:\\Users\\Lukas\\IdeaProjects`)',
+    '## 1. Master Repository Matrix',
     '| Repository Note | Files | LOC | Primary Tech Stack | Executive Purpose |',
     '| :--- | ---: | ---: | :--- | :--- |',
     ...tableRows,
     '',
-    '## 3. Per-Repository Instant Context Briefs',
+    '## 2. Per-Repository Instant Context Briefs',
     ...detailBlocks,
-    '',
-    '## 4. Mandatory Auto-Docu Synchronization Rule',
-    'Whenever any repository in `C:\\Users\\Lukas\\IdeaProjects` adds/removes modules, changes APIs, or updates dependencies, run:',
-    '```powershell',
-    'npm --prefix "C:\\Users\\Lukas\\IdeaProjects\\zeN-UI" run capri -- docu --workspace "C:\\Users\\Lukas\\IdeaProjects" --write',
-    '```',
-    'This single command regenerates every repo\'s `docs/CAPRI-ARCHITECTURE.md` AND updates `capri-vault/000-Master-Workspace-Index.md` + `capri-vault/repos-index/*.md` in `< 2 seconds`.',
     '',
   ].join('\n');
 }
@@ -115,54 +78,56 @@ export function runWorkspaceSync(
     .filter((e) => e.isDirectory() && !e.name.startsWith('.'));
   const summaryRows = [];
   const repoInfos = [];
-  const capriVaultDir = path.join(
-    workspaceDir,
-    'Capri-Assistant',
-    'capri-vault'
-  );
-  const capriReposIndexDir = path.join(capriVaultDir, 'repos-index');
-  if (writeEnabled && fs.existsSync(path.join(workspaceDir, 'Capri-Assistant'))) {
-    fs.mkdirSync(capriReposIndexDir, { recursive: true });
-  }
 
   for (const entry of entries) {
     const repoPath = path.join(workspaceDir, entry.name);
-    const customSummary = REPO_EXECUTIVE_SUMMARIES[entry.name];
-    const info = analyzeRepo(repoPath, customSummary);
+    const info = analyzeRepo(repoPath);
     repoInfos.push(info);
-    const docContent = generateStaticDocu(repoPath, customSummary);
+    const docContent = generateStaticDocu(repoPath);
     const outDir = path.join(repoPath, 'docs');
     const outFile = path.join(outDir, 'CAPRI-ARCHITECTURE.md');
     if (writeEnabled) {
       fs.mkdirSync(outDir, { recursive: true });
       fs.writeFileSync(outFile, docContent, 'utf8');
-      if (fs.existsSync(capriReposIndexDir)) {
-        fs.writeFileSync(
-          path.join(capriReposIndexDir, `${entry.name}.md`),
-          docContent,
-          'utf8'
-        );
-      }
     }
     summaryRows.push(
       `- **${entry.name}**: \`${outFile}\` (${info.allFiles.length} source files · ${info.totalLoc.toLocaleString('en-US')} LOC · ${info.subProjects.length} sub-projects)`
     );
   }
 
-  if (writeEnabled && fs.existsSync(capriVaultDir)) {
-    const masterIndexContent = generateMasterObsidianVaultIndex(repoInfos);
+  const vaultArgIdx = process.argv.indexOf('--vault');
+  const vaultDir =
+    vaultArgIdx !== -1 && process.argv[vaultArgIdx + 1]
+      ? path.resolve(process.argv[vaultArgIdx + 1])
+      : null;
+
+  if (writeEnabled && vaultDir && fs.existsSync(vaultDir)) {
+    const reposIndexDir = path.join(vaultDir, 'repos-index');
+    fs.mkdirSync(reposIndexDir, { recursive: true });
+    for (const info of repoInfos) {
+      const docContent = generateStaticDocu(info.absDir);
+      fs.writeFileSync(
+        path.join(reposIndexDir, `${info.repoName}.md`),
+        docContent,
+        'utf8'
+      );
+    }
+    const masterIndexContent = generateMasterWorkspaceIndex(
+      repoInfos,
+      workspaceDir
+    );
     const masterIndexPath = path.join(
-      capriVaultDir,
+      vaultDir,
       '000-Master-Workspace-Index.md'
     );
     fs.writeFileSync(masterIndexPath, masterIndexContent, 'utf8');
     summaryRows.push(
-      `- **Master Obsidian Vault Index**: \`${masterIndexPath}\` (Synced ${repoInfos.length} repos into \`capri-vault/repos-index/\`)`
+      `- **Master Obsidian Vault Index**: \`${masterIndexPath}\` (Synced ${repoInfos.length} repos)`
     );
   }
 
   console.log(
-    `# CAPRI // AUTO-DOCU — Workspace & Obsidian Vault Sync Complete (${entries.length} Repositories)\n`
+    `# CAPRI // AUTO-DOCU — Workspace Sync Complete (${entries.length} Repositories)\n`
   );
   console.log(summaryRows.join('\n'));
 }
