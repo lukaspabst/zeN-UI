@@ -1,4 +1,4 @@
-export const ZEN_UI_VERSION = '1.1.7';
+export const ZEN_UI_VERSION = '1.1.8';
 export const ZEN_PACKAGE_NAME = '@zen-ui-capri/system';
 
 export {

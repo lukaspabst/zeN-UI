@@ -1,18 +1,18 @@
 ---
 project: "zeN-UI"
-version: "1.1.7"
+version: "1.1.8"
 files: 52
 loc: 16031
 tags: [capri-docu, architecture]
 ---
 # zeN-UI // CAPRI Architecture & AI Context Dossier
-> **Executive Summary:** Universal Multi-Polarity Design System (`@zen-ui-capri/system` v1.1.7), 51 UI modules, 40 vector icons, 8 Dark/Light themes, Three.js WebGL Cosmos, Web Audio Synth, W3C Custom Elements, and the `Capri` AI Co-Pilot CLI (`https://ui.lpabst.dev`).
+> **Executive Summary:** zeN-UI // CAPRI — Universal Multi-Framework Design System (51 Primitives, 40 Vector Icons, 8 Dark/Light Themes & Capri 5-Subroutine AI Co-Pilot)
 >
 > *Generated automatically via `npx capri docu` (Zero build or browser runtime overhead)*
 
 ## 1. Project Identity & Stack Overview
 - **Repository:** `zeN-UI` (`@zen-ui-capri/system`)
-- **Version:** `1.1.7`
+- **Version:** `1.1.8`
 - **Detected Stack:** React 19 · Three.js / WebGL · GSAP Motion · Vite · @zen-ui-capri/system (CAPRI) · TypeScript · Docker Containerized
 - **Top-Level Subsystems:** `/bin`, `/docker`, `/public`, `/scripts`, `/src`, `/tests`
 - **Container Readiness:** `docker-compose.yml` present
@@ -26,7 +26,7 @@ tags: [capri-docu, architecture]
 ## 4. Architecture & Subsystem Topology (`flowchart TD`)
 ```mermaid
 flowchart TD
-  Repo["zeN-UI v1.1.7"]
+  Repo["zeN-UI v1.1.8"]
   Stack["Stack: React 19 · Three.js / WebGL · GSAP Motion · Vite · @zen-ui-capri/system (CAPRI)"]
   Repo --> Stack
   N0_bin["/bin"]

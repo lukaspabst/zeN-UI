@@ -3,7 +3,6 @@ name: CI, Pages Deploy & Package Publish (@zen-ui-capri/system)
 on:
   push:
     branches: [main, master]
-    tags: ['v*']
   pull_request:
     branches: [main, master]
   release:

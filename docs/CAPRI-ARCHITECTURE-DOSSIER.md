@@ -1,7 +1,7 @@
 # `@zen-ui-capri/system` — CAPRI Automated Architecture, User-Flow & AI Context Dossier
 
 - **Subroutine:** `CAPRI // AUTO-DOCU` (`docu`) — Persona Voice: `OFF (Default)`
-- **Package:** `@zen-ui-capri/system` v1.1.7 (`https://github.com/lukaspabst/zeN-UI`)
+- **Package:** `@zen-ui-capri/system` v1.1.8 (`https://github.com/lukaspabst/zeN-UI`)
 - **Total Source Modules Scanned:** 36 files (`32` core library modules in `src/lib/`, `24` UI component modules, `132` exported public symbols & types)
 - **Verification Status:** `tsc --noEmit && vite build` (`0` errors) · Playwright E2E (`3/3` passed across `375x812` Mobile, `768x1024` Tablet, `1440x900` Desktop, `2560x1440` Ultrawide) · `capri.guard()` DOM Audit Score: **`100/100` (`0px` overflow)**
 
