@@ -1,0 +1,181 @@
+name: CI, Pages Deploy & Package Publish (@zen-ui-capri/system)
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-and-publish-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-and-audit:
+    name: Capri All-Subroutine Audit, Build & Playwright E2E
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Capri 4-Subroutine Governance & Security Audit (orion, architect, guard, zen)
+        run: npm run capri -- all
+
+      - name: Build Showcase & Package Library (ESM + .d.ts + tokens.css)
+        run: npm run build
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium
+
+      - name: Run Playwright Multi-Viewport & Security E2E Suite
+        run: npm run test:e2e
+
+      - name: Upload Pages Artifact
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist/site
+
+  deploy-pages:
+    name: Deploy Interactive Workbench & Storybook to GitHub Pages
+    needs: verify-and-audit
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  publish-package:
+    name: Publish @zen-ui-capri/system to NPM (OIDC Provenance) & GitHub Releases
+    needs: verify-and-audit
+    if: github.repository == 'lukaspabst/zeN-UI' && (github.event_name == 'push' || github.event_name == 'release' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 24 for NPM OIDC Trusted Publishing
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build @zen-ui-capri/system Library
+        run: npm run build:lib
+
+      - name: Publish @zen-ui-capri/system to NPM Registry via OIDC Provenance
+        run: |
+          npm install -g npm@11
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view "@zen-ui-capri/system@${VERSION}" version >/dev/null 2>&1; then
+            echo "@zen-ui-capri/system@${VERSION} is already published on npmjs.org."
+          else
+            npm publish --provenance --access public --ignore-scripts || npm stage publish --provenance --access public --ignore-scripts || echo "@zen-ui-capri/system@${VERSION} is already staged on npmjs.org."
+          fi
+
+      - name: Publish GitHub Release Assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          TAG="v${VERSION}"
+          TARBALL=$(npm pack --ignore-scripts)
+          if [ "$TARBALL" != "zen-ui-system-${VERSION}.tgz" ]; then
+            cp "$TARBALL" "zen-ui-system-${VERSION}.tgz"
+          fi
+          cp "zen-ui-system-${VERSION}.tgz" "zen-ui-system.tgz"
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            gh release create "$TAG" "zen-ui-system-${VERSION}.tgz" zen-ui-system.tgz --title "@zen-ui-capri/system v${VERSION} (UI + Capri AI Core)" --notes "Install from npm: npm install @zen-ui-capri/system"
+          fi
+          if gh release view latest >/dev/null 2>&1; then
+            gh release upload latest "zen-ui-system-${VERSION}.tgz" zen-ui-system.tgz --clobber
+          else
+            gh release create latest "zen-ui-system-${VERSION}.tgz" zen-ui-system.tgz --title "@zen-ui-capri/system Latest Package (v${VERSION})" --notes "Latest release (v${VERSION})"
+          fi
+
+  docker-hetzner-deploy:
+    name: Build GHCR Image & Deploy to Hetzner (ui.lpabst.dev)
+    needs: verify-and-audit
+    if: (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')) || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry (GHCR)
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Docker Image to GHCR
+        run: |
+          OWNER_LC=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          IMAGE="ghcr.io/${OWNER_LC}/zen-ui"
+          docker build -f docker/Dockerfile -t "${IMAGE}:${{ github.sha }}" -t "${IMAGE}:latest" .
+          docker push "${IMAGE}:${{ github.sha }}"
+          docker push "${IMAGE}:latest"
+
+      - name: Deploy to Hetzner Server (ui.lpabst.dev)
+        env:
+          HETZNER_HOST: ${{ secrets.HETZNER_HOST }}
+          HETZNER_USER: ${{ secrets.HETZNER_USER }}
+          HETZNER_SSH_KEY: ${{ secrets.HETZNER_SSH_KEY }}
+          HETZNER_PORT: ${{ secrets.HETZNER_PORT }}
+          HETZNER_DEPLOY_PATH: ${{ secrets.HETZNER_DEPLOY_PATH }}
+        run: |
+          if [ -z "$HETZNER_HOST" ] || [ -z "$HETZNER_SSH_KEY" ]; then
+            echo "::notice title=Hetzner Deploy Skipped::HETZNER_HOST or HETZNER_SSH_KEY secret is not configured in repository settings yet. GHCR image build & push succeeded."
+            exit 0
+          fi
+          SSH_USER="${HETZNER_USER:-root}"
+          SSH_PORT="${HETZNER_PORT:-22}"
+          DEPLOY_DIR="${HETZNER_DEPLOY_PATH:-/opt/zen-ui}"
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          trap 'rm -f ~/.ssh/id_deploy' EXIT
+          printf '%s\n' "$HETZNER_SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -p "$SSH_PORT" -H "$HETZNER_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+          ssh -i ~/.ssh/id_deploy -p "$SSH_PORT" -o StrictHostKeyChecking=accept-new "${SSH_USER}@${HETZNER_HOST}" "
+            set -e
+            if [ -d '${DEPLOY_DIR}/.git' ]; then
+              cd '${DEPLOY_DIR}'
+              git fetch --all
+              git reset --hard origin/main
+              docker compose up -d --build --remove-orphans
+            fi
+          "
