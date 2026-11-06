@@ -9,8 +9,8 @@ import {
   type ReactNode,
   type DragEvent,
 } from 'react';
-import { Minus, Plus, Check, UploadCloud, FileText, X } from 'lucide-react';
 import { capri } from '../capri/capri-engine';
+import { ZenIcon } from './ZenIcon';
 
 export interface ZenTextareaProps
   extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -180,7 +180,7 @@ export function ZenNumberStepper({
           onClick={() => handleStep(-1)}
           className="zen-focus-ring p-2 rounded-lg bg-[var(--zen-surface-subtle)] hover:bg-[var(--zen-accent-subtle)] text-[var(--zen-ink-primary)] disabled:opacity-35 cursor-pointer transition-colors"
         >
-          <Minus className="w-3.5 h-3.5" />
+          <ZenIcon name="minus" size="sm" />
         </button>
 
         <div
@@ -216,7 +216,7 @@ export function ZenNumberStepper({
           onClick={() => handleStep(1)}
           className="zen-focus-ring p-2 rounded-lg bg-[var(--zen-surface-subtle)] hover:bg-[var(--zen-accent-subtle)] text-[var(--zen-ink-primary)] disabled:opacity-35 cursor-pointer transition-colors"
         >
-          <Plus className="w-3.5 h-3.5" />
+          <ZenIcon name="plus" size="sm" />
         </button>
       </div>
     </div>
@@ -278,9 +278,9 @@ export function ZenCheckbox({
           }`}
         >
           {indeterminate ? (
-            <Minus className="w-3.5 h-3.5 stroke-[3]" />
+            <ZenIcon name="minus" size="sm" strokeWidth={3} />
           ) : checked ? (
-            <Check className="w-3.5 h-3.5 stroke-[3]" />
+            <ZenIcon name="check" size="sm" strokeWidth={3} />
           ) : null}
         </span>
       </div>
@@ -540,7 +540,7 @@ export function ZenChipFilter<T extends string>({
                   : 'bg-[var(--zen-surface-subtle)] text-[var(--zen-ink-secondary)] border-[var(--zen-border-default)] hover:border-[var(--zen-accent-border)]'
               }`}
             >
-              {active && <Check className="w-3 h-3" />}
+              {active && <ZenIcon name="check" size="xs" />}
               <span>{opt.label}</span>
             </button>
           );
@@ -625,7 +625,7 @@ export function ZenFileUpload({
           onChange={(e) => handleFileList(e.target.files)}
           className="sr-only"
         />
-        <UploadCloud className="w-6 h-6 text-[var(--zen-accent-primary)] mx-auto mb-2" />
+        <ZenIcon name="upload" size="xl" tone="accent" className="mx-auto mb-2" />
         <div className="text-xs sm:text-sm font-semibold text-[var(--zen-ink-primary)]">
           Drop artifacts here or click to browse
         </div>
@@ -642,7 +642,7 @@ export function ZenFileUpload({
               className="flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-[var(--zen-surface-1)] border border-[var(--zen-border-subtle)] text-xs"
             >
               <span className="inline-flex items-center gap-2 truncate zen-font-mono">
-                <FileText className="w-3.5 h-3.5 text-[var(--zen-accent-primary)] shrink-0" />
+                <ZenIcon name="folder" size="sm" tone="accent" />
                 <span className="truncate">{f.name}</span>
               </span>
               <button
@@ -653,7 +653,7 @@ export function ZenFileUpload({
                 }
                 className="text-[var(--zen-ink-muted)] hover:text-[var(--zen-status-danger)] cursor-pointer"
               >
-                <X className="w-3.5 h-3.5" />
+                <ZenIcon name="close" size="sm" />
               </button>
             </li>
           ))}

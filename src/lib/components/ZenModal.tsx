@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, type ReactNode } from 'react';
-import { X } from 'lucide-react';
+import { ZenIcon } from './ZenIcon';
 
 export interface ZenModalProps {
   readonly open: boolean;
@@ -84,7 +84,7 @@ export function ZenModal({
             onClick={onClose}
             className="zen-focus-ring p-2 rounded-full border border-[var(--zen-border-default)] hover:border-[var(--zen-accent-primary)] text-[var(--zen-ink-secondary)] hover:text-[var(--zen-ink-primary)] cursor-pointer transition-colors shrink-0"
           >
-            <X className="w-4 h-4" />
+            <ZenIcon name="close" size="md" />
           </button>
         </div>
 

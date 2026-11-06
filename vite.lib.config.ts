@@ -35,14 +35,7 @@ export default defineConfig({
       formats: ['es'],
     },
     rollupOptions: {
-      external: [
-        'react',
-        'react-dom',
-        'react/jsx-runtime',
-        'lucide-react',
-        'gsap',
-        '@gsap/react',
-      ],
+      external: ['react', 'react/jsx-runtime'],
       output: {
         entryFileNames: '[name].js',
         chunkFileNames: 'chunks/[name].js',

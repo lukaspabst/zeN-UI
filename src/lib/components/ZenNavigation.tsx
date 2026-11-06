@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
-import { ChevronRight, ChevronLeft, Check } from 'lucide-react';
+import { ZenIcon } from './ZenIcon';
 
 export interface ZenBreadcrumbItem {
   readonly id: string;
@@ -26,9 +26,10 @@ export function ZenBreadcrumbs({ items, className = '' }: ZenBreadcrumbsProps) {
           return (
             <li key={item.id} className="inline-flex items-center gap-1.5">
               {idx > 0 && (
-                <ChevronRight
-                  className="w-3.5 h-3.5 text-[var(--zen-ink-muted)] shrink-0"
-                  aria-hidden="true"
+                <ZenIcon
+                  name="chevron-right"
+                  size="sm"
+                  tone="muted"
                 />
               )}
               {isLast ? (
@@ -84,7 +85,7 @@ export function ZenPagination({
         onClick={() => onPageChange(Math.max(1, currentPage - 1))}
         className="zen-focus-ring p-2 rounded-xl border border-[var(--zen-border-default)] bg-[var(--zen-surface-1)] text-[var(--zen-ink-primary)] disabled:opacity-40 cursor-pointer"
       >
-        <ChevronLeft className="w-4 h-4" />
+        <ZenIcon name="chevron-left" size="md" />
       </button>
 
       {pages.map((p) => {
@@ -113,7 +114,7 @@ export function ZenPagination({
         onClick={() => onPageChange(Math.min(safeTotal, currentPage + 1))}
         className="zen-focus-ring p-2 rounded-xl border border-[var(--zen-border-default)] bg-[var(--zen-surface-1)] text-[var(--zen-ink-primary)] disabled:opacity-40 cursor-pointer"
       >
-        <ChevronRight className="w-4 h-4" />
+        <ZenIcon name="chevron-right" size="md" />
       </button>
     </nav>
   );
@@ -177,7 +178,7 @@ export function ZenStepper({
                     : 'border border-[var(--zen-border-control)] text-[var(--zen-ink-muted)]'
                 }`}
               >
-                {isDone ? <Check className="w-3.5 h-3.5" /> : idx + 1}
+                {isDone ? <ZenIcon name="check" size="sm" /> : idx + 1}
               </span>
               <div className="min-w-0">
                 <div className="zen-font-display text-sm font-bold text-[var(--zen-ink-primary)] truncate">

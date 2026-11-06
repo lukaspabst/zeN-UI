@@ -1,7 +1,7 @@
 import { useId, useState, useEffect, type ReactNode } from 'react';
-import { TrendingUp, TrendingDown } from 'lucide-react';
 import { ZenCard } from './ZenCard';
 import { ZenCopyButton } from './ZenButton';
+import { ZenIcon } from './ZenIcon';
 
 export interface ZenSparklineProps {
   readonly data: readonly number[];
@@ -108,9 +108,9 @@ export function ZenKpiCard({
           }`}
         >
           {trend === 'up' ? (
-            <TrendingUp className="w-3 h-3" />
+            <ZenIcon name="trend-up" size="xs" />
           ) : (
-            <TrendingDown className="w-3 h-3" />
+            <ZenIcon name="trend-down" size="xs" />
           )}
           {delta}
         </span>

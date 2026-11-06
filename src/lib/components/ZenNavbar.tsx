@@ -1,5 +1,5 @@
 import { useState, useEffect, type ReactNode } from 'react';
-import { Menu, X } from 'lucide-react';
+import { ZenIcon } from './ZenIcon';
 
 export interface ZenNavbarProps {
   readonly brandTitle: ReactNode;
@@ -71,9 +71,9 @@ export function ZenNavbar({
               className="zen-focus-ring lg:hidden inline-flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-xl border border-[var(--zen-border-default)] bg-[var(--zen-surface-1)] text-[var(--zen-ink-primary)] cursor-pointer shrink-0"
             >
               {mobileMenuOpen ? (
-                <X className="w-4 h-4 text-[var(--zen-accent-primary)]" />
+                <ZenIcon name="close" size="md" tone="accent" />
               ) : (
-                <Menu className="w-4 h-4 text-[var(--zen-accent-primary)]" />
+                <ZenIcon name="menu" size="md" tone="accent" />
               )}
             </button>
           )}

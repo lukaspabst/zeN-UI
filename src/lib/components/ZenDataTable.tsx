@@ -1,5 +1,5 @@
 import { useState, useMemo, type ReactNode } from 'react';
-import { ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
+import { ZenIcon } from './ZenIcon';
 
 export interface ZenTableColumn<T> {
   readonly key: string;
@@ -91,12 +91,12 @@ export function ZenDataTable<T>({
                       <span>{col.header}</span>
                       {isSorted ? (
                         sortDir === 'asc' ? (
-                          <ArrowUp className="w-3 h-3 text-[var(--zen-accent-primary)]" />
+                          <ZenIcon name="chevron-down" size="xs" tone="accent" className="rotate-180" />
                         ) : (
-                          <ArrowDown className="w-3 h-3 text-[var(--zen-accent-primary)]" />
+                          <ZenIcon name="chevron-down" size="xs" tone="accent" />
                         )
                       ) : (
-                        <ArrowUpDown className="w-3 h-3 opacity-50" />
+                        <ZenIcon name="sliders" size="xs" className="opacity-50" />
                       )}
                     </button>
                   ) : (

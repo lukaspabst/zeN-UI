@@ -1,8 +1,8 @@
 ---
 project: "zeN-UI"
-version: "1.2.0"
+version: "1.2.1"
 files: 49
-loc: 14661
+loc: 14646
 tags: [capri-docu, architecture]
 ---
 # zeN-UI // CAPRI Architecture & AI Context Dossier
@@ -12,21 +12,21 @@ tags: [capri-docu, architecture]
 
 ## 1. Project Identity & Stack Overview
 - **Repository:** `zeN-UI` (`@zen-ui-capri/system`)
-- **Version:** `1.2.0`
+- **Version:** `1.2.1`
 - **Detected Stack:** React 19 · GSAP Motion · Vite · @zen-ui-capri/system (CAPRI) · TypeScript · Docker Containerized
 - **Top-Level Subsystems:** `/bin`, `/docker`, `/public`, `/scripts`, `/src`, `/tests`
 - **Container Readiness:** `docker-compose.yml` present
 
 ## 2. Codebase Metrics & Language Breakdown
 - **Total Source Files Scanned:** 49
-- **Total Lines of Code (LOC):** 14,661
+- **Total Lines of Code (LOC):** 14,646
 - **File Extensions:** `.tsx` (31), `.ts` (13), `.mjs` (2), `.css` (2), `.html` (1)
 - **Key Domain Symbols / Classes / Functions (45):** `ZEN_ICON_SVG_INNER`, `analyzeRepo`, `generateStaticDocu`, `runWorkspaceSync`, `runNpmRelease`, `ZenSynthPresetId`, `ZenSynthPreset`, `ZEN_SYNTH_PRESETS`, `UseZenAudioSynthOptions`, `ZenAudioSynthController`, `useZenAudioSynth`, `ZenAudioController`, `ZenAudioControllerProps`, `CapriSubroutineId`, `CapriAuditViolationCode`, `CapriAuditViolation`, `CapriThreatCategory`, `CapriPromptInjectionThreat`, `CapriPromptGuardResult`, `CapriAuditReport`, `CapriTelemetrySnapshot`, `CapriLandmarkNode`, `CapriUserFlowStep`, `CapriComponentInventory`, `CapriArchitectureDocu`, `CapriSubroutineSkill`, `CAPRI_SUBROUTINE_SKILLS`, `CapriEngineListener`, `CapriEngine`, `capri`, `ZenAIPersonaMode`, `ZenAICameraFraming`
 
 ## 4. Architecture & Subsystem Topology (`flowchart TD`)
 ```mermaid
 flowchart TD
-  Repo["zeN-UI v1.2.0"]
+  Repo["zeN-UI v1.2.1"]
   Stack["Stack: React 19 · GSAP Motion · Vite · @zen-ui-capri/system (CAPRI) · TypeScript"]
   Repo --> Stack
   N0_bin["/bin"]
@@ -59,7 +59,7 @@ flowchart TD
 | `src/lib/components/ZenAIConstruct.tsx` | 595 | `.tsx` |
 | `src/site/components/ZenStorybookPlayground.tsx` | 504 | `.tsx` |
 | `src/site/data/studioWorkbenchData.ts` | 394 | `.ts` |
-| `src/lib/components/ZenOverlays.tsx` | 387 | `.tsx` |
+| `src/lib/components/ZenOverlays.tsx` | 386 | `.tsx` |
 
 ## 7. Available Build & Automation Scripts
 - `npm run dev`: `vite --port 5180`

@@ -6,7 +6,7 @@ import {
   type KeyboardEvent,
   type ReactNode,
 } from 'react';
-import { ChevronDown, Check } from 'lucide-react';
+import { ZenIcon } from './ZenIcon';
 
 export interface ZenDropdownOption<T extends string> {
   readonly value: T;
@@ -140,10 +140,11 @@ export function ZenDropdown<T extends string>({
             {selectedOption?.label}
           </span>
         </span>
-        <ChevronDown
-          className={`w-4 h-4 text-[var(--zen-ink-muted)] shrink-0 transition-transform ${
-            open ? 'rotate-180 text-[var(--zen-accent-primary)]' : ''
-          }`}
+        <ZenIcon
+          name="chevron-down"
+          size="md"
+          tone={open ? 'accent' : 'muted'}
+          className={`transition-transform ${open ? 'rotate-180' : ''}`}
         />
       </button>
 
@@ -196,7 +197,7 @@ export function ZenDropdown<T extends string>({
                   </div>
                 </div>
                 {isSelected && (
-                  <Check className="w-3.5 h-3.5 text-[var(--zen-accent-primary)] shrink-0" />
+                  <ZenIcon name="check" size="sm" tone="accent" />
                 )}
               </li>
             );

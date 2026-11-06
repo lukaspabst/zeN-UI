@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, type ButtonHTMLAttributes, type ReactNode } from 'react';
-import { Check, Copy, Loader2 } from 'lucide-react';
+import { ZenIcon } from './ZenIcon';
 
 export type ZenButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
 export type ZenButtonSize = 'sm' | 'md' | 'lg';
@@ -59,7 +59,7 @@ export function ZenButton({
       {...rest}
     >
       {loading ? (
-        <Loader2 className="w-4 h-4 animate-spin shrink-0" />
+        <ZenIcon name="refresh" size="md" spin />
       ) : (
         iconLeft && <span className="shrink-0 inline-flex">{iconLeft}</span>
       )}
@@ -115,9 +115,9 @@ export function ZenCopyButton({
       className={className}
       iconLeft={
         copied ? (
-          <Check className="w-3.5 h-3.5 text-[var(--zen-accent-primary)]" />
+          <ZenIcon name="check" size="sm" tone="accent" />
         ) : (
-          <Copy className="w-3.5 h-3.5 text-[var(--zen-accent-primary)]" />
+          <ZenIcon name="copy" size="sm" tone="accent" />
         )
       }
     >

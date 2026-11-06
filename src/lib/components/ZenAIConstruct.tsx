@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { Sparkles, Terminal, Activity, ShieldAlert, Cpu, Radio, Maximize2, Minimize2, FileText } from 'lucide-react';
 import { useZenTheme } from '../theme/ZenThemeProvider';
 import {
   capri,
@@ -8,6 +7,7 @@ import {
 } from '../capri/capri-engine';
 import { ZenBadge } from './ZenBadge';
 import { ZenButton, ZenCopyButton } from './ZenButton';
+import { ZenIcon } from './ZenIcon';
 
 export type ZenAIPersonaMode = CapriSubroutineId;
 export type ZenAICameraFraming = 'portrait' | 'full';
@@ -405,7 +405,7 @@ export function ZenAIConstruct({
         >
           <div className="w-full flex flex-wrap items-center justify-between gap-2 px-2 pt-1 z-10">
             <span className="zen-telemetry-label text-[var(--zen-accent-primary)] font-semibold flex items-center gap-1.5 truncate">
-              <Radio className="w-3.5 h-3.5 animate-pulse shrink-0" />
+              <ZenIcon name="radio" size="sm" className="animate-pulse" />
               <span className="truncate">{directive.frequency}</span>
             </span>
             <div className="flex items-center gap-1.5 shrink-0">
@@ -418,12 +418,12 @@ export function ZenAIConstruct({
               >
                 {framing === 'portrait' ? (
                   <>
-                    <Minimize2 className="w-2.5 h-2.5" />
+                    <ZenIcon name="eye" size="xs" />
                     <span>FULL POSE</span>
                   </>
                 ) : (
                   <>
-                    <Maximize2 className="w-2.5 h-2.5" />
+                    <ZenIcon name="eye" size="xs" />
                     <span>PORTRAIT</span>
                   </>
                 )}
@@ -452,7 +452,7 @@ export function ZenAIConstruct({
           <div>
             <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
               <span className="zen-telemetry-label text-[var(--zen-accent-primary)] flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                <ZenIcon name="sparkles" size="sm" />
                 <span>{subtitle}</span>
               </span>
               <span className="zen-font-mono text-xs text-[var(--zen-accent-secondary)]">
@@ -486,7 +486,7 @@ export function ZenAIConstruct({
             <div className="mt-3 sm:mt-4 p-3.5 sm:p-4 rounded-2xl bg-[var(--zen-surface-subtle)] border border-[var(--zen-border-default)] space-y-2">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="zen-telemetry-label text-[var(--zen-accent-secondary)] flex items-center gap-1.5">
-                  <Terminal className="w-3.5 h-3.5 shrink-0" />
+                  <ZenIcon name="terminal" size="sm" />
                   <span className="truncate">
                     {voiceEnabled
                       ? `PERSONA VOICE (--VOICE) // ${directive.label}`
@@ -530,15 +530,15 @@ export function ZenAIConstruct({
                 onClick={() => handleSelectDirective(d.id)}
                 iconLeft={
                   d.id === 'orion' ? (
-                    <Activity className="w-3.5 h-3.5" />
+                    <ZenIcon name="activity" size="sm" />
                   ) : d.id === 'architect' ? (
-                    <Cpu className="w-3.5 h-3.5" />
+                    <ZenIcon name="cpu" size="sm" />
                   ) : d.id === 'sentinel' ? (
-                    <ShieldAlert className="w-3.5 h-3.5" />
+                    <ZenIcon name="shield" size="sm" />
                   ) : d.id === 'zen' ? (
-                    <Sparkles className="w-3.5 h-3.5" />
+                    <ZenIcon name="sparkles" size="sm" />
                   ) : (
-                    <FileText className="w-3.5 h-3.5" />
+                    <ZenIcon name="code" size="sm" />
                   )
                 }
               >

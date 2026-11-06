@@ -1,6 +1,6 @@
 {
   "name": "@zen-ui-capri/system",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "zeN-UI // CAPRI — Universal Multi-Framework Design System (51 Primitives, 40 Vector Icons, 8 Dark/Light Themes & Capri 5-Subroutine AI Co-Pilot)",
   "type": "module",
   "license": "MIT",
@@ -62,22 +62,6 @@
     "capri": "node bin/capri.mjs",
     "prepublishOnly": "npm run capri -- all && npm run build:lib",
     "publish:npm": "node scripts/maintainer.mjs publish-npm"
-  },
-  "peerDependencies": {
-    "lucide-react": ">=0.300.0",
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "lucide-react": {
-      "optional": true
-    },
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
   },
   "devDependencies": {
     "@gsap/react": "^2.1.2",

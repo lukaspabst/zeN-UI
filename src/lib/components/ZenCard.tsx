@@ -1,5 +1,5 @@
 import type { HTMLAttributes, KeyboardEvent, ReactNode } from 'react';
-import { CheckCircle2 } from 'lucide-react';
+import { ZenIcon } from './ZenIcon';
 
 export type ZenCardVariant = 'static' | 'interactive' | 'selected';
 export type ZenCardPadding = 'none' | 'sm' | 'md' | 'lg';
@@ -168,9 +168,11 @@ export function ZenCheckList({ items, className = '' }: ZenCheckListProps) {
           key={item}
           className="flex items-start gap-2 text-xs sm:text-sm text-[var(--zen-ink-secondary)]"
         >
-          <CheckCircle2
-            className="w-3.5 h-3.5 text-[var(--zen-accent-primary)] shrink-0 mt-0.5"
-            aria-hidden="true"
+          <ZenIcon
+            name="success"
+            size="sm"
+            tone="accent"
+            className="mt-0.5"
           />
           <span>{item}</span>
         </li>

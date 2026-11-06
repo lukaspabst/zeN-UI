@@ -1,11 +1,5 @@
 import type { ReactNode } from 'react';
-import {
-  Info,
-  CheckCircle2,
-  AlertTriangle,
-  ShieldAlert,
-  Inbox,
-} from 'lucide-react';
+import { ZenIcon } from './ZenIcon';
 
 export type ZenAlertTone = 'info' | 'success' | 'warning' | 'danger';
 
@@ -23,27 +17,27 @@ const ALERT_STYLES: Record<
 > = {
   info: {
     border: 'border-[var(--zen-status-info)]/50 bg-[var(--zen-status-info)]/10',
-    icon: <Info className="w-4 h-4 text-[var(--zen-status-info)] shrink-0" />,
+    icon: <ZenIcon name="info" size="md" className="text-[var(--zen-status-info)]" />,
   },
   success: {
     border:
       'border-[var(--zen-status-success)]/50 bg-[var(--zen-status-success)]/10',
     icon: (
-      <CheckCircle2 className="w-4 h-4 text-[var(--zen-status-success)] shrink-0" />
+      <ZenIcon name="success" size="md" tone="success" />
     ),
   },
   warning: {
     border:
       'border-[var(--zen-status-warning)]/50 bg-[var(--zen-status-warning)]/10',
     icon: (
-      <AlertTriangle className="w-4 h-4 text-[var(--zen-status-warning)] shrink-0" />
+      <ZenIcon name="warning" size="md" tone="warning" />
     ),
   },
   danger: {
     border:
       'border-[var(--zen-status-danger)]/50 bg-[var(--zen-status-danger)]/10',
     icon: (
-      <ShieldAlert className="w-4 h-4 text-[var(--zen-status-danger)] shrink-0" />
+      <ZenIcon name="danger" size="md" tone="danger" />
     ),
   },
 };
@@ -123,7 +117,7 @@ export function ZenEmptyState({
       className={`p-8 rounded-3xl border border-dashed border-[var(--zen-border-strong)] bg-[var(--zen-surface-subtle)] text-center flex flex-col items-center justify-center gap-3 ${className}`.trim()}
     >
       <div className="p-3 rounded-2xl bg-[var(--zen-accent-subtle)] text-[var(--zen-accent-primary)]">
-        {icon ?? <Inbox className="w-6 h-6" />}
+        {icon ?? <ZenIcon name="folder" size="xl" />}
       </div>
       <div className="zen-font-display text-lg font-bold text-[var(--zen-ink-primary)]">
         {title}

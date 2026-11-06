@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import { ArrowUpRight } from 'lucide-react';
 import {
   ZenCard,
   ZenMetricStrip,
@@ -8,6 +7,7 @@ import {
   type ZenMetricItem,
 } from './ZenCard';
 import { ZenTagList } from './ZenBadge';
+import { ZenIcon } from './ZenIcon';
 
 export interface ZenDossierItem {
   readonly id: string;
@@ -96,7 +96,7 @@ export function ZenDossierPanel({
             >
               {item.primaryAction.icon}
               <span>{item.primaryAction.label}</span>
-              <ArrowUpRight className="w-4 h-4" />
+              <ZenIcon name="external-link" size="md" />
             </a>
           )}
           {item.secondaryAction && (
@@ -108,7 +108,7 @@ export function ZenDossierPanel({
             >
               {item.secondaryAction.icon}
               <span>{item.secondaryAction.label}</span>
-              <ArrowUpRight className="w-4 h-4" />
+              <ZenIcon name="external-link" size="md" />
             </a>
           )}
         </div>

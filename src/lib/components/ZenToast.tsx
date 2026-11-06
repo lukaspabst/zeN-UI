@@ -1,5 +1,5 @@
 import { useState, useCallback, type ReactNode } from 'react';
-import { CheckCircle2, AlertTriangle, Info, X } from 'lucide-react';
+import { ZenIcon } from './ZenIcon';
 
 export type ZenToastTone = 'info' | 'success' | 'warning';
 
@@ -16,12 +16,12 @@ export interface ZenToastStackProps {
 }
 
 const TONE_ICONS: Record<ZenToastTone, ReactNode> = {
-  info: <Info className="w-4 h-4 text-[var(--zen-status-info)] shrink-0" />,
+  info: <ZenIcon name="info" size="md" className="text-[var(--zen-status-info)]" />,
   success: (
-    <CheckCircle2 className="w-4 h-4 text-[var(--zen-status-success)] shrink-0" />
+    <ZenIcon name="success" size="md" tone="success" />
   ),
   warning: (
-    <AlertTriangle className="w-4 h-4 text-[var(--zen-accent-primary)] shrink-0" />
+    <ZenIcon name="warning" size="md" tone="accent" />
   ),
 };
 
@@ -61,7 +61,7 @@ export function ZenToastStack({ toasts, onDismiss }: ZenToastStackProps) {
               onClick={() => onDismiss(t.id)}
               className="zen-focus-ring p-1 rounded-lg text-[var(--zen-ink-muted)] hover:text-[var(--zen-ink-primary)] cursor-pointer shrink-0"
             >
-              <X className="w-3.5 h-3.5" />
+              <ZenIcon name="close" size="sm" />
             </button>
           </div>
         );

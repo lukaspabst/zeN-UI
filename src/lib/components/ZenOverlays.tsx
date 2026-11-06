@@ -6,8 +6,8 @@ import {
   type ReactNode,
   type KeyboardEvent,
 } from 'react';
-import { Search, X, ChevronDown, CornerDownLeft } from 'lucide-react';
 import { ZenKbd } from './ZenBadge';
+import { ZenIcon } from './ZenIcon';
 
 export interface ZenCommandItem {
   readonly id: string;
@@ -96,7 +96,7 @@ export function ZenCommandPalette({
         className="w-full max-w-xl max-h-[85dvh] flex flex-col rounded-3xl zen-surface-selected overflow-hidden shadow-2xl"
       >
         <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[var(--zen-border-subtle)]">
-          <Search className="w-4 h-4 text-[var(--zen-accent-primary)] shrink-0" />
+          <ZenIcon name="search" size="md" tone="accent" />
           <input
             ref={inputRef}
             role="combobox"
@@ -157,7 +157,7 @@ export function ZenCommandPalette({
                   <div className="flex items-center gap-2 shrink-0">
                     {item.shortcut && <ZenKbd keys={item.shortcut} />}
                     {active && (
-                      <CornerDownLeft className="w-3.5 h-3.5 text-[var(--zen-accent-primary)]" />
+                      <ZenIcon name="chevron-right" size="sm" tone="accent" />
                     )}
                   </div>
                 </li>
@@ -238,7 +238,7 @@ export function ZenDrawer({
               onClick={onClose}
               className="zen-focus-ring p-2 rounded-full border border-[var(--zen-border-default)] text-[var(--zen-ink-secondary)] hover:text-[var(--zen-ink-primary)] cursor-pointer"
             >
-              <X className="w-4 h-4" />
+              <ZenIcon name="close" size="md" />
             </button>
           </div>
 
@@ -307,12 +307,11 @@ export function ZenAccordion({
                       {item.badge}
                     </span>
                   )}
-                  <ChevronDown
-                    className={`w-4 h-4 text-[var(--zen-ink-muted)] transition-transform ${
-                      isOpen
-                        ? 'rotate-180 text-[var(--zen-accent-primary)]'
-                        : ''
-                    }`}
+                  <ZenIcon
+                    name="chevron-down"
+                    size="md"
+                    tone={isOpen ? 'accent' : 'muted'}
+                    className={`transition-transform ${isOpen ? 'rotate-180' : ''}`}
                   />
                 </div>
               </button>

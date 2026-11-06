@@ -1,6 +1,6 @@
-import { Volume2, VolumeX, Disc3 } from 'lucide-react';
 import type { ZenAudioSynthController, ZenSynthPresetId } from './useZenAudioSynth';
 import { ZenButton } from '../components/ZenButton';
+import { ZenIcon } from '../components/ZenIcon';
 import { ZenSegmentedControl } from '../components/ZenSegmentedControl';
 
 export interface ZenAudioControllerProps {
@@ -30,9 +30,9 @@ export function ZenAudioController({
         className={className}
         iconLeft={
           synth.active ? (
-            <Volume2 className="w-3.5 h-3.5 animate-pulse" />
+            <ZenIcon name="radio" size="sm" className="animate-pulse" />
           ) : (
-            <VolumeX className="w-3.5 h-3.5 text-[var(--zen-accent-primary)]" />
+            <ZenIcon name="radio" size="sm" tone="accent" />
           )
         }
       >
@@ -48,10 +48,11 @@ export function ZenAudioController({
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <Disc3
-            className={`w-6 h-6 text-[var(--zen-accent-primary)] ${
-              synth.active ? 'animate-spin' : ''
-            }`}
+          <ZenIcon
+            name="radio"
+            size="xl"
+            tone="accent"
+            spin={synth.active}
           />
           <div>
             <div className="zen-telemetry-label text-[var(--zen-accent-primary)]">
@@ -69,13 +70,7 @@ export function ZenAudioController({
           mono
           pressed={synth.active}
           onClick={synth.toggle}
-          iconLeft={
-            synth.active ? (
-              <Volume2 className="w-3.5 h-3.5" />
-            ) : (
-              <VolumeX className="w-3.5 h-3.5" />
-            )
-          }
+          iconLeft={<ZenIcon name="radio" size="sm" />}
         >
           {synth.active ? 'SYNTH ACTIVE' : 'START SYNTH'}
         </ZenButton>
