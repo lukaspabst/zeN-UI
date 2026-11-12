@@ -1,0 +1,30 @@
+name: SCS & Capri Push-Ready Governance Gate
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  governance-gate:
+    name: Enforce 5 Push-Ready Verification Gates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Gate 1 & 2 & 3 — Capri Guard, Architect, Orion & Zen Audits
+        run: npm run capri -- all
+
+      - name: Gate 4 — Strict TypeScript & Library Build Verification
+        run: npm run build
