@@ -1,0 +1,458 @@
+:root,
+[data-theme="obsidian-gold"],
+[data-theme="obsidian"] {
+  color-scheme: dark;
+
+  --zen-bg-canvas: #070709;
+  --zen-bg-elevated: #0b0c10;
+  --zen-bg-spotlight: #101117;
+
+  --zen-surface-1: rgba(11, 12, 16, 0.88);
+  --zen-surface-2: rgba(16, 17, 23, 0.92);
+  --zen-surface-3: rgba(22, 24, 32, 0.96);
+  --zen-surface-active: rgba(16, 17, 23, 0.95);
+  --zen-surface-subtle: rgba(255, 243, 209, 0.04);
+  --zen-surface-subtle-hover: rgba(255, 243, 209, 0.08);
+  --zen-surface-header: rgba(7, 7, 9, 0.84);
+
+  --zen-ink-primary: #f6f2e9;
+  --zen-ink-secondary: #d6cfc2;
+  --zen-ink-muted: #b5aea0;
+  --zen-ink-on-accent: #070709;
+
+  --zen-accent-primary: #f5b841;
+  --zen-accent-primary-hover: #fcd34d;
+  --zen-accent-primary-active: #e5a832;
+  --zen-accent-secondary: #fb923c;
+  --zen-accent-tertiary: #38bdf8;
+  --zen-accent-focus: #f5b841;
+  --zen-accent-subtle: rgba(245, 184, 65, 0.15);
+  --zen-accent-border: rgba(245, 184, 65, 0.72);
+  --zen-accent-rgb: 245, 184, 65;
+  --zen-secondary-rgb: 251, 146, 60;
+
+  --zen-status-success: #34d399;
+  --zen-status-warning: #fbbf24;
+  --zen-status-danger: #f87171;
+  --zen-status-info: #60a5fa;
+
+  --zen-border-subtle: rgba(255, 243, 209, 0.13);
+  --zen-border-default: rgba(255, 243, 209, 0.18);
+  --zen-border-strong: rgba(255, 243, 209, 0.30);
+  --zen-border-control: rgba(246, 242, 233, 0.26);
+
+  --zen-shadow-resting: inset 0 1px 0 0 rgba(255, 243, 209, 0.12), 0 8px 24px -6px rgba(0, 0, 0, 0.55);
+  --zen-shadow-hover: inset 0 1px 0 0 rgba(255, 243, 209, 0.22), 0 14px 32px -8px rgba(0, 0, 0, 0.70);
+  --zen-shadow-active-press: inset 0 1px 2px rgba(0, 0, 0, 0.45);
+  --zen-shadow-selected: 0 0 0 1px rgba(245, 184, 65, 0.45), 0 0 32px -8px rgba(245, 184, 65, 0.28), inset 0 1px 0 0 rgba(255, 243, 209, 0.25);
+  --zen-shadow-btn-primary: 0 0 24px -4px rgba(245, 184, 65, 0.32);
+  --zen-shadow-btn-primary-hover: 0 0 32px -2px rgba(245, 184, 65, 0.48);
+  --zen-shadow-hud: 0 16px 44px rgba(0, 0, 0, 0.85);
+
+  --zen-blur-glass: 16px;
+  --zen-blur-hud: 12px;
+
+  --zen-font-display: 'Syne', system-ui, sans-serif;
+  --zen-font-serif: 'Instrument Serif', Georgia, serif;
+  --zen-font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --zen-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --zen-text-2xs: 0.6875rem;
+  --zen-text-xs: 0.75rem;
+  --zen-text-sm: 0.875rem;
+  --zen-text-base: 1rem;
+  --zen-text-lg: 1.125rem;
+  --zen-text-xl: 1.25rem;
+
+  --zen-radius-sm: 0.5rem;
+  --zen-radius-md: 0.75rem;
+  --zen-radius-lg: 1rem;
+  --zen-radius-xl: 1.5rem;
+  --zen-radius-card: 1.5rem;
+  --zen-radius-control: 0.75rem;
+  --zen-radius-pill: 9999px;
+
+  --zen-duration-instant: 100ms;
+  --zen-duration-fast: 180ms;
+  --zen-duration-normal: 280ms;
+  --zen-duration-smooth: 400ms;
+  --zen-duration-deliberate: 600ms;
+
+  --zen-ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --zen-ease-out-quad: cubic-bezier(0.25, 1, 0.5, 1);
+  --zen-ease-in-out-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --zen-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+[data-theme="blackwall-crimson"],
+[data-theme="capri-capricorn"] {
+  color-scheme: dark;
+
+  --zen-bg-canvas: #050508;
+  --zen-bg-elevated: #0a0a10;
+  --zen-bg-spotlight: #11111a;
+
+  --zen-surface-1: rgba(10, 10, 16, 0.88);
+  --zen-surface-2: rgba(17, 17, 26, 0.93);
+  --zen-surface-3: rgba(24, 24, 36, 0.96);
+  --zen-surface-active: rgba(19, 14, 22, 0.95);
+  --zen-surface-subtle: rgba(255, 46, 147, 0.05);
+  --zen-surface-subtle-hover: rgba(255, 46, 147, 0.11);
+  --zen-surface-header: rgba(5, 5, 8, 0.86);
+
+  --zen-ink-primary: #f4f7fa;
+  --zen-ink-secondary: #ccd4e0;
+  --zen-ink-muted: #a6b3c6;
+  --zen-ink-on-accent: #050508;
+
+  --zen-accent-primary: #ff2e93;
+  --zen-accent-primary-hover: #ff54a8;
+  --zen-accent-primary-active: #f0187e;
+  --zen-accent-secondary: #00ff66;
+  --zen-accent-tertiary: #00e5ff;
+  --zen-accent-focus: #00ff66;
+  --zen-accent-subtle: rgba(255, 46, 147, 0.16);
+  --zen-accent-border: rgba(255, 46, 147, 0.75);
+  --zen-accent-rgb: 255, 46, 147;
+  --zen-secondary-rgb: 0, 255, 102;
+
+  --zen-border-subtle: rgba(255, 46, 147, 0.18);
+  --zen-border-default: rgba(255, 46, 147, 0.24);
+  --zen-border-strong: rgba(0, 255, 102, 0.45);
+  --zen-border-control: rgba(244, 247, 250, 0.24);
+
+  --zen-shadow-resting: inset 0 1px 0 0 rgba(255, 46, 147, 0.18), 0 8px 24px -6px rgba(0, 0, 0, 0.70);
+  --zen-shadow-hover: inset 0 1px 0 0 rgba(0, 255, 102, 0.30), 0 14px 32px -8px rgba(255, 46, 147, 0.24);
+  --zen-shadow-selected: 0 0 0 1px rgba(255, 46, 147, 0.58), 0 0 36px -8px rgba(255, 46, 147, 0.38), inset 0 1px 0 0 rgba(0, 255, 102, 0.28);
+  --zen-shadow-btn-primary: 0 0 24px -4px rgba(255, 46, 147, 0.45);
+  --zen-shadow-btn-primary-hover: 0 0 32px -2px rgba(255, 46, 147, 0.65);
+}
+
+[data-theme="neon-emerald"] {
+  color-scheme: dark;
+
+  --zen-bg-canvas: #040807;
+  --zen-bg-elevated: #08110e;
+  --zen-bg-spotlight: #0d1a15;
+
+  --zen-surface-1: rgba(8, 17, 14, 0.88);
+  --zen-surface-2: rgba(13, 26, 21, 0.93);
+  --zen-surface-3: rgba(18, 35, 29, 0.96);
+  --zen-surface-active: rgba(12, 28, 22, 0.95);
+  --zen-surface-subtle: rgba(16, 185, 129, 0.05);
+  --zen-surface-subtle-hover: rgba(16, 185, 129, 0.11);
+  --zen-surface-header: rgba(4, 8, 7, 0.85);
+
+  --zen-ink-primary: #ecfdf5;
+  --zen-ink-secondary: #c6e2d6;
+  --zen-ink-muted: #8fb8a8;
+  --zen-ink-on-accent: #040807;
+
+  --zen-accent-primary: #10b981;
+  --zen-accent-primary-hover: #34d399;
+  --zen-accent-primary-active: #059669;
+  --zen-accent-secondary: #2dd4bf;
+  --zen-accent-tertiary: #a3e635;
+  --zen-accent-focus: #34d399;
+  --zen-accent-subtle: rgba(16, 185, 129, 0.16);
+  --zen-accent-border: rgba(52, 211, 153, 0.72);
+  --zen-accent-rgb: 16, 185, 129;
+  --zen-secondary-rgb: 45, 212, 191;
+
+  --zen-border-subtle: rgba(167, 243, 208, 0.14);
+  --zen-border-default: rgba(167, 243, 208, 0.20);
+  --zen-border-strong: rgba(52, 211, 153, 0.36);
+  --zen-border-control: rgba(236, 253, 245, 0.24);
+
+  --zen-shadow-resting: inset 0 1px 0 0 rgba(167, 243, 208, 0.12), 0 8px 24px -6px rgba(0, 0, 0, 0.65);
+  --zen-shadow-hover: inset 0 1px 0 0 rgba(52, 211, 153, 0.24), 0 14px 32px -8px rgba(16, 185, 129, 0.22);
+  --zen-shadow-selected: 0 0 0 1px rgba(52, 211, 153, 0.50), 0 0 32px -8px rgba(16, 185, 129, 0.35), inset 0 1px 0 0 rgba(167, 243, 208, 0.24);
+  --zen-shadow-btn-primary: 0 0 24px -4px rgba(16, 185, 129, 0.38);
+  --zen-shadow-btn-primary-hover: 0 0 32px -2px rgba(52, 211, 153, 0.52);
+}
+
+[data-theme="midnight-cobalt"] {
+  color-scheme: dark;
+
+  --zen-bg-canvas: #060911;
+  --zen-bg-elevated: #0b101d;
+  --zen-bg-spotlight: #11182b;
+
+  --zen-surface-1: rgba(11, 16, 29, 0.88);
+  --zen-surface-2: rgba(17, 24, 43, 0.93);
+  --zen-surface-3: rgba(23, 33, 56, 0.96);
+  --zen-surface-active: rgba(16, 24, 44, 0.95);
+  --zen-surface-subtle: rgba(56, 189, 248, 0.05);
+  --zen-surface-subtle-hover: rgba(56, 189, 248, 0.10);
+  --zen-surface-header: rgba(6, 9, 17, 0.85);
+
+  --zen-ink-primary: #f1f5f9;
+  --zen-ink-secondary: #cbd5e1;
+  --zen-ink-muted: #a1b0c4;
+  --zen-ink-on-accent: #060911;
+
+  --zen-accent-primary: #38bdf8;
+  --zen-accent-primary-hover: #7dd3fc;
+  --zen-accent-primary-active: #0ea5e9;
+  --zen-accent-secondary: #818cf8;
+  --zen-accent-tertiary: #2dd4bf;
+  --zen-accent-focus: #38bdf8;
+  --zen-accent-subtle: rgba(56, 189, 248, 0.16);
+  --zen-accent-border: rgba(56, 189, 248, 0.72);
+  --zen-accent-rgb: 56, 189, 248;
+  --zen-secondary-rgb: 129, 140, 248;
+
+  --zen-border-subtle: rgba(186, 230, 253, 0.14);
+  --zen-border-default: rgba(186, 230, 253, 0.20);
+  --zen-border-strong: rgba(56, 189, 248, 0.36);
+  --zen-border-control: rgba(241, 245, 249, 0.24);
+
+  --zen-shadow-resting: inset 0 1px 0 0 rgba(186, 230, 253, 0.12), 0 8px 24px -6px rgba(0, 0, 0, 0.65);
+  --zen-shadow-hover: inset 0 1px 0 0 rgba(56, 189, 248, 0.25), 0 14px 32px -8px rgba(56, 189, 248, 0.22);
+  --zen-shadow-selected: 0 0 0 1px rgba(56, 189, 248, 0.50), 0 0 32px -8px rgba(56, 189, 248, 0.32), inset 0 1px 0 0 rgba(186, 230, 253, 0.24);
+  --zen-shadow-btn-primary: 0 0 24px -4px rgba(56, 189, 248, 0.35);
+  --zen-shadow-btn-primary-hover: 0 0 32px -2px rgba(125, 211, 252, 0.50);
+}
+
+[data-theme="atelier-paper"],
+[data-theme="paper"] {
+  color-scheme: light;
+
+  --zen-bg-canvas: #f6f2e9;
+  --zen-bg-elevated: #efe9dc;
+  --zen-bg-spotlight: #ffffff;
+
+  --zen-surface-1: rgba(239, 233, 220, 0.90);
+  --zen-surface-2: rgba(255, 255, 255, 0.96);
+  --zen-surface-3: rgba(232, 224, 208, 0.98);
+  --zen-surface-active: #ffffff;
+  --zen-surface-subtle: rgba(18, 18, 22, 0.04);
+  --zen-surface-subtle-hover: rgba(18, 18, 22, 0.08);
+  --zen-surface-header: rgba(246, 242, 233, 0.86);
+
+  --zen-ink-primary: #121216;
+  --zen-ink-secondary: #3d3933;
+  --zen-ink-muted: #5c564d;
+  --zen-ink-on-accent: #ffffff;
+
+  --zen-accent-primary: #b45309;
+  --zen-accent-primary-hover: #92400e;
+  --zen-accent-primary-active: #78350f;
+  --zen-accent-secondary: #c2410c;
+  --zen-accent-tertiary: #0369a1;
+  --zen-accent-focus: #b45309;
+  --zen-accent-subtle: rgba(180, 83, 9, 0.12);
+  --zen-accent-border: #b45309;
+  --zen-accent-rgb: 180, 83, 9;
+  --zen-secondary-rgb: 194, 65, 12;
+
+  --zen-status-success: #047857;
+  --zen-status-warning: #b45309;
+  --zen-status-danger: #b91c1c;
+  --zen-status-info: #1d4ed8;
+
+  --zen-border-subtle: rgba(18, 18, 22, 0.12);
+  --zen-border-default: rgba(18, 18, 22, 0.16);
+  --zen-border-strong: rgba(18, 18, 22, 0.26);
+  --zen-border-control: rgba(18, 18, 22, 0.24);
+
+  --zen-shadow-resting: inset 0 1px 0 0 rgba(255, 255, 255, 0.85), 0 4px 16px -4px rgba(18, 18, 22, 0.06);
+  --zen-shadow-hover: inset 0 1px 0 0 #ffffff, 0 10px 24px -6px rgba(18, 18, 22, 0.10);
+  --zen-shadow-active-press: inset 0 1px 2px rgba(18, 18, 22, 0.12);
+  --zen-shadow-selected: 0 0 0 1px rgba(180, 83, 9, 0.35), 0 8px 28px -6px rgba(180, 83, 9, 0.16), inset 0 1px 0 0 #ffffff;
+  --zen-shadow-btn-primary: 0 4px 12px rgba(180, 83, 9, 0.22);
+  --zen-shadow-btn-primary-hover: 0 6px 18px rgba(180, 83, 9, 0.32);
+  --zen-shadow-hud: 0 12px 32px rgba(18, 18, 22, 0.14);
+}
+
+[data-theme="nordic-snow"] {
+  color-scheme: light;
+
+  --zen-bg-canvas: #f8fafc;
+  --zen-bg-elevated: #f1f5f9;
+  --zen-bg-spotlight: #ffffff;
+
+  --zen-surface-1: rgba(241, 245, 249, 0.90);
+  --zen-surface-2: rgba(255, 255, 255, 0.97);
+  --zen-surface-3: rgba(226, 232, 240, 0.98);
+  --zen-surface-active: #ffffff;
+  --zen-surface-subtle: rgba(15, 23, 42, 0.04);
+  --zen-surface-subtle-hover: rgba(15, 23, 42, 0.08);
+  --zen-surface-header: rgba(248, 250, 252, 0.86);
+
+  --zen-ink-primary: #0f172a;
+  --zen-ink-secondary: #334155;
+  --zen-ink-muted: #475569;
+  --zen-ink-on-accent: #ffffff;
+
+  --zen-accent-primary: #2563eb;
+  --zen-accent-primary-hover: #1d4ed8;
+  --zen-accent-primary-active: #1e40af;
+  --zen-accent-secondary: #0891b2;
+  --zen-accent-tertiary: #4f46e5;
+  --zen-accent-focus: #2563eb;
+  --zen-accent-subtle: rgba(37, 99, 235, 0.10);
+  --zen-accent-border: #2563eb;
+  --zen-accent-rgb: 37, 99, 235;
+  --zen-secondary-rgb: 8, 145, 178;
+
+  --zen-status-success: #059669;
+  --zen-status-warning: #d97706;
+  --zen-status-danger: #dc2626;
+  --zen-status-info: #2563eb;
+
+  --zen-border-subtle: rgba(15, 23, 42, 0.10);
+  --zen-border-default: rgba(15, 23, 42, 0.15);
+  --zen-border-strong: rgba(15, 23, 42, 0.25);
+  --zen-border-control: rgba(15, 23, 42, 0.22);
+
+  --zen-shadow-resting: inset 0 1px 0 0 #ffffff, 0 4px 16px -4px rgba(15, 23, 42, 0.06);
+  --zen-shadow-hover: inset 0 1px 0 0 #ffffff, 0 10px 24px -6px rgba(15, 23, 42, 0.10);
+  --zen-shadow-selected: 0 0 0 1px rgba(37, 99, 235, 0.35), 0 8px 28px -6px rgba(37, 99, 235, 0.16), inset 0 1px 0 0 #ffffff;
+  --zen-shadow-btn-primary: 0 4px 12px rgba(37, 99, 235, 0.24);
+  --zen-shadow-btn-primary-hover: 0 6px 18px rgba(37, 99, 235, 0.34);
+  --zen-shadow-hud: 0 12px 32px rgba(15, 23, 42, 0.12);
+}
+
+[data-theme="kyoto-matcha"] {
+  color-scheme: light;
+
+  --zen-bg-canvas: #f3f5f0;
+  --zen-bg-elevated: #e8ece3;
+  --zen-bg-spotlight: #ffffff;
+
+  --zen-surface-1: rgba(232, 236, 227, 0.90);
+  --zen-surface-2: rgba(255, 255, 255, 0.96);
+  --zen-surface-3: rgba(219, 226, 212, 0.98);
+  --zen-surface-active: #ffffff;
+  --zen-surface-subtle: rgba(20, 32, 24, 0.04);
+  --zen-surface-subtle-hover: rgba(20, 32, 24, 0.08);
+  --zen-surface-header: rgba(243, 245, 240, 0.86);
+
+  --zen-ink-primary: #142018;
+  --zen-ink-secondary: #2e4034;
+  --zen-ink-muted: #4b6052;
+  --zen-ink-on-accent: #ffffff;
+
+  --zen-accent-primary: #15803d;
+  --zen-accent-primary-hover: #166534;
+  --zen-accent-primary-active: #14532d;
+  --zen-accent-secondary: #0f766e;
+  --zen-accent-tertiary: #a16207;
+  --zen-accent-focus: #15803d;
+  --zen-accent-subtle: rgba(21, 128, 61, 0.11);
+  --zen-accent-border: #15803d;
+  --zen-accent-rgb: 21, 128, 61;
+  --zen-secondary-rgb: 15, 118, 110;
+
+  --zen-status-success: #15803d;
+  --zen-status-warning: #b45309;
+  --zen-status-danger: #b91c1c;
+  --zen-status-info: #0369a1;
+
+  --zen-border-subtle: rgba(20, 32, 24, 0.11);
+  --zen-border-default: rgba(20, 32, 24, 0.16);
+  --zen-border-strong: rgba(20, 32, 24, 0.26);
+  --zen-border-control: rgba(20, 32, 24, 0.22);
+
+  --zen-shadow-resting: inset 0 1px 0 0 rgba(255, 255, 255, 0.85), 0 4px 16px -4px rgba(20, 32, 24, 0.06);
+  --zen-shadow-hover: inset 0 1px 0 0 #ffffff, 0 10px 24px -6px rgba(20, 32, 24, 0.10);
+  --zen-shadow-selected: 0 0 0 1px rgba(21, 128, 61, 0.35), 0 8px 28px -6px rgba(21, 128, 61, 0.16), inset 0 1px 0 0 #ffffff;
+  --zen-shadow-btn-primary: 0 4px 12px rgba(21, 128, 61, 0.22);
+  --zen-shadow-btn-primary-hover: 0 6px 18px rgba(21, 128, 61, 0.32);
+  --zen-shadow-hud: 0 12px 32px rgba(20, 32, 24, 0.14);
+}
+
+[data-theme="cyber-daylight"] {
+  color-scheme: light;
+
+  --zen-bg-canvas: #f2f2f5;
+  --zen-bg-elevated: #e6e6ec;
+  --zen-bg-spotlight: #ffffff;
+
+  --zen-surface-1: rgba(230, 230, 236, 0.90);
+  --zen-surface-2: rgba(255, 255, 255, 0.96);
+  --zen-surface-3: rgba(218, 218, 226, 0.98);
+  --zen-surface-active: #ffffff;
+  --zen-surface-subtle: rgba(9, 9, 13, 0.04);
+  --zen-surface-subtle-hover: rgba(9, 9, 13, 0.08);
+  --zen-surface-header: rgba(242, 242, 245, 0.88);
+
+  --zen-ink-primary: #09090d;
+  --zen-ink-secondary: #272733;
+  --zen-ink-muted: #525266;
+  --zen-ink-on-accent: #ffffff;
+
+  --zen-accent-primary: #e11d48;
+  --zen-accent-primary-hover: #be123c;
+  --zen-accent-primary-active: #9f1239;
+  --zen-accent-secondary: #0284c7;
+  --zen-accent-tertiary: #ca8a04;
+  --zen-accent-focus: #e11d48;
+  --zen-accent-subtle: rgba(225, 29, 72, 0.11);
+  --zen-accent-border: #e11d48;
+  --zen-accent-rgb: 225, 29, 72;
+  --zen-secondary-rgb: 2, 132, 199;
+
+  --zen-status-success: #059669;
+  --zen-status-warning: #d97706;
+  --zen-status-danger: #e11d48;
+  --zen-status-info: #0284c7;
+
+  --zen-border-subtle: rgba(9, 9, 13, 0.12);
+  --zen-border-default: rgba(9, 9, 13, 0.18);
+  --zen-border-strong: rgba(225, 29, 72, 0.35);
+  --zen-border-control: rgba(9, 9, 13, 0.25);
+
+  --zen-shadow-resting: inset 0 1px 0 0 #ffffff, 0 4px 16px -4px rgba(9, 9, 13, 0.08);
+  --zen-shadow-hover: inset 0 1px 0 0 #ffffff, 0 10px 24px -6px rgba(225, 29, 72, 0.14);
+  --zen-shadow-selected: 0 0 0 1px rgba(225, 29, 72, 0.45), 0 8px 28px -6px rgba(225, 29, 72, 0.18), inset 0 1px 0 0 #ffffff;
+  --zen-shadow-btn-primary: 0 4px 12px rgba(225, 29, 72, 0.25);
+  --zen-shadow-btn-primary-hover: 0 6px 18px rgba(225, 29, 72, 0.36);
+  --zen-shadow-hud: 0 12px 32px rgba(9, 9, 13, 0.16);
+}
+
+[data-radius="sharp"] {
+  --zen-radius-sm: 0.125rem;
+  --zen-radius-md: 0.1875rem;
+  --zen-radius-lg: 0.25rem;
+  --zen-radius-xl: 0.375rem;
+  --zen-radius-card: 0.25rem;
+  --zen-radius-control: 0.1875rem;
+  --zen-radius-pill: 0.25rem;
+}
+
+[data-radius="architectural"] {
+  --zen-radius-sm: 0.5rem;
+  --zen-radius-md: 0.75rem;
+  --zen-radius-lg: 1rem;
+  --zen-radius-xl: 1.5rem;
+  --zen-radius-card: 1.5rem;
+  --zen-radius-control: 0.75rem;
+  --zen-radius-pill: 9999px;
+}
+
+[data-radius="soft"] {
+  --zen-radius-sm: 0.75rem;
+  --zen-radius-md: 1rem;
+  --zen-radius-lg: 1.375rem;
+  --zen-radius-xl: 2rem;
+  --zen-radius-card: 2rem;
+  --zen-radius-control: 1.125rem;
+  --zen-radius-pill: 9999px;
+}
+
+:root,
+[data-density="comfortable"] {
+  --zen-space-card: 1.5rem;
+  --zen-space-panel: 2rem;
+  --zen-table-py: 0.75rem;
+  --zen-table-px: 1rem;
+}
+
+[data-density="compact"] {
+  --zen-space-card: 1rem;
+  --zen-space-panel: 1.25rem;
+  --zen-table-py: 0.4375rem;
+  --zen-table-px: 0.75rem;
+}
