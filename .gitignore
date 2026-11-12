@@ -1,0 +1,12 @@
+node_modules/
+dist/
+coverage/
+.playwright-cli/
+playwright-report/
+test-results/
+skills-lock.json
+*.tsbuildinfo
+*.log
+.env
+.env.*
+!.env.example
